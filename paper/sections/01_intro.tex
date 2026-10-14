@@ -13,17 +13,15 @@ question caused the model to assemble, or both.
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{fig_overview.pdf}
-  \caption{Overview. (a)~Each example is run as three prompts with the same word and label. A
-    linear probe, trained and tested on disjoint words, reads the query word's own tokens in the
-    neutral sentence (the word-level store) and the final token of each prompt (the answer
-    position). (b)~\texttt{last\_letter} at zero shots, one pair of points per model: the word-level
-    store (last-token read) and the answer position under the question, both above the word-only
-    floor, with OLS lines. The answer position lies below the store in the smallest models and above
-    it in the largest (\S\ref{sec:question}). (c)~Slope per decade of parameters of the
-    question $-$ no-question difference at the answer position for the four prompt-sensitive
-    tasks, with 95\% intervals from resampling model families: over all layers (held-out layer
-    selection) and restricted to late ($\geq 0.5$) or early ($\leq 0.25$) relative depth. Slopes,
-    permutation $p$-values and their Holm-corrected values are in Table~\ref{tab:interaction}.}
+  \caption{Overview: \texttt{last\_letter}, zero shots, one point per model, probe accuracy above
+    the word-only floor. Right: two of the three prompts and the positions that a linear probe,
+    trained and tested on disjoint words, reads. The store is read at the word's own tokens in the
+    neutral sentence (held-out layer selection); answer-position points use the most accurate probed
+    layer within the late ($\geq 0.5$) or early ($\leq 0.25$) depth band. Lines: OLS fits; grey
+    segments join each model's late answer position under the question to its store. The store does
+    not grow reliably with scale and the early signal is similar at every scale; the late signal under
+    the question grows, and lies below the store in the smallest models and above it in the largest
+    (\S\ref{sec:question}; Figure~\ref{fig:twophase}b).}
   \label{fig:overview}
 \end{figure}
 
@@ -48,11 +46,11 @@ confirmation, not discovery, but it supplies the baseline that the rest of the a
 \paragraph{Asking adds a late signal, and only that signal grows with scale.}
 At the answer position, the difference between the question prompt and the question-free carrier
 grows with log parameter count for all four prompt-sensitive tasks, after Holm correction and
-within model families (\S\ref{sec:question}; Figure~\ref{fig:overview}c). Restricting the probe to layers past half depth
+within model families (\S\ref{sec:question}; Figure~\ref{fig:twophase}b). Restricting the probe to layers past half depth
 leaves the effect intact; restricting it to the first quarter removes it. The answer position of
 small models holds less than their word-level store, while that of large models holds more
-(Figure~\ref{fig:overview}b). Layer
-profiles show the two phases directly (Figure~\ref{fig:twophase}): an early bump that is the same
+(Figure~\ref{fig:overview}). Layer
+profiles show the two phases directly (Figure~\ref{fig:twophase}a): an early bump that is the same
 at every scale, then a late rise that appears only in larger models.
 
 \paragraph{Controls change what can be claimed.}

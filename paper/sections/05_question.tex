@@ -19,19 +19,19 @@ Figure~\ref{fig:scaling} shows the four prompt-sensitive tasks, the tasks whose 
 answer position retains little of the question arm's signal (below). Only the question arm rises
 with scale; the neutral arm is flat or falling, and so is the word-level store. The interaction is
 the slope of the per-model difference between the question and neutral arms
-(Figure~\ref{fig:overview}c; Table~\ref{tab:interaction} in Appendix~\ref{app:tables}). It is positive for all four tasks at both shot counts, survives Holm
+(Figure~\ref{fig:twophase}b; Table~\ref{tab:interaction} in Appendix~\ref{app:tables}). It is positive for all four tasks at both shot counts, survives Holm
 correction across the four ($p_{\text{Holm}} \leq 0.015$), has a within-family slope of the same
 size, and has a family-resampling interval that excludes zero.
 
 \paragraph{The growth is late.}
-At zero shots the question arm's layer profile has two parts (Figure~\ref{fig:twophase}). In the
+At zero shots the question arm's layer profile has two parts (Figure~\ref{fig:twophase}a). In the
 first quarter of the network it shows a bump at about 10\% depth that is similar in every model:
 for \texttt{last\_letter} the early-band accuracy averages 0.75 and does not vary with scale
 (slope $-0.002$ per decade, $p = 0.96$). One plausible source is the word's spelling being carried
 to the adjacent answer token. Past half depth, larger models rise again and smaller models do not.
 Restricting both arms to the late band leaves the interaction intact for every task
 ($p_{\text{Holm}} \leq 0.015$ at zero shots, $\leq 0.014$ at three); restricting them to the early
-band removes it (all $|$slope$| \leq 0.014$, $p \geq 0.43$; Figure~\ref{fig:overview}c). This also
+band removes it (all $|$slope$| \leq 0.014$, $p \geq 0.43$; Figure~\ref{fig:twophase}b). This also
 answers a confound: the question prompt's answer token sits next to the word, while the neutral
 sentence ends several tokens later. Distance could inflate the question arm early, but it is the
 same in every model and cannot produce a scale trend, and the trend is absent where distance would
@@ -40,11 +40,14 @@ act.
 \begin{figure}[tb]
   \centering
   \includegraphics[width=\linewidth]{fig2_two_phase_profiles.pdf}
-  \caption{Layer profiles at zero shots for the smallest model (Qwen3-0.6B) and the largest
-    (phi-4). Shaded bands mark the early ($\leq 0.25$) and late ($\geq 0.5$) depth ranges used in
-    Figure~\ref{fig:overview}c and Table~\ref{tab:interaction}; the dashed line is the word-only floor. The question arm's early
-    bump is similar in both models; only the larger model's late phase rises well above the
-    word-level store.}
+  \caption{Depth and scale. (a)~Layer profiles at zero shots, smallest (Qwen3-0.6B) and largest
+    (phi-4) model; shaded bands mark the early ($\leq 0.25$) and late ($\geq 0.5$) depth ranges, the
+    dashed line the word-only floor. The question arm's early bump is similar in both models; only
+    the larger model's late phase rises well above the word-level store. (b)~Slope per decade of
+    parameters of the question $-$ no-question difference at the answer position, zero shots
+    (hollow) and three (filled), with 95\% family-resampling intervals, over all layers (held-out
+    layer selection) or within one band. Slopes and Holm-corrected $p$-values are in
+    Table~\ref{tab:interaction}.}
   \label{fig:twophase}
 \end{figure}
 
@@ -83,9 +86,9 @@ are not question-driven; \texttt{word\_length} retains 15--16\% and joins the qu
   \centering
   \includegraphics[width=\linewidth]{fig_retained.pdf}
   \caption{Retained fraction of the question arm's signal when the question is deleted:
-    mean(no-question $-$ base) / mean(question $-$ base), at the answer position. Arrows run from
-    the majority-based to the floor-based value for the neutral carrier; diamonds use the floor and
-    the continuation carrier. \texttt{letter\_before} has only the majority-based value, because its
-    question arm's mean is not above the floor. Values in Table~\ref{tab:retained}.}
+    mean(no-question $-$ base) / mean(question $-$ base), at the answer position, for the neutral
+    carrier against the majority baseline and against the floor, and for the continuation carrier
+    against the floor, at zero shots (hollow) and three shots (filled). \texttt{letter\_before} has only the majority-based value, because its question
+    arm's mean is not above the floor. Values in Table~\ref{tab:retained}.}
   \label{fig:retained}
 \end{figure}

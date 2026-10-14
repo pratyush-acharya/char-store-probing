@@ -6,10 +6,11 @@
   \includegraphics[width=\linewidth]{fig_store.pdf}
   \caption{The word-level store. (a)~Accuracy above the word-only floor (held-out layer selection),
     mean over the 16 models: the query word's tokens in the neutral sentence (last token, or mean
-    over the word's tokens) and the final prompt token without and with the question. For
+    over the word's tokens) and the final prompt token without and with the question, at zero shots
+    (hollow) and three shots (filled). For
     \texttt{count\_distinct\_lm} the floor equals the majority baseline. (b)~Part of the
-    word-level store (better read per task) already present at layer 0, the token embedding; the
-    percentage is that part's share of the store.}
+    word-level store (better read per task) already present at layer 0, the token embedding, at zero
+    and three shots; the percentage is that part's share of the store.}
   \label{fig:store}
 \end{figure}
 
@@ -33,7 +34,7 @@ prompt-independent store is largely lexical: it is a property of the tokens, rea
 little contextual processing.
 
 \paragraph{It does not grow reliably with scale.}
-Across the 16 models (Figures~\ref{fig:overview}b and~\ref{fig:scaling}) the store's correlation with $\log_{10}$ parameters is $r = 0.47$
+Across the 16 models (Figures~\ref{fig:overview} and~\ref{fig:scaling}) the store's correlation with $\log_{10}$ parameters is $r = 0.47$
 ($p = 0.064$) for \texttt{last\_letter}, $r = -0.05$ for \texttt{most\_frequent\_letter} and
 $r = -0.16$ for \texttt{first\_letter} (zero shots, last-token read; span-mean values are similar).
 By contrast, the question arm's answer position correlates with scale at $r = 0.73$
