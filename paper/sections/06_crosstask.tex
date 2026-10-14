@@ -1,8 +1,8 @@
 \section{How Specific Is the Question Effect?}
 \label{sec:crosstask}
 
-\S\ref{sec:question} shows that asking increases decodability at the answer position. To measure how
-much of that increase depends on asking for \emph{this} property, we probe label $A$ while the
+To measure how much of the question effect of \S\ref{sec:question} depends on asking for
+\emph{this} property, we probe label $A$ while the
 prompt asks a different character question $B$ about the same word, at zero shots, so that the self
 and cross prompts differ only in the question sentence. Primary cells pair a letter-valued label
 with a digit-valued question or the reverse, so $B$'s answer can never equal $A$'s label; cells
@@ -13,19 +13,20 @@ then differs in two elements.
 
 We split the total question effect (self $-$ neutral) into three additive parts: the generic frame of
 awaiting an answer (continuation $-$ neutral), a wrong-property character question
-(cross $-$ continuation), and the specific question (self $-$ cross). Table~\ref{tab:crosstask}
-gives the shares.
+(cross $-$ continuation), and the specific question (self $-$ cross). Figure~\ref{fig:crosstask}
+shows the shares.
 
-\begin{table}[h]
-  \centering\footnotesize
-  \setlength{\tabcolsep}{6pt}
-  \input{tables/tab_crosstask}
-  \caption{Decomposition of the question effect at zero shots, zero-leak cells, all 16 models, held-out
-    layer selection. Shares are of the total $\Delta$ (self $-$ neutral, above-majority scale).
-    Below the rule: the secondary term-label arm. The continuation floor is joined per (model, set,
-    task) from the word-position runs, whose example draws differ from the cross-task runs'.}
-  \label{tab:crosstask}
-\end{table}
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=\linewidth]{fig_crosstask.pdf}
+  \caption{Decomposition of the question effect at zero shots, zero-leak cells, held-out layer
+    selection: shares of the total $\Delta$ (self $-$ neutral, above-majority scale; right), with a
+    negative share drawn left of zero. All 16 models were run; ``models'' counts those with at least one qualifying cell. Below the gap: the
+    secondary term-label arm. The continuation floor is joined per (model, set, task) from the
+    word-position runs, whose example draws differ from the cross-task runs'. Values and cell counts
+    in Table~\ref{tab:crosstask}.}
+  \label{fig:crosstask}
+\end{figure}
 
 For \texttt{last\_letter} and \texttt{extraction}, about 70\% of the effect requires asking for the
 property itself; a wrong character question adds almost nothing ($8\%$ and $-5\%$).

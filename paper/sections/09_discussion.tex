@@ -6,14 +6,14 @@ The data separate two sources of linearly decodable character information. One i
 word: present at its tokens in a sentence that asks nothing, largely already in the token embedding,
 and roughly constant across a more than 20-fold range of model size. The other appears at the answer position
 only when the property is asked for, mostly in response to that specific property, and in the late
-half of the network. Only the second grows with scale. The common observation that larger models
-``know'' more about spelling at the answer position is therefore, in this battery, an observation
-about the second source.
+half of the network. Only the second grows with scale, so the common observation that larger models
+``know'' more about spelling at the answer position is, in this battery, an observation about the
+second source.
 
 \paragraph{The late signal is not a relay of the store.}
 If the question merely relayed what a linear probe reads at the word's tokens, the answer position
-should not systematically exceed them. In small models it falls short of them; in large models it exceeds
-them, and the difference grows with scale for both tasks where it can be measured. The excess may
+should not systematically exceed them. It falls short of them in small models and exceeds them in
+large ones, and the difference grows with scale for both tasks where it can be measured. The excess may
 come from combining information spread over the word's several tokens, from computation the
 question triggers, or from re-encoding the property into a form a linear probe reads more easily. A
 linear probe cannot tell these apart, and we avoid the word ``routing'' because it implies the first
@@ -26,17 +26,12 @@ question-free signal survives at zero shots and why small models' held-out layer
 in the first few layers. It is also a reason to report layer-restricted analyses: a peak over all
 layers mixes a scale-invariant early signal with a scale-dependent late one.
 
-\paragraph{Prefix sensitivity, not anticipation.}
-Placing the question before the word raised the word tokens' decodability for \texttt{last\_letter}
-in all 16 models in our main runs. The pre-registered follow-up shows that this is not about the
-question: changing \texttt{The word "} to \texttt{In the word "} moves the same tokens by a similar
-amount. Word-token representations shift by a few points with the preceding context, and a question
-adds nothing measurable beyond that.
-
 \paragraph{What the controls changed.}
-Several claims that an uncontrolled analysis supports did not survive. Retained question-free signal
-measured above the majority class was largely nuisance. Count tasks that appeared to show a
-computation gap failed a word-only floor, and length matching alone did not fix them. A strong
-raw-scale narrowing of the \texttt{last\_letter} readout gap disappeared on the logit scale. A
-question-before-word effect on the word's encoding disappeared against a prefix control. None of
+Retained question-free signal measured above the majority class was largely nuisance; count tasks
+that appeared to show a computation gap failed a word-only floor, and length matching alone did not
+fix them; a strong raw-scale narrowing of the \texttt{last\_letter} readout gap disappeared on the
+logit scale. A question placed before the word raised the word tokens' \texttt{last\_letter}
+decodability in all 16 models in our main runs, but the pre-registered follow-up shows that this is
+prefix sensitivity, not anticipation: changing \texttt{The word "} to \texttt{In the word "} moves
+the same tokens by a similar amount, and a question adds nothing measurable beyond that. None of
 these controls is expensive, and each of them changed a conclusion.

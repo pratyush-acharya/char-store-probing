@@ -18,24 +18,23 @@ Each task has 800 examples sampled from a 6000-word frequency-ranked English voc
 the Brown Corpus \citep{kucera1967brown}, realizing 405--757 unique words per task. We evaluate 16
 open-weight models from seven families: Qwen3 (0.6/1.7/4/8B), Llama-3.x (1/3/8B), Gemma-2
 (2/9B), OLMo-2 (1/7/13B), Phi-4 (3.8B-mini, 14B), OLMo-Hybrid-7B and OLMoE-1B-7B
-\citep{qwen3report,llama3report,gemma2report,phi4report,olmo2report,olmoereport,olmohybridreport}.
+\citep{qwen3report,llama3report,gemma2report,phi4report,olmo2report,olmoereport,olmohybridreport};
+Table~\ref{tab:models} (Appendix~\ref{app:tables}) lists them.
 Six are post-trained (the four Qwen3 releases and both Phi-4 models); we report base-only
 statistics over the other ten where post-training could matter. All run in bf16 on one 48\,GB
 GPU. Prompts are completion-style, at 0 or 3 demonstrations. At zero shots no arm contains a
 demonstration, which makes it the clean contrast; most claims are reported at both counts.
 
 \paragraph{Prompt arms and positions.}
-For every example we run three prompts on the same word and label:
-\begin{itemize}
-  \item \textbf{question}: the task prompt, e.g.\ \texttt{The last letter of the word "cat" is};
-  \item \textbf{neutral}: \texttt{The word "cat" appears in this sentence.};
-  \item \textbf{continuation}: \texttt{Consider the word "cat". The answer is}, which matches the
-    question's ``awaiting an answer'' final position without naming the property.
-\end{itemize}
-Term tasks carry their query letter or position into both carriers. We read hidden states at two
-positions: the \textbf{answer position} (the final prompt token) in every arm, and the
-\textbf{word position} in the question and neutral arms, for the pure-word tasks, as either the
-word's last token or the mean over all tokens overlapping the word.
+For every example we run three prompts on the same word and label (Figure~\ref{fig:overview}a):
+the \textbf{question}, the task prompt (e.g.\ \texttt{The last letter of the word "cat" is});
+a \textbf{neutral} sentence, \texttt{The word "cat" appears in this sentence.}; and a
+\textbf{continuation} carrier, \texttt{Consider the word "cat". The answer is}, which matches the
+question's ``awaiting an answer'' final position without naming the property. Term tasks carry
+their query letter or position into both carriers. We read hidden states at two positions: the
+\textbf{answer position} (the final prompt token) in every arm, and the \textbf{word position} in
+the question and neutral arms, for the pure-word tasks, as either the word's last token or the mean
+over all tokens overlapping the word.
 
 \paragraph{Probe and estimator.}
 A standardized multinomial logistic regression ($\ell_2 = 10^{-3}$) is fit at each of 12 evenly
@@ -68,23 +67,3 @@ difference between arms. We also report a within-family (fixed-effect) slope, a 
 from resampling families, and base-only correlations. Where a claim spans the four
 prompt-sensitive tasks we apply Holm correction \citep{holm1979}. The 16 checkpoints are related
 and not independent draws; these are cross-model associations, not population scaling laws.
-
-\begin{table}[t]
-  \centering\footnotesize
-  \setlength{\tabcolsep}{4pt}
-  \begin{tabular}{@{}lll@{}}
-    \toprule
-    family & sizes & notes \\
-    \midrule
-    Qwen3 & 0.6B, 1.7B, 4B, 8B & post-trained releases \\
-    Llama-3.x & 3.2-1B, 3.2-3B, 3.1-8B & base \\
-    Gemma-2 & 2B, 9B & base; right padding enforced (Appendix~\ref{app:hygiene}) \\
-    OLMo-2 & 1B, 7B, 13B & base \\
-    Phi-4 & 3.8B-mini-instruct, 14B & post-trained \\
-    OLMo-Hybrid & 7B & DeltaNet/attention hybrid \\
-    OLMoE & 1B-7B & sparse MoE, plotted at 7B total parameters \\
-    \bottomrule
-  \end{tabular}
-  \caption{The 16 models. Every experiment covers all 16.}
-  \label{tab:models}
-\end{table}

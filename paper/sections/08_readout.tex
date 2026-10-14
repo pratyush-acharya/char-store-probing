@@ -2,19 +2,19 @@
 \label{sec:readout}
 
 The representation--readout gap is the held-out-selected probe accuracy minus the model's own
-forced-choice accuracy, at three shots (Table~\ref{tab:gap}).
+forced-choice accuracy, at three shots (Figure~\ref{fig:gap}; Table~\ref{tab:gap}).
 
-\begin{table}[h]
-  \centering\footnotesize
-  \setlength{\tabcolsep}{5pt}
-  \input{tables/tab_gap}
-  \caption{Representation--readout gap at three shots: mean over the three smallest
-    (Qwen3-0.6B, Llama-3.2-1B, OLMo-2-1B) and the three largest (phi-4, OLMo-2-13B, Gemma-2-9B)
-    models, and its correlation with $\log_{10}$ parameters (permutation $p$). The logit column uses
-    $\mathrm{logit}(\text{probe}) - \mathrm{logit}(\text{readout})$, which removes the compression near
-    1.0. No correction for the $7 \times 3$ tests is applied.}
-  \label{tab:gap}
-\end{table}
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=\linewidth]{fig_gap.pdf}
+  \caption{Readout at three shots, one point per model. First panel: \texttt{last\_letter} probe
+    (held-out-selected) and forced-choice readout accuracy. Other panels: the
+    representation--readout gap (probe $-$ readout) with an OLS line, and its correlation with
+    $\log_{10}$ parameters on the raw and the logit scale. The correlations are uncorrected for the
+    $7 \times 3$ tests; permutation $p$-values, base-only correlations and the mean gap in the three
+    smallest and three largest models are in Table~\ref{tab:gap}.}
+  \label{fig:gap}
+\end{figure}
 
 \paragraph{The \texttt{last\_letter} narrowing is a ceiling effect.}
 On the raw scale, \texttt{last\_letter}'s gap falls from $+0.455$ in the smallest models to $+0.009$ in
