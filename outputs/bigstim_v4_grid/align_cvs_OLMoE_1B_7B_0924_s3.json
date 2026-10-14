@@ -1,0 +1,134 @@
+{
+  "gap": {
+    "most_frequent_letter": {
+      "n_classes": 17,
+      "chance": 0.059,
+      "majority": 0.2564,
+      "acc_full": 0.6806,
+      "acc_proj": 0.553,
+      "readable_fraction": 0.795,
+      "subspace_overlap": 0.0748,
+      "grouped": true,
+      "dims": {
+        "r_rep": 16,
+        "r_out": 16
+      },
+      "rank_matched": {
+        "r_out": 16,
+        "n_random": 3,
+        "acc_rand_mean": 0.3941,
+        "acc_rand_sd": 0.0345,
+        "acc_rand_all": [
+          0.4092,
+          0.4267,
+          0.3463
+        ],
+        "acc_pca": 0.5655,
+        "proj_minus_rand": 0.1589,
+        "proj_minus_pca": -0.0126
+      }
+    },
+    "letter_before": {
+      "n_classes": 21,
+      "chance": 0.048,
+      "majority": 0.1278,
+      "acc_full": 0.357,
+      "acc_proj": 0.2963,
+      "readable_fraction": 0.804,
+      "subspace_overlap": 0.0662,
+      "grouped": true,
+      "dims": {
+        "r_rep": 20,
+        "r_out": 20
+      },
+      "rank_matched": {
+        "r_out": 20,
+        "n_random": 3,
+        "acc_rand_mean": 0.1974,
+        "acc_rand_sd": 0.0164,
+        "acc_rand_all": [
+          0.2126,
+          0.205,
+          0.1746
+        ],
+        "acc_pca": 0.2774,
+        "proj_minus_rand": 0.0989,
+        "proj_minus_pca": 0.0189
+      }
+    },
+    "word_length": {
+      "n_classes": 7,
+      "chance": 0.143,
+      "majority": 0.185,
+      "acc_full": 0.4839,
+      "acc_proj": 0.4453,
+      "readable_fraction": 0.887,
+      "subspace_overlap": 0.0829,
+      "grouped": true,
+      "dims": {
+        "r_rep": 6,
+        "r_out": 6
+      },
+      "rank_matched": {
+        "r_out": 6,
+        "n_random": 3,
+        "acc_rand_mean": 0.322,
+        "acc_rand_sd": 0.0146,
+        "acc_rand_all": [
+          0.3098,
+          0.3426,
+          0.3136
+        ],
+        "acc_pca": 0.5151,
+        "proj_minus_rand": 0.1233,
+        "proj_minus_pca": -0.0699
+      }
+    },
+    "count_distinct": {
+      "n_classes": 7,
+      "chance": 0.143,
+      "majority": 0.2895,
+      "acc_full": 0.3782,
+      "acc_proj": 0.4048,
+      "readable_fraction": 1.113,
+      "subspace_overlap": 0.0661,
+      "grouped": true,
+      "dims": {
+        "r_rep": 6,
+        "r_out": 6
+      },
+      "rank_matched": {
+        "r_out": 6,
+        "n_random": 3,
+        "acc_rand_mean": 0.3266,
+        "acc_rand_sd": 0.0126,
+        "acc_rand_all": [
+          0.3395,
+          0.3309,
+          0.3095
+        ],
+        "acc_pca": 0.4185,
+        "proj_minus_rand": 0.0781,
+        "proj_minus_pca": -0.0137
+      }
+    }
+  },
+  "meta": {
+    "model": "allenai/OLMoE-1B-7B-0924",
+    "shots": 3,
+    "set": "cvs",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "n_layers": 16
+  }
+}

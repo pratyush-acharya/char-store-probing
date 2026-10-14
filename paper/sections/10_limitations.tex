@@ -1,0 +1,39 @@
+\section{Limitations}
+\label{sec:limitations}
+
+\paragraph{Probes are correlational.}
+All claims concern linear decodability under a held-out-word probe. We do not show that the model
+uses the store, the late signal or the answer-token span; interventions that pass modified states
+through the model would be needed for that. A probe trained on hundreds of labels is not a calibrated
+upper bound on what the model can do with three demonstrations, and we run no random-label
+selectivity control.
+
+\paragraph{Linear and positional scope.}
+Absence of linear decodability at a position does not show absence of the information elsewhere or in
+a nonlinear form. The word-position store is read from the last token or the mean of the word's
+tokens; other reads could recover more. The store is measured after one prefix
+(\texttt{The word "}), and word-token accuracy shifts by up to about 0.05 with the preceding context.
+We do not separate single-token from multi-token query words, so we cannot say whether the answer
+position's excess over the store in larger models requires combining information across a word's
+tokens. Nor do we fit nonlinear probes at the word position: a small MLP might read a larger store
+than the linear probe does, in which case the late layers may partly make existing information
+linearly readable rather than add to it.
+
+\paragraph{Cross-model statistics.}
+The 16 checkpoints come from seven related families with different data, base and post-trained
+variants, and dense, hybrid and sparse architectures. They are not independent draws, and parameter
+count is confounded with family and training choices. Within-family slopes and family resampling
+reduce but do not remove this concern. Each cell uses one sampling seed; a three-seed check on five
+models in preliminary runs found per-cell standard deviations of at most 0.042. Holm correction
+covers the four-task claims; the descriptive readout analyses are uncorrected.
+
+\paragraph{Task and format scope.}
+All tasks use English words of length 3--9 from one frequency-ranked vocabulary, single-token direct
+answers and completion prompts at zero or three demonstrations. Chain-of-thought prompting
+\citep{wei2022cot,kojima2022zeroshot}, character-separated
+input, other scripts and other tokenizers may behave differently. \texttt{letter\_before} clears its
+floor in only half the models, \texttt{counting\_lm} reuses words (405 unique words for 792 examples)
+and \texttt{count\_distinct\_lm} tests only above-majority decodability.
+
+\paragraph{Mechanism.}
+We do not identify what produces the late signal or why it exceeds the store in large models.

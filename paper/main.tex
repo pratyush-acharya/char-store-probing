@@ -1,0 +1,106 @@
+\documentclass[11pt]{article}
+
+% ---------------------------------------------------------------------------
+% Character Information in Language Models: A Prompt-Independent Word Store and
+% a Late, Question-Driven Signal That Grows With Scale   (paper-v4)
+%
+% Every table under tables/ and both figures are generated from the analysis
+% outputs by scripts/make_paper_v4.py; do not edit them by hand.
+%
+% Build:  pdflatex main; bibtex main; pdflatex main; pdflatex main
+% ---------------------------------------------------------------------------
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath, amssymb}
+\usepackage{xcolor}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\hypersetup{colorlinks=true, linkcolor=blue!55!black, citecolor=blue!55!black,
+  urlcolor=blue!55!black}
+
+\graphicspath{{figures/}}
+\emergencystretch=3em
+
+% ---------------------------------------------------------------------------
+% DOUBLE-BLIND SWITCH: \anonymoustrue removes the author block, email and code URL.
+% Set it before any OpenReview/ARR upload; check the PDF text for the email afterwards.
+% ---------------------------------------------------------------------------
+\newif\ifanonymous
+\anonymousfalse   % arXiv version (set \anonymoustrue for double-blind review)
+
+\ifanonymous
+  \title{\textbf{Character Information in Language Models:\\
+    A Prompt-Independent Word Store and a Late, Question-Driven Signal That Grows With Scale}}
+  \author{Anonymous Authors}
+\else
+  \title{\textbf{Character Information in Language Models:\\
+    A Prompt-Independent Word Store and a Late, Question-Driven Signal That Grows With Scale}%
+    \thanks{Code and data: \url{https://github.com/ORG/char-store-probing}}} % <-- FILL IN repo URL
+  \author{%
+    Pratyush Acharya$^{1}$\thanks{Corresponding author: \texttt{pratyush.acharya@securitypalhq.com}}\quad
+    Nuraj Rimal$^{2}$\quad
+    Apar Baral$^{3}$\\
+    Habish Dhakal$^{1}$\quad
+    Piyush Mohan Bhattarai$^{4}$\\[6pt]
+    \normalsize $^{1}$SecurityPal AI\quad
+    $^{2}$Southern Illinois University Edwardsville\\
+    \normalsize $^{3}$University of Maryland\quad
+    $^{4}$Saint Louis University
+  }
+\fi
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Linear probes recover character properties of a word from a language model's hidden states, but a
+probe at the answer position cannot say whether the property was stored with the word or produced
+because the prompt asked for it. We separate the two with a word-position baseline: the same
+held-out-word probe applied to the query word's own tokens in a sentence that asks nothing. Across
+16 open-weight models from seven families (0.6B--14B) and eleven character tasks, the word tokens
+encode \texttt{first\_letter}, \texttt{last\_letter} and \texttt{most\_frequent\_letter} above a
+word-only nuisance floor in all 16 models, and about 70\% of that signal is already present in the
+token embedding. Asking the question adds a second signal at the answer position. Its size grows
+with model scale for all four prompt-sensitive tasks (Holm-corrected permutation $p \leq 0.015$,
+also within model families), and the growth is confined to the late layers: restricted to the
+first quarter of the network, the slope is indistinguishable from zero. Small models' answer
+positions hold less than their word-level store; large models' hold more. Three controls bound
+these claims. Measured against the nuisance floor, the question-free signal that a majority-baseline
+analysis counts as retained largely disappears (\texttt{last\_letter}: $-0.01$). Count tasks
+become measurable only after length, repetition and query-letter shortcuts are removed by design.
+A pre-registered test finds that a question placed before the word does not change the word's own
+encoding beyond what an arbitrary prefix change does. Representation--readout gaps show no robust
+scaling once probe saturation is accounted for. Pre-registered criteria, a fixed estimator
+(held-out layer selection, cold-start folds) and all analysis code accompany the paper.
+\end{abstract}
+
+\input{sections/01_intro}
+\input{sections/02_related}
+\input{sections/03_setup}
+\input{sections/04_store}
+\input{sections/05_question}
+\input{sections/06_crosstask}
+\input{sections/07_nuisance}
+\input{sections/08_readout}
+\input{sections/09_discussion}
+\input{sections/10_limitations}
+\input{sections/11_conclusion}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\appendix
+\input{sections/A_methods}
+\input{sections/B_prereg}
+\input{sections/C_hygiene}
+
+\end{document}

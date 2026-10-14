@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.env.deploy
+logs/
+outputs/v4_smoke/
+outputs/bigstim_v4_smoke_grid/
+outputs/v4/review/
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.blg
+paper/*.synctex.gz
+arxiv_source.tar.gz

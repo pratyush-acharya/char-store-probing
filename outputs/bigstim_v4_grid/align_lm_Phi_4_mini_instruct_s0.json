@@ -1,0 +1,78 @@
+{
+  "gap": {
+    "counting_lm": {
+      "n_classes": 3,
+      "chance": 0.333,
+      "majority": 0.2801,
+      "acc_full": 0.5074,
+      "acc_proj": 0.499,
+      "readable_fraction": 0.952,
+      "subspace_overlap": 0.012,
+      "grouped": true,
+      "dims": {
+        "r_rep": 3,
+        "r_out": 2
+      },
+      "rank_matched": {
+        "r_out": 2,
+        "n_random": 3,
+        "acc_rand_mean": 0.3927,
+        "acc_rand_sd": 0.0413,
+        "acc_rand_all": [
+          0.3401,
+          0.4409,
+          0.397
+        ],
+        "acc_pca": 0.3836,
+        "proj_minus_rand": 0.1063,
+        "proj_minus_pca": 0.1154
+      }
+    },
+    "count_distinct_lm": {
+      "n_classes": 4,
+      "chance": 0.25,
+      "majority": 0.2163,
+      "acc_full": 0.3002,
+      "acc_proj": 0.2362,
+      "readable_fraction": 0.0,
+      "subspace_overlap": 0.0037,
+      "grouped": true,
+      "dims": {
+        "r_rep": 4,
+        "r_out": 3
+      },
+      "rank_matched": {
+        "r_out": 3,
+        "n_random": 3,
+        "acc_rand_mean": 0.2426,
+        "acc_rand_sd": 0.0124,
+        "acc_rand_all": [
+          0.2382,
+          0.2595,
+          0.2301
+        ],
+        "acc_pca": 0.2361,
+        "proj_minus_rand": -0.0064,
+        "proj_minus_pca": 0.0
+      }
+    }
+  },
+  "meta": {
+    "model": "microsoft/Phi-4-mini-instruct",
+    "shots": 0,
+    "set": "lm",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "n_layers": 32
+  }
+}

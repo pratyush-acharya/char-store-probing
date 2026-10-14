@@ -1,0 +1,127 @@
+{
+ "first_letter": {
+  "n": 796,
+  "n_words": 753,
+  "n_classes": 23,
+  "majority": 0.115545962058576,
+  "length": 0.08910174460312259,
+  "letterset": 0.4560121567594537,
+  "length+letterset": 0.45725117402560694,
+  "floor": 0.45725117402560694,
+  "floor_predictor": "length+letterset"
+ },
+ "last_letter": {
+  "n": 785,
+  "n_words": 748,
+  "n_classes": 17,
+  "majority": 0.17056924608231397,
+  "length": 0.18463976215061195,
+  "letterset": 0.5465523348955412,
+  "length+letterset": 0.5463661242532661,
+  "floor": 0.5465523348955412,
+  "floor_predictor": "letterset"
+ },
+ "contains_letter": {
+  "n": 800,
+  "n_words": 747,
+  "n_classes": 2,
+  "majority": 0.5200361699382389,
+  "length": 0.5024828510967879,
+  "letterset": 0.4950011092161269,
+  "length+letterset": 0.6951077592041207,
+  "letterset+q": 0.696351540298648,
+  "floor": 0.6951077592041207,
+  "floor_predictor": "length+letterset"
+ },
+ "extraction": {
+  "n": 795,
+  "n_words": 747,
+  "n_classes": 22,
+  "majority": 0.13959183059163494,
+  "length": 0.11465688814544224,
+  "letterset": 0.19991044955826798,
+  "length+letterset": 0.18844573544240928,
+  "floor": 0.19991044955826798,
+  "floor_predictor": "letterset"
+ },
+ "counting": {
+  "n": 798,
+  "n_words": 664,
+  "n_classes": 3,
+  "majority": 0.32206488922906834,
+  "length": 0.4646050374906096,
+  "letterset": 0.42596065257756804,
+  "length+letterset": 0.5944784623889102,
+  "letterset+q": 0.42857365593684005,
+  "floor": 0.5944784623889102,
+  "floor_predictor": "length+letterset"
+ },
+ "most_frequent_letter": {
+  "n": 780,
+  "n_words": 665,
+  "n_classes": 16,
+  "majority": 0.28982837572442693,
+  "length": 0.2859822218782731,
+  "letterset": 0.4371595710094918,
+  "length+letterset": 0.4422734933986432,
+  "floor": 0.4422734933986432,
+  "floor_predictor": "length+letterset"
+ },
+ "letter_before": {
+  "n": 788,
+  "n_words": 737,
+  "n_classes": 21,
+  "majority": 0.11161829165303665,
+  "length": 0.11800354623548541,
+  "letterset": 0.21316884813344758,
+  "length+letterset": 0.3997258653578308,
+  "letterset+q": 0.40606813292666183,
+  "floor": 0.40606813292666183,
+  "floor_predictor": "letterset+q"
+ },
+ "word_length": {
+  "n": 800,
+  "n_words": 751,
+  "n_classes": 7,
+  "majority": 0.19377902024046964,
+  "length": 1.0,
+  "letterset": 0.3626222818491811,
+  "length+letterset": 0.7787780762641461,
+  "floor": 0.3626222818491811,
+  "floor_predictor": "letterset"
+ },
+ "count_distinct": {
+  "n": 798,
+  "n_words": 740,
+  "n_classes": 7,
+  "majority": 0.2907436246612574,
+  "length": 0.541419533569986,
+  "letterset": 0.7857406749153287,
+  "length+letterset": 0.786937168374969,
+  "floor": 0.541419533569986,
+  "floor_predictor": "length"
+ },
+ "counting_lm": {
+  "n": 792,
+  "n_words": 422,
+  "n_classes": 3,
+  "majority": 0.2801366507888247,
+  "length": 0.25573755954190736,
+  "letterset": 0.3694212188777406,
+  "length+letterset": 0.35077320022972197,
+  "letterset+q": 0.3520907232863755,
+  "floor": 0.3694212188777406,
+  "floor_predictor": "letterset"
+ },
+ "count_distinct_lm": {
+  "n": 800,
+  "n_words": 670,
+  "n_classes": 4,
+  "majority": 0.21629374005799862,
+  "length": 0.21502631293505817,
+  "letterset": 0.9766200740535341,
+  "length+letterset": 0.9753574477909078,
+  "floor": 0.21629374005799862,
+  "floor_predictor": "majority"
+ }
+}

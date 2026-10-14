@@ -1,0 +1,78 @@
+{
+  "gap": {
+    "counting_lm": {
+      "n_classes": 3,
+      "chance": 0.333,
+      "majority": 0.2801,
+      "acc_full": 0.5303,
+      "acc_proj": 0.3989,
+      "readable_fraction": 0.333,
+      "subspace_overlap": 0.0021,
+      "grouped": true,
+      "dims": {
+        "r_rep": 3,
+        "r_out": 2
+      },
+      "rank_matched": {
+        "r_out": 2,
+        "n_random": 3,
+        "acc_rand_mean": 0.3113,
+        "acc_rand_sd": 0.0482,
+        "acc_rand_all": [
+          0.2906,
+          0.378,
+          0.2654
+        ],
+        "acc_pca": 0.313,
+        "proj_minus_rand": 0.0875,
+        "proj_minus_pca": 0.0859
+      }
+    },
+    "count_distinct_lm": {
+      "n_classes": 4,
+      "chance": 0.25,
+      "majority": 0.2163,
+      "acc_full": 0.3315,
+      "acc_proj": 0.2125,
+      "readable_fraction": 0.0,
+      "subspace_overlap": 0.0019,
+      "grouped": true,
+      "dims": {
+        "r_rep": 4,
+        "r_out": 3
+      },
+      "rank_matched": {
+        "r_out": 3,
+        "n_random": 3,
+        "acc_rand_mean": 0.2493,
+        "acc_rand_sd": 0.0306,
+        "acc_rand_all": [
+          0.2462,
+          0.2135,
+          0.2882
+        ],
+        "acc_pca": 0.2413,
+        "proj_minus_rand": -0.0368,
+        "proj_minus_pca": -0.0288
+      }
+    }
+  },
+  "meta": {
+    "model": "meta-llama/Llama-3.2-3B",
+    "shots": 0,
+    "set": "lm",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "n_layers": 28
+  }
+}

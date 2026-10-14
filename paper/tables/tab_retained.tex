@@ -1,0 +1,17 @@
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+ & \multicolumn{3}{c}{shots $=0$} & \multicolumn{3}{c}{shots $=3$} \\
+\cmidrule(lr){2-4}\cmidrule(l){5-7}
+task & majority & neutral & continuation & majority & neutral & continuation \\
+\midrule
+\texttt{extraction} & 0.228 & $-$0.036 & 0.240 & 0.151 & $-$0.000 & 0.017 \\
+\texttt{last\_letter} & 0.671 & 0.324 & 0.473 & 0.503 & $-$0.009 & 0.034 \\
+\texttt{most\_frequent\_letter} & 0.542 & 0.295 & 0.467 & 0.324 & 0.051 & 0.104 \\
+\texttt{letter\_before} & 0.485 & -- & -- & 0.283 & -- & -- \\
+\texttt{word\_length} & 0.546 & 0.149 & 0.439 & 0.416 & 0.162 & 0.175 \\
+\texttt{counting\_lm} & 0.698 & 0.520 & 0.859 & 0.768 & 0.479 & 0.783 \\
+\texttt{count\_distinct\_lm} & 0.911 & 0.911 & 1.082 & 0.673 & 0.673 & 0.610 \\
+\texttt{first\_letter} & 0.885 & 0.811 & 0.855 & 0.856 & 0.758 & 0.696 \\
+\texttt{contains\_letter} & 0.966 & 0.919 & 1.233 & 0.837 & 0.635 & 0.866 \\
+\bottomrule
+\end{tabular}

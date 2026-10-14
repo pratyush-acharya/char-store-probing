@@ -1,0 +1,56 @@
+{
+  "gap": {
+    "counting_lm": {
+      "chance": 0.333,
+      "majority": 0.2712,
+      "acc_random": 0.7717,
+      "layer_random": 40,
+      "acc_grouped": 0.6621,
+      "layer_grouped": 40,
+      "drop": 0.1096,
+      "above_majority": 0.3909,
+      "n_words": 405,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.6667,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "count_distinct_lm": {
+      "chance": 0.25,
+      "majority": 0.2224,
+      "acc_random": 0.5181,
+      "layer_random": 33,
+      "acc_grouped": 0.4144,
+      "layer_grouped": 36,
+      "drop": 0.1036,
+      "above_majority": 0.1921,
+      "n_words": 674,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.0,
+        "n": 60,
+        "max_new": 6
+      }
+    }
+  },
+  "meta": {
+    "model": "microsoft/phi-4",
+    "shots": 3,
+    "set": "lm",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "folds": 3
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "gap": {
+    "first_letter": {
+      "n_classes": 22,
+      "chance": 0.045,
+      "majority": 0.1235,
+      "acc_full": 1.0,
+      "acc_proj": 1.0,
+      "readable_fraction": 1.0,
+      "subspace_overlap": 0.1147,
+      "grouped": true,
+      "dims": {
+        "r_rep": 22,
+        "r_out": 21
+      },
+      "rank_matched": {
+        "r_out": 21,
+        "n_random": 3,
+        "acc_rand_mean": 0.9971,
+        "acc_rand_sd": 0.0026,
+        "acc_rand_all": [
+          0.9975,
+          1.0,
+          0.9937
+        ],
+        "acc_pca": 1.0,
+        "proj_minus_rand": 0.0029,
+        "proj_minus_pca": 0.0
+      }
+    },
+    "last_letter": {
+      "n_classes": 16,
+      "chance": 0.062,
+      "majority": 0.1455,
+      "acc_full": 0.9962,
+      "acc_proj": 0.9975,
+      "readable_fraction": 1.001,
+      "subspace_overlap": 0.076,
+      "grouped": true,
+      "dims": {
+        "r_rep": 15,
+        "r_out": 15
+      },
+      "rank_matched": {
+        "r_out": 15,
+        "n_random": 3,
+        "acc_rand_mean": 0.9076,
+        "acc_rand_sd": 0.0247,
+        "acc_rand_all": [
+          0.8728,
+          0.9225,
+          0.9275
+        ],
+        "acc_pca": 0.9924,
+        "proj_minus_rand": 0.0899,
+        "proj_minus_pca": 0.005
+      }
+    },
+    "contains_letter": {
+      "n_classes": 2,
+      "chance": 0.5,
+      "majority": 0.4763,
+      "acc_full": 0.9575,
+      "acc_proj": 0.9325,
+      "readable_fraction": 0.945,
+      "subspace_overlap": 0.0363,
+      "grouped": true,
+      "dims": {
+        "r_rep": 1,
+        "r_out": 1
+      },
+      "rank_matched": {
+        "r_out": 1,
+        "n_random": 3,
+        "acc_rand_mean": 0.7116,
+        "acc_rand_sd": 0.1115,
+        "acc_rand_all": [
+          0.5912,
+          0.86,
+          0.6837
+        ],
+        "acc_pca": 0.94,
+        "proj_minus_rand": 0.2208,
+        "proj_minus_pca": -0.0075
+      }
+    },
+    "extraction": {
+      "n_classes": 22,
+      "chance": 0.045,
+      "majority": 0.1221,
+      "acc_full": 0.6732,
+      "acc_proj": 0.5876,
+      "readable_fraction": 0.864,
+      "subspace_overlap": 0.0887,
+      "grouped": true,
+      "dims": {
+        "r_rep": 21,
+        "r_out": 21
+      },
+      "rank_matched": {
+        "r_out": 21,
+        "n_random": 3,
+        "acc_rand_mean": 0.4551,
+        "acc_rand_sd": 0.0066,
+        "acc_rand_all": [
+          0.4643,
+          0.4503,
+          0.4505
+        ],
+        "acc_pca": 0.5121,
+        "proj_minus_rand": 0.1326,
+        "proj_minus_pca": 0.0755
+      }
+    },
+    "counting": {
+      "n_classes": 3,
+      "chance": 0.333,
+      "majority": 0.3108,
+      "acc_full": 0.7695,
+      "acc_proj": 0.7861,
+      "readable_fraction": 1.038,
+      "subspace_overlap": 0.2757,
+      "grouped": true,
+      "dims": {
+        "r_rep": 2,
+        "r_out": 2
+      },
+      "rank_matched": {
+        "r_out": 2,
+        "n_random": 3,
+        "acc_rand_mean": 0.4452,
+        "acc_rand_sd": 0.0546,
+        "acc_rand_all": [
+          0.4759,
+          0.3685,
+          0.4912
+        ],
+        "acc_pca": 0.6642,
+        "proj_minus_rand": 0.3409,
+        "proj_minus_pca": 0.1219
+      }
+    }
+  },
+  "meta": {
+    "model": "microsoft/phi-4",
+    "shots": 3,
+    "set": "orig",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "n_layers": 40
+  }
+}

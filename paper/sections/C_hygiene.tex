@@ -1,0 +1,31 @@
+\section{Measurement Hygiene}
+\label{app:hygiene}
+
+Four measurement problems found during development shaped the present protocol.
+
+\paragraph{Stimulus-pool size.}
+On a pool of about 100 words, the same model and probe gave a memorization false positive under
+random splits (\texttt{most\_frequent\_letter} at 1.000 for Qwen3-8B, peaking at layer 2) and an
+underpowered false negative under held-out-word splits (0.358 against a 0.309 majority, with about 26
+training words per fold). The 6000-word pool with held-out-word folds gives 0.845 against 0.256. The
+regimes also differed in example count and layer stride, so this is a sensitivity demonstration
+rather than a calibrated pool-size effect; it is why every result here uses the large pool.
+
+\paragraph{Padding side.}
+Answer positions were originally located as the attention-mask sum minus one, which is correct only
+for right-padded batches. Gemma-2's tokenizer pads on the left, so its answer-position states were
+read from the wrong token. An unbatched free-generation check exposed this: Gemma-2-9B scored 0.098
+on \texttt{first\_letter} under batched scoring and 1.000 under free generation. The error grew
+monotonically with shot count, as longer prompts mean more padding. The current code locates the last
+real token for either padding side, and all Gemma-2 numbers here come from corrected runs.
+
+\paragraph{Free-generation scoring.}
+The free-generation check counts a hit if the target starts or appears early in a short generation.
+That is informative for 22--26-class letter answers but not for two- or three-class answers, where
+almost any generation containing a digit scores. We therefore use free generation only as a
+diagnostic for letter tasks and report forced-choice readout everywhere.
+
+\paragraph{Sampler determinism.}
+An initial version of the sampler iterated Python sets when choosing query letters, so four tasks depended on the
+hash seed. The sampler now iterates sorted sets, and analysis code orders models by size and then
+name, so all reported numbers are identical across hash seeds.

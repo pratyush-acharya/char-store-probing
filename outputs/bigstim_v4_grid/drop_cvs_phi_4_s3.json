@@ -1,0 +1,90 @@
+{
+  "gap": {
+    "most_frequent_letter": {
+      "chance": 0.059,
+      "majority": 0.2564,
+      "acc_random": 0.93,
+      "layer_random": 40,
+      "acc_grouped": 0.883,
+      "layer_grouped": 40,
+      "drop": 0.047,
+      "above_majority": 0.6266,
+      "n_words": 664,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.85,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "letter_before": {
+      "chance": 0.048,
+      "majority": 0.1278,
+      "acc_random": 0.5992,
+      "layer_random": 40,
+      "acc_grouped": 0.6064,
+      "layer_grouped": 36,
+      "drop": -0.0072,
+      "above_majority": 0.4786,
+      "n_words": 743,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.65,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "word_length": {
+      "chance": 0.143,
+      "majority": 0.185,
+      "acc_random": 0.9889,
+      "layer_random": 40,
+      "acc_grouped": 0.9863,
+      "layer_grouped": 40,
+      "drop": 0.0026,
+      "above_majority": 0.8012,
+      "n_words": 756,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.95,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "count_distinct": {
+      "chance": 0.143,
+      "majority": 0.2895,
+      "acc_random": 0.6042,
+      "layer_random": 40,
+      "acc_grouped": 0.5652,
+      "layer_grouped": 40,
+      "drop": 0.039,
+      "above_majority": 0.2757,
+      "n_words": 742,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.6333,
+        "n": 60,
+        "max_new": 6
+      }
+    }
+  },
+  "meta": {
+    "model": "microsoft/phi-4",
+    "shots": 3,
+    "set": "cvs",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "folds": 3
+  }
+}

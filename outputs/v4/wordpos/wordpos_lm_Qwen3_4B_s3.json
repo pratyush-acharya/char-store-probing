@@ -1,0 +1,508 @@
+{
+  "arms": {
+    "question": {
+      "answer": {
+        "counting_lm": {
+          "acc_peak": 0.5677,
+          "peak_layer": 36,
+          "majority": 0.2712,
+          "above_majority": 0.2965,
+          "chance": 0.333,
+          "n_classes": 3,
+          "n_words": 405,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.2712,
+            "3": 0.3436,
+            "7": 0.4637,
+            "10": 0.4046,
+            "13": 0.4039,
+            "16": 0.4081,
+            "20": 0.3847,
+            "23": 0.3694,
+            "26": 0.3985,
+            "29": 0.3961,
+            "33": 0.4032,
+            "36": 0.5677
+          },
+          "acc_heldout_sel": 0.5677,
+          "majority_heldout_sel": 0.2712,
+          "above_majority_heldout_sel": 0.2965,
+          "heldout_layers": {
+            "0": 36,
+            "1": 36,
+            "2": 36
+          },
+          "above_majority_ci95": {
+            "mean": 0.2967,
+            "lo": 0.2363,
+            "hi": 0.3648,
+            "n_words": 405,
+            "n_boot": 1000
+          }
+        },
+        "count_distinct_lm": {
+          "acc_peak": 0.3685,
+          "peak_layer": 29,
+          "majority": 0.2224,
+          "above_majority": 0.1461,
+          "chance": 0.25,
+          "n_classes": 4,
+          "n_words": 674,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.2224,
+            "3": 0.2941,
+            "7": 0.3218,
+            "10": 0.3051,
+            "13": 0.3004,
+            "16": 0.3521,
+            "20": 0.3457,
+            "23": 0.3345,
+            "26": 0.3309,
+            "29": 0.3685,
+            "33": 0.359,
+            "36": 0.3589
+          },
+          "acc_heldout_sel": 0.3486,
+          "majority_heldout_sel": 0.2224,
+          "above_majority_heldout_sel": 0.1262,
+          "heldout_layers": {
+            "0": 29,
+            "1": 36,
+            "2": 29
+          },
+          "above_majority_ci95": {
+            "mean": 0.1462,
+            "lo": 0.0871,
+            "hi": 0.2032,
+            "n_words": 674,
+            "n_boot": 1000
+          }
+        }
+      },
+      "word_last": {
+        "count_distinct_lm": {
+          "acc_peak": 0.3943,
+          "peak_layer": 20,
+          "majority": 0.2224,
+          "above_majority": 0.1719,
+          "chance": 0.25,
+          "n_classes": 4,
+          "n_words": 674,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.2824,
+            "3": 0.3205,
+            "7": 0.3214,
+            "10": 0.3591,
+            "13": 0.3588,
+            "16": 0.3664,
+            "20": 0.3943,
+            "23": 0.3845,
+            "26": 0.3538,
+            "29": 0.3618,
+            "33": 0.3537,
+            "36": 0.3354
+          },
+          "acc_heldout_sel": 0.3943,
+          "majority_heldout_sel": 0.2224,
+          "above_majority_heldout_sel": 0.1719,
+          "heldout_layers": {
+            "0": 20,
+            "1": 20,
+            "2": 20
+          },
+          "above_majority_ci95": {
+            "mean": 0.1713,
+            "lo": 0.1121,
+            "hi": 0.2324,
+            "n_words": 674,
+            "n_boot": 1000
+          }
+        }
+      },
+      "word_mean": {
+        "count_distinct_lm": {
+          "acc_peak": 0.3919,
+          "peak_layer": 20,
+          "majority": 0.2224,
+          "above_majority": 0.1695,
+          "chance": 0.25,
+          "n_classes": 4,
+          "n_words": 674,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.2711,
+            "3": 0.3379,
+            "7": 0.3377,
+            "10": 0.3515,
+            "13": 0.3629,
+            "16": 0.3608,
+            "20": 0.3919,
+            "23": 0.3746,
+            "26": 0.3665,
+            "29": 0.3557,
+            "33": 0.3604,
+            "36": 0.3314
+          },
+          "acc_heldout_sel": 0.3919,
+          "majority_heldout_sel": 0.2224,
+          "above_majority_heldout_sel": 0.1695,
+          "heldout_layers": {
+            "0": 20,
+            "1": 20,
+            "2": 20
+          },
+          "above_majority_ci95": {
+            "mean": 0.1688,
+            "lo": 0.1074,
+            "hi": 0.2273,
+            "n_words": 674,
+            "n_boot": 1000
+          }
+        }
+      }
+    },
+    "neutral": {
+      "answer": {
+        "counting_lm": {
+          "acc_peak": 0.484,
+          "peak_layer": 29,
+          "majority": 0.2712,
+          "above_majority": 0.2128,
+          "chance": 0.333,
+          "n_classes": 3,
+          "n_words": 405,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.2712,
+            "3": 0.3454,
+            "7": 0.4741,
+            "10": 0.4541,
+            "13": 0.4773,
+            "16": 0.4563,
+            "20": 0.4397,
+            "23": 0.4702,
+            "26": 0.4576,
+            "29": 0.484,
+            "33": 0.4437,
+            "36": 0.3981
+          },
+          "acc_heldout_sel": 0.4621,
+          "majority_heldout_sel": 0.2712,
+          "above_majority_heldout_sel": 0.1909,
+          "heldout_layers": {
+            "0": 7,
+            "1": 29,
+            "2": 29
+          },
+          "above_majority_ci95": {
+            "mean": 0.2184,
+            "lo": 0.1487,
+            "hi": 0.2899,
+            "n_words": 405,
+            "n_boot": 1000
+          }
+        },
+        "count_distinct_lm": {
+          "acc_peak": 0.324,
+          "peak_layer": 10,
+          "majority": 0.2224,
+          "above_majority": 0.1016,
+          "chance": 0.25,
+          "n_classes": 4,
+          "n_words": 674,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.2224,
+            "3": 0.2698,
+            "7": 0.3037,
+            "10": 0.324,
+            "13": 0.3019,
+            "16": 0.2988,
+            "20": 0.2667,
+            "23": 0.2618,
+            "26": 0.2732,
+            "29": 0.2656,
+            "33": 0.285,
+            "36": 0.2688
+          },
+          "acc_heldout_sel": 0.324,
+          "majority_heldout_sel": 0.2224,
+          "above_majority_heldout_sel": 0.1016,
+          "heldout_layers": {
+            "0": 10,
+            "1": 10,
+            "2": 10
+          },
+          "above_majority_ci95": {
+            "mean": 0.1013,
+            "lo": 0.0417,
+            "hi": 0.1634,
+            "n_words": 674,
+            "n_boot": 1000
+          }
+        }
+      },
+      "word_last": {
+        "count_distinct_lm": {
+          "acc_peak": 0.3332,
+          "peak_layer": 3,
+          "majority": 0.2224,
+          "above_majority": 0.1108,
+          "chance": 0.25,
+          "n_classes": 4,
+          "n_words": 674,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.2824,
+            "3": 0.3332,
+            "7": 0.2863,
+            "10": 0.2971,
+            "13": 0.2969,
+            "16": 0.2927,
+            "20": 0.3062,
+            "23": 0.2831,
+            "26": 0.3076,
+            "29": 0.2992,
+            "33": 0.2933,
+            "36": 0.3042
+          },
+          "acc_heldout_sel": 0.3332,
+          "majority_heldout_sel": 0.2224,
+          "above_majority_heldout_sel": 0.1109,
+          "heldout_layers": {
+            "0": 3,
+            "1": 3,
+            "2": 3
+          },
+          "above_majority_ci95": {
+            "mean": 0.11,
+            "lo": 0.0474,
+            "hi": 0.1718,
+            "n_words": 674,
+            "n_boot": 1000
+          }
+        }
+      },
+      "word_mean": {
+        "count_distinct_lm": {
+          "acc_peak": 0.3278,
+          "peak_layer": 3,
+          "majority": 0.2224,
+          "above_majority": 0.1054,
+          "chance": 0.25,
+          "n_classes": 4,
+          "n_words": 674,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.2711,
+            "3": 0.3278,
+            "7": 0.2719,
+            "10": 0.2821,
+            "13": 0.3276,
+            "16": 0.3127,
+            "20": 0.3002,
+            "23": 0.2992,
+            "26": 0.3093,
+            "29": 0.2961,
+            "33": 0.2976,
+            "36": 0.2912
+          },
+          "acc_heldout_sel": 0.3202,
+          "majority_heldout_sel": 0.2224,
+          "above_majority_heldout_sel": 0.0978,
+          "heldout_layers": {
+            "0": 13,
+            "1": 3,
+            "2": 13
+          },
+          "above_majority_ci95": {
+            "mean": 0.105,
+            "lo": 0.0428,
+            "hi": 0.1667,
+            "n_words": 674,
+            "n_boot": 1000
+          }
+        }
+      }
+    },
+    "continuation": {
+      "answer": {
+        "counting_lm": {
+          "acc_peak": 0.5537,
+          "peak_layer": 23,
+          "majority": 0.2712,
+          "above_majority": 0.2825,
+          "chance": 0.333,
+          "n_classes": 3,
+          "n_words": 405,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.2712,
+            "3": 0.3404,
+            "7": 0.4388,
+            "10": 0.4658,
+            "13": 0.4831,
+            "16": 0.5179,
+            "20": 0.5181,
+            "23": 0.5537,
+            "26": 0.5261,
+            "29": 0.5429,
+            "33": 0.4626,
+            "36": 0.471
+          },
+          "acc_heldout_sel": 0.5422,
+          "majority_heldout_sel": 0.2712,
+          "above_majority_heldout_sel": 0.271,
+          "heldout_layers": {
+            "0": 23,
+            "1": 29,
+            "2": 23
+          },
+          "above_majority_ci95": {
+            "mean": 0.2854,
+            "lo": 0.2196,
+            "hi": 0.355,
+            "n_words": 405,
+            "n_boot": 1000
+          }
+        },
+        "count_distinct_lm": {
+          "acc_peak": 0.2889,
+          "peak_layer": 36,
+          "majority": 0.2224,
+          "above_majority": 0.0665,
+          "chance": 0.25,
+          "n_classes": 4,
+          "n_words": 674,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.2224,
+            "3": 0.2883,
+            "7": 0.2653,
+            "10": 0.276,
+            "13": 0.2699,
+            "16": 0.2616,
+            "20": 0.2281,
+            "23": 0.2343,
+            "26": 0.2522,
+            "29": 0.2529,
+            "33": 0.2769,
+            "36": 0.2889
+          },
+          "acc_heldout_sel": 0.2597,
+          "majority_heldout_sel": 0.2224,
+          "above_majority_heldout_sel": 0.0373,
+          "heldout_layers": {
+            "0": 36,
+            "1": 36,
+            "2": 10
+          },
+          "above_majority_ci95": {
+            "mean": 0.0663,
+            "lo": 0.0073,
+            "hi": 0.1231,
+            "n_words": 674,
+            "n_boot": 1000
+          }
+        }
+      }
+    }
+  },
+  "summary": {
+    "counting_lm": {
+      "pure_word_function": false,
+      "ans_question": 0.2965,
+      "ans_neutral": 0.2128,
+      "ans_continuation": 0.2825,
+      "word_neutral": null,
+      "word_question": null,
+      "ans_question_hsel": 0.2965,
+      "ans_neutral_hsel": 0.1909,
+      "ans_continuation_hsel": 0.271,
+      "word_neutral_hsel": null,
+      "word_question_hsel": null
+    },
+    "count_distinct_lm": {
+      "pure_word_function": true,
+      "ans_question": 0.1461,
+      "ans_neutral": 0.1016,
+      "ans_continuation": 0.0665,
+      "word_neutral": 0.1054,
+      "word_question": 0.1695,
+      "ans_question_hsel": 0.1262,
+      "ans_neutral_hsel": 0.1016,
+      "ans_continuation_hsel": 0.0373,
+      "word_neutral_hsel": 0.0978,
+      "word_question_hsel": 0.1695
+    }
+  },
+  "meta": {
+    "model": "Qwen/Qwen3-4B",
+    "shots": 3,
+    "set": "lm",
+    "seed": 42,
+    "n_per_task": 800,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "probe_layers": [
+      0,
+      3,
+      7,
+      10,
+      13,
+      16,
+      20,
+      23,
+      26,
+      29,
+      33,
+      36
+    ],
+    "n_hidden": 37,
+    "group_folds": 3,
+    "estimator": {
+      "cold_start": true,
+      "layer_select": "heldout",
+      "bootstrap": 1000
+    },
+    "pure_word_tasks": [
+      "count_distinct_lm"
+    ],
+    "lm_design": {
+      "counting_lm": {
+        "lengths": [
+          6,
+          7,
+          8,
+          9
+        ],
+        "answers": [
+          1,
+          2,
+          3
+        ]
+      },
+      "count_distinct_lm": {
+        "lengths": [
+          8,
+          9
+        ],
+        "answers": [
+          5,
+          6,
+          7,
+          8
+        ]
+      }
+    },
+    "legacy_set_order": false,
+    "examples": {
+      "question": "In the word \"affairs\", the letter \"a\" appears this many times: 2.\nIn the word \"trustees\", the letter \"u\" appears this many times: 1.\nIn the word \"gained\", the letter \"n\" appears this many times: 1.\nIn the word \"access\", the letter \"a\" appears this many times: ",
+      "neutral": "The word \"sure\" appears in this sentence.\nThe word \"city\" appears in this sentence.\nThe word \"angle\" appears in this sentence.\nThe word \"access\" and the letter \"a\" appear in this sentence.",
+      "continuation": "The word \"sure\" appears in this sentence.\nThe word \"city\" appears in this sentence.\nThe word \"angle\" appears in this sentence.\nConsider the word \"access\" and the letter \"a\". The answer is"
+    }
+  }
+}

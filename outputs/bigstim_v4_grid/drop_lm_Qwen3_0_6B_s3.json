@@ -1,0 +1,56 @@
+{
+  "gap": {
+    "counting_lm": {
+      "chance": 0.333,
+      "majority": 0.2712,
+      "acc_random": 0.5994,
+      "layer_random": 23,
+      "acc_grouped": 0.482,
+      "layer_grouped": 18,
+      "drop": 0.1175,
+      "above_majority": 0.2108,
+      "n_words": 405,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.8,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "count_distinct_lm": {
+      "chance": 0.25,
+      "majority": 0.2224,
+      "acc_random": 0.4,
+      "layer_random": 3,
+      "acc_grouped": 0.2965,
+      "layer_grouped": 13,
+      "drop": 0.1035,
+      "above_majority": 0.0741,
+      "n_words": 674,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.0,
+        "n": 60,
+        "max_new": 6
+      }
+    }
+  },
+  "meta": {
+    "model": "Qwen/Qwen3-0.6B",
+    "shots": 3,
+    "set": "lm",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "folds": 3
+  }
+}

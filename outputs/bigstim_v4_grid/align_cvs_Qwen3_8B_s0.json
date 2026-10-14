@@ -1,0 +1,134 @@
+{
+  "gap": {
+    "most_frequent_letter": {
+      "n_classes": 16,
+      "chance": 0.062,
+      "majority": 0.2898,
+      "acc_full": 0.8206,
+      "acc_proj": 0.7243,
+      "readable_fraction": 0.873,
+      "subspace_overlap": 0.0918,
+      "grouped": true,
+      "dims": {
+        "r_rep": 16,
+        "r_out": 15
+      },
+      "rank_matched": {
+        "r_out": 15,
+        "n_random": 3,
+        "acc_rand_mean": 0.4266,
+        "acc_rand_sd": 0.0192,
+        "acc_rand_all": [
+          0.4349,
+          0.4,
+          0.445
+        ],
+        "acc_pca": 0.654,
+        "proj_minus_rand": 0.2977,
+        "proj_minus_pca": 0.0703
+      }
+    },
+    "letter_before": {
+      "n_classes": 21,
+      "chance": 0.048,
+      "majority": 0.1116,
+      "acc_full": 0.4353,
+      "acc_proj": 0.2752,
+      "readable_fraction": 0.587,
+      "subspace_overlap": 0.0989,
+      "grouped": true,
+      "dims": {
+        "r_rep": 21,
+        "r_out": 20
+      },
+      "rank_matched": {
+        "r_out": 20,
+        "n_random": 3,
+        "acc_rand_mean": 0.2108,
+        "acc_rand_sd": 0.0099,
+        "acc_rand_all": [
+          0.2247,
+          0.2044,
+          0.2032
+        ],
+        "acc_pca": 0.2589,
+        "proj_minus_rand": 0.0645,
+        "proj_minus_pca": 0.0163
+      }
+    },
+    "word_length": {
+      "n_classes": 7,
+      "chance": 0.143,
+      "majority": 0.1938,
+      "acc_full": 0.85,
+      "acc_proj": 0.8663,
+      "readable_fraction": 1.023,
+      "subspace_overlap": 0.043,
+      "grouped": true,
+      "dims": {
+        "r_rep": 6,
+        "r_out": 6
+      },
+      "rank_matched": {
+        "r_out": 6,
+        "n_random": 3,
+        "acc_rand_mean": 0.6804,
+        "acc_rand_sd": 0.0553,
+        "acc_rand_all": [
+          0.7137,
+          0.725,
+          0.6024
+        ],
+        "acc_pca": 0.8251,
+        "proj_minus_rand": 0.1859,
+        "proj_minus_pca": 0.0412
+      }
+    },
+    "count_distinct": {
+      "n_classes": 7,
+      "chance": 0.143,
+      "majority": 0.2907,
+      "acc_full": 0.5075,
+      "acc_proj": 0.4825,
+      "readable_fraction": 0.931,
+      "subspace_overlap": 0.0304,
+      "grouped": true,
+      "dims": {
+        "r_rep": 6,
+        "r_out": 6
+      },
+      "rank_matched": {
+        "r_out": 6,
+        "n_random": 3,
+        "acc_rand_mean": 0.3809,
+        "acc_rand_sd": 0.0275,
+        "acc_rand_all": [
+          0.3621,
+          0.4198,
+          0.3609
+        ],
+        "acc_pca": 0.4323,
+        "proj_minus_rand": 0.1015,
+        "proj_minus_pca": 0.0501
+      }
+    }
+  },
+  "meta": {
+    "model": "Qwen/Qwen3-8B",
+    "shots": 0,
+    "set": "cvs",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "n_layers": 36
+  }
+}

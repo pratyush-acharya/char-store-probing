@@ -1,0 +1,236 @@
+{
+  "gap": {
+    "most_frequent_letter": {
+      "chance": 0.038,
+      "majority": 0.29,
+      "grouped": true,
+      "prediction_acc": 0.1062,
+      "lens_peak": 0.1062,
+      "lens_peak_layer": 28,
+      "knowledge_answer_peak": 0.654,
+      "knowledge_answer_layer": 28,
+      "knowledge_above_majority": 0.364,
+      "knowledge_word_peak": null,
+      "knowledge_word_layer": null,
+      "probe_classes": {
+        "n_classes": 16,
+        "chance": 0.062,
+        "majority": 0.29
+      },
+      "gap_answer_vs_pred": 0.5478,
+      "gap_word_vs_answer": null
+    },
+    "letter_before": {
+      "chance": 0.038,
+      "majority": 0.112,
+      "grouped": true,
+      "prediction_acc": 0.115,
+      "lens_peak": 0.115,
+      "lens_peak_layer": 0,
+      "knowledge_answer_peak": 0.3212,
+      "knowledge_answer_layer": 24,
+      "knowledge_above_majority": 0.2092,
+      "knowledge_word_peak": null,
+      "knowledge_word_layer": null,
+      "probe_classes": {
+        "n_classes": 21,
+        "chance": 0.048,
+        "majority": 0.112
+      },
+      "gap_answer_vs_pred": 0.2062,
+      "gap_word_vs_answer": null
+    },
+    "word_length": {
+      "chance": 0.1,
+      "majority": 0.194,
+      "grouped": true,
+      "prediction_acc": 0.1037,
+      "lens_peak": 0.1037,
+      "lens_peak_layer": 28,
+      "knowledge_answer_peak": 0.39,
+      "knowledge_answer_layer": 24,
+      "knowledge_above_majority": 0.196,
+      "knowledge_word_peak": null,
+      "knowledge_word_layer": null,
+      "probe_classes": {
+        "n_classes": 7,
+        "chance": 0.143,
+        "majority": 0.194
+      },
+      "gap_answer_vs_pred": 0.2863,
+      "gap_word_vs_answer": null
+    },
+    "count_distinct": {
+      "chance": 0.1,
+      "majority": 0.291,
+      "grouped": true,
+      "prediction_acc": 0.0037,
+      "lens_peak": 0.1525,
+      "lens_peak_layer": 4,
+      "knowledge_answer_peak": 0.3897,
+      "knowledge_answer_layer": 20,
+      "knowledge_above_majority": 0.0987,
+      "knowledge_word_peak": null,
+      "knowledge_word_layer": null,
+      "probe_classes": {
+        "n_classes": 7,
+        "chance": 0.143,
+        "majority": 0.291
+      },
+      "gap_answer_vs_pred": 0.386,
+      "gap_word_vs_answer": null
+    }
+  },
+  "prediction_acc": {
+    "most_frequent_letter": 0.10625,
+    "letter_before": 0.115,
+    "word_length": 0.10375,
+    "count_distinct": 0.00375
+  },
+  "knowledge_answer_by_layer": {
+    "most_frequent_letter": {
+      "0": 0.2898283799489339,
+      "4": 0.4220385253429413,
+      "8": 0.4448675215244293,
+      "12": 0.37062008182207745,
+      "16": 0.374585618575414,
+      "20": 0.47193923592567444,
+      "24": 0.6092221538225809,
+      "28": 0.654008944829305
+    },
+    "letter_before": {
+      "0": 0.11161829282840093,
+      "4": 0.18283210198084512,
+      "8": 0.16885646680990854,
+      "12": 0.162562757730484,
+      "16": 0.18406569957733154,
+      "20": 0.1994106868902842,
+      "24": 0.32118771473566693,
+      "28": 0.3209502696990967
+    },
+    "word_length": {
+      "0": 0.19377902150154114,
+      "4": 0.29247815410296124,
+      "8": 0.3550424079100291,
+      "12": 0.3238634963830312,
+      "16": 0.3575860659281413,
+      "20": 0.38509472211201984,
+      "24": 0.39000388979911804,
+      "28": 0.36255664626757306
+    },
+    "count_distinct": {
+      "0": 0.2907436192035675,
+      "4": 0.3308113118012746,
+      "8": 0.3283617893854777,
+      "12": 0.34457258383433026,
+      "16": 0.37344637513160706,
+      "20": 0.3897327979405721,
+      "24": 0.3746291399002075,
+      "28": 0.3345707853635152
+    }
+  },
+  "knowledge_word_by_layer": {
+    "most_frequent_letter": {},
+    "letter_before": {},
+    "word_length": {},
+    "count_distinct": {}
+  },
+  "logit_lens_acc_by_layer": {
+    "most_frequent_letter": {
+      "0": 0.045,
+      "4": 0.045,
+      "8": 0.045,
+      "12": 0.045,
+      "16": 0.045,
+      "20": 0.045,
+      "24": 0.06375,
+      "28": 0.10625
+    },
+    "letter_before": {
+      "0": 0.115,
+      "4": 0.115,
+      "8": 0.115,
+      "12": 0.115,
+      "16": 0.115,
+      "20": 0.115,
+      "24": 0.115,
+      "28": 0.115
+    },
+    "word_length": {
+      "0": 0.0,
+      "4": 0.09875,
+      "8": 0.0,
+      "12": 0.0,
+      "16": 0.0,
+      "20": 0.0,
+      "24": 0.0475,
+      "28": 0.10375
+    },
+    "count_distinct": {
+      "0": 0.0,
+      "4": 0.1525,
+      "8": 0.0,
+      "12": 0.0,
+      "16": 0.0,
+      "20": 0.00375,
+      "24": 0.0575,
+      "28": 0.00375
+    }
+  },
+  "logit_lens_correct_prob_by_layer": {
+    "most_frequent_letter": {
+      "0": 1.091634859341114e-33,
+      "4": 0.0021455204114317894,
+      "8": 0.030594343319535255,
+      "12": 0.0020553269423544407,
+      "16": 0.0081820422783494,
+      "20": 7.769055082462728e-05,
+      "24": 0.0001371014368487522,
+      "28": 0.0029278534930199385
+    },
+    "letter_before": {
+      "0": 2.6482938144995864e-33,
+      "4": 0.055498018860816956,
+      "8": 0.0974767878651619,
+      "12": 0.078679159283638,
+      "16": 0.09915022552013397,
+      "20": 0.0016517381882295012,
+      "24": 0.017036622390151024,
+      "28": 0.007449544500559568
+    },
+    "word_length": {
+      "0": 2.0868496108850375e-34,
+      "4": 7.539104274201236e-08,
+      "8": 2.0647316887334455e-06,
+      "12": 0.00011241195898037404,
+      "16": 0.0010577901266515255,
+      "20": 0.012166881933808327,
+      "24": 0.09086890518665314,
+      "28": 0.00027298665372654796
+    },
+    "count_distinct": {
+      "0": 1.2361272310584642e-32,
+      "4": 3.320162988984521e-08,
+      "8": 4.363415428088047e-06,
+      "12": 0.00013270232011564076,
+      "16": 0.000916210759896785,
+      "20": 0.020882563665509224,
+      "24": 0.09612064063549042,
+      "28": 0.0001061874718288891
+    }
+  },
+  "injection_sanity": {},
+  "meta": {
+    "model": "Qwen/Qwen3-0.6B",
+    "shots": 0,
+    "set": "cvs",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "n_layers": 29,
+    "read_layer": 22,
+    "smoke": false
+  }
+}

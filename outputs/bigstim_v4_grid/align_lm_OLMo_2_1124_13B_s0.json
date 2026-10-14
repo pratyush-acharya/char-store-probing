@@ -1,0 +1,78 @@
+{
+  "gap": {
+    "counting_lm": {
+      "n_classes": 3,
+      "chance": 0.333,
+      "majority": 0.2801,
+      "acc_full": 0.5457,
+      "acc_proj": 0.4845,
+      "readable_fraction": 0.712,
+      "subspace_overlap": 0.0117,
+      "grouped": true,
+      "dims": {
+        "r_rep": 3,
+        "r_out": 2
+      },
+      "rank_matched": {
+        "r_out": 2,
+        "n_random": 3,
+        "acc_rand_mean": 0.3723,
+        "acc_rand_sd": 0.0648,
+        "acc_rand_all": [
+          0.2826,
+          0.4008,
+          0.4335
+        ],
+        "acc_pca": 0.3753,
+        "proj_minus_rand": 0.1122,
+        "proj_minus_pca": 0.1092
+      }
+    },
+    "count_distinct_lm": {
+      "n_classes": 4,
+      "chance": 0.25,
+      "majority": 0.2163,
+      "acc_full": 0.3014,
+      "acc_proj": 0.2339,
+      "readable_fraction": 0.0,
+      "subspace_overlap": 0.0013,
+      "grouped": true,
+      "dims": {
+        "r_rep": 4,
+        "r_out": 3
+      },
+      "rank_matched": {
+        "r_out": 3,
+        "n_random": 3,
+        "acc_rand_mean": 0.2278,
+        "acc_rand_sd": 0.0294,
+        "acc_rand_all": [
+          0.225,
+          0.2652,
+          0.1933
+        ],
+        "acc_pca": 0.2525,
+        "proj_minus_rand": 0.0061,
+        "proj_minus_pca": -0.0186
+      }
+    }
+  },
+  "meta": {
+    "model": "allenai/OLMo-2-1124-13B",
+    "shots": 0,
+    "set": "lm",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "n_layers": 40
+  }
+}

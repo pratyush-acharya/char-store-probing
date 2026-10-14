@@ -1,0 +1,56 @@
+{
+  "gap": {
+    "counting_lm": {
+      "chance": 0.333,
+      "majority": 0.2712,
+      "acc_random": 0.6947,
+      "layer_random": 42,
+      "acc_grouped": 0.5742,
+      "layer_grouped": 42,
+      "drop": 0.1204,
+      "above_majority": 0.3031,
+      "n_words": 405,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.5667,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "count_distinct_lm": {
+      "chance": 0.25,
+      "majority": 0.2224,
+      "acc_random": 0.4431,
+      "layer_random": 34,
+      "acc_grouped": 0.3139,
+      "layer_grouped": 42,
+      "drop": 0.1292,
+      "above_majority": 0.0915,
+      "n_words": 674,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.0,
+        "n": 60,
+        "max_new": 6
+      }
+    }
+  },
+  "meta": {
+    "model": "google/gemma-2-9b",
+    "shots": 3,
+    "set": "lm",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "folds": 3
+  }
+}

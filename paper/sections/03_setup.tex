@@ -1,0 +1,90 @@
+\section{Experimental Setup}
+\label{sec:setup}
+
+\paragraph{Tasks.}
+Nine character tasks over English words of length 3--9: \texttt{first\_letter},
+\texttt{last\_letter}, \texttt{contains\_letter} (yes/no), \texttt{extraction} ($k$-th letter),
+\texttt{counting} (occurrences of a queried letter), \texttt{most\_frequent\_letter},
+\texttt{letter\_before} (the letter preceding a queried letter), \texttt{word\_length} and
+\texttt{count\_distinct}. Two further tasks, \texttt{counting\_lm} and \texttt{count\_distinct\_lm},
+ask the same questions as the two count tasks but sample examples so that word-only shortcuts
+carry no information about the answer (\S\ref{sec:nuisance}, Appendix~\ref{app:lm}). Five tasks
+(\texttt{first\_letter}, \texttt{last\_letter}, \texttt{most\_frequent\_letter},
+\texttt{word\_length}, \texttt{count\_distinct}) are pure functions of the word; the others carry a
+query letter or position. Prompts and answer sets are in Appendix~\ref{app:prompts}.
+
+\paragraph{Stimuli and models.}
+Each task has 800 examples sampled from a 6000-word frequency-ranked English vocabulary built from
+the Brown Corpus \citep{kucera1967brown}, realizing 405--757 unique words per task. We evaluate 16
+open-weight models from seven families: Qwen3 (0.6/1.7/4/8B), Llama-3.x (1/3/8B), Gemma-2
+(2/9B), OLMo-2 (1/7/13B), Phi-4 (3.8B-mini, 14B), OLMo-Hybrid-7B and OLMoE-1B-7B
+\citep{qwen3report,llama3report,gemma2report,phi4report,olmo2report,olmoereport,olmohybridreport}.
+Six are post-trained (the four Qwen3 releases and both Phi-4 models); we report base-only
+statistics over the other ten where post-training could matter. All run in bf16 on one 48\,GB
+GPU. Prompts are completion-style, at 0 or 3 demonstrations. At zero shots no arm contains a
+demonstration, which makes it the clean contrast; most claims are reported at both counts.
+
+\paragraph{Prompt arms and positions.}
+For every example we run three prompts on the same word and label:
+\begin{itemize}
+  \item \textbf{question}: the task prompt, e.g.\ \texttt{The last letter of the word "cat" is};
+  \item \textbf{neutral}: \texttt{The word "cat" appears in this sentence.};
+  \item \textbf{continuation}: \texttt{Consider the word "cat". The answer is}, which matches the
+    question's ``awaiting an answer'' final position without naming the property.
+\end{itemize}
+Term tasks carry their query letter or position into both carriers. We read hidden states at two
+positions: the \textbf{answer position} (the final prompt token) in every arm, and the
+\textbf{word position} in the question and neutral arms, for the pure-word tasks, as either the
+word's last token or the mean over all tokens overlapping the word.
+
+\paragraph{Probe and estimator.}
+A standardized multinomial logistic regression ($\ell_2 = 10^{-3}$) is fit at each of 12 evenly
+spaced layers (including the embedding layer and the last layer), with three-fold cross-validation
+grouped by query word, so no query word appears in both training and test labels. Folds are
+cold-started. The reported accuracy uses \emph{held-out layer selection}: for each test fold, the
+layer is chosen on the other folds. With this estimator, the peak-over-layers accuracy exceeds the
+held-out-selected accuracy by 0.001--0.019 per task, with no positive dependence on model depth,
+and all representation numbers lie within $\pm 0.021$ of an absolute-stride, warm-started
+re-estimate (Appendix~\ref{app:estimator}).
+
+\paragraph{Baselines.}
+The \textbf{majority} baseline predicts the training fold's modal answer. The \textbf{nuisance
+floor} is the best of several predictors that see only the word: its length, its position-free
+letter set, the query letter where the task has one, and their combination, fit on the same folds.
+Predictors that are sufficient for the label (length for \texttt{word\_length}, the letter set for
+\texttt{count\_distinct}) are excluded. We report accuracy \emph{above the floor} unless stated
+otherwise.
+
+\paragraph{Readout.}
+The model's own accuracy is the argmax of its next-token logits over the answer-token set (26
+letters, yes/no, or ten digits). At zero shots, completion prompts are a degenerate format for
+readout: larger models continue the sentence rather than answer, so readout claims use three shots.
+
+\paragraph{Statistics.}
+Scaling associations are Pearson correlations or OLS slopes against $\log_{10}$ parameters, with
+two-sided permutation $p$-values from 10{,}000 permutations of model size. Because each model
+contributes every arm, a question$\times$scale interaction equals the slope of the per-model
+difference between arms. We also report a within-family (fixed-effect) slope, a 95\% interval
+from resampling families, and base-only correlations. Where a claim spans the four
+prompt-sensitive tasks we apply Holm correction \citep{holm1979}. The 16 checkpoints are related
+and not independent draws; these are cross-model associations, not population scaling laws.
+
+\begin{table}[t]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}lll@{}}
+    \toprule
+    family & sizes & notes \\
+    \midrule
+    Qwen3 & 0.6B, 1.7B, 4B, 8B & post-trained releases \\
+    Llama-3.x & 3.2-1B, 3.2-3B, 3.1-8B & base \\
+    Gemma-2 & 2B, 9B & base; right padding enforced (Appendix~\ref{app:hygiene}) \\
+    OLMo-2 & 1B, 7B, 13B & base \\
+    Phi-4 & 3.8B-mini-instruct, 14B & post-trained \\
+    OLMo-Hybrid & 7B & DeltaNet/attention hybrid \\
+    OLMoE & 1B-7B & sparse MoE, plotted at 7B total parameters \\
+    \bottomrule
+  \end{tabular}
+  \caption{The 16 models. Every experiment covers all 16.}
+  \label{tab:models}
+\end{table}

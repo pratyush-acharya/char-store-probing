@@ -1,0 +1,18 @@
+\begin{tabular}{@{}lrrlrr@{}}
+\toprule
+task & majority & floor & floor predictor & models above floor & best above floor \\
+\midrule
+\texttt{first\_letter} & 0.123 & 0.475 & length + letter set & 16/16 & +0.525 \\
+\texttt{last\_letter} & 0.145 & 0.552 & length + letter set & 16/16 & +0.447 \\
+\texttt{extraction} & 0.122 & 0.171 & length + letter set & 16/16 & +0.503 \\
+\texttt{most\_frequent\_letter} & 0.256 & 0.400 & length + letter set & 16/16 & +0.483 \\
+\texttt{contains\_letter} & 0.476 & 0.678 & length + letter set & 16/16 & +0.272 \\
+\texttt{word\_length} & 0.185 & 0.351 & letter set & 16/16 & +0.635 \\
+\texttt{letter\_before} & 0.128 & 0.416 & length + letter set & 8/16 & +0.187 \\
+\addlinespace[2pt]
+\texttt{counting} & 0.311 & 0.676 & length + letter set & 2/16 & +0.094 \\
+\texttt{count\_distinct} & 0.289 & 0.532 & length & 3/16 & +0.033 \\
+\texttt{counting\_lm} & 0.271 & 0.404 & letter set & 14/16 & +0.259 \\
+\texttt{count\_distinct\_lm} & 0.222 & 0.222 & majority & 16/16 & +0.192 \\
+\bottomrule
+\end{tabular}

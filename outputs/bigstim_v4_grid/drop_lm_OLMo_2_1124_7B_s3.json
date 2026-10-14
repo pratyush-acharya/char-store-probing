@@ -1,0 +1,56 @@
+{
+  "gap": {
+    "counting_lm": {
+      "chance": 0.333,
+      "majority": 0.2712,
+      "acc_random": 0.5252,
+      "layer_random": 6,
+      "acc_grouped": 0.405,
+      "layer_grouped": 32,
+      "drop": 0.1202,
+      "above_majority": 0.1338,
+      "n_words": 405,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.85,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "count_distinct_lm": {
+      "chance": 0.25,
+      "majority": 0.2224,
+      "acc_random": 0.4056,
+      "layer_random": 6,
+      "acc_grouped": 0.2995,
+      "layer_grouped": 9,
+      "drop": 0.106,
+      "above_majority": 0.0772,
+      "n_words": 674,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.0667,
+        "n": 60,
+        "max_new": 6
+      }
+    }
+  },
+  "meta": {
+    "model": "allenai/OLMo-2-1124-7B",
+    "shots": 3,
+    "set": "lm",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "folds": 3
+  }
+}

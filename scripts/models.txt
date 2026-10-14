@@ -1,0 +1,45 @@
+# Model manifest for the leakage-safe grid: 16 models / 7 architectures.
+# scripts/deploy_grouped_grid.sh reads this file (one HF model id per line;
+# '#' starts a comment; blank lines ignored). Comment out rows to run a subset --
+# the runners pass --skip-existing, so partial/interrupted runs resume cleanly.
+#
+# All chosen to fit a 48GB A6000 in bf16 (dense <= ~14B; OLMoE MoE = 7B total).
+# Sizes >= 27B (Gemma-2-27B, OLMo-2-32B, OLMo-3-32B) and big MoEs (Qwen3-30B-A3B,
+# Gemma-4-26B) are OMITTED -- they exceed 48GB in bf16 (would need quantization).
+# Verify each id resolves on HF before a big run; gated rows (Llama, Gemma) need
+# HF_TOKEN in .env.deploy + accepted licenses on the model's HuggingFace page.
+# Open rows (Qwen, Phi, OLMo, OLMoE) need no token.
+#
+# NOTE (release): in the authors' working copy most rows were commented out after
+# they had been run; all 16 are enabled here so a third party reproduces the full
+# grid in one pass.
+
+# --- Qwen3 (dense, open) ---
+Qwen/Qwen3-0.6B
+Qwen/Qwen3-1.7B
+Qwen/Qwen3-4B
+Qwen/Qwen3-8B
+
+# --- Llama-3.x (dense, GATED) ---
+meta-llama/Llama-3.2-1B
+meta-llama/Llama-3.2-3B
+meta-llama/Llama-3.1-8B
+
+# --- Gemma-2 (dense, GATED) ---  (pure-text; Gemma-3 4B+ are multimodal -> avoid)
+# NOTE: Gemma-2 letter tasks are EXCLUDED from the paper's quantitative claims
+# (SentencePiece dual-token answer-scoring artifact; see the methods appendix).
+google/gemma-2-2b
+google/gemma-2-9b
+
+# --- OLMo-2 (dense, open) ---
+allenai/OLMo-2-0425-1B
+allenai/OLMo-2-1124-7B
+allenai/OLMo-2-1124-13B
+
+# --- Phi-4 (dense, open) ---
+microsoft/Phi-4-mini-instruct
+microsoft/phi-4
+
+# --- Architecture variants (open) ---
+allenai/Olmo-Hybrid-7B       # DeltaNet/attention hybrid (3 DeltaNet : 1 attention)
+allenai/OLMoE-1B-7B-0924     # sparse MoE: 1B active / 7B total

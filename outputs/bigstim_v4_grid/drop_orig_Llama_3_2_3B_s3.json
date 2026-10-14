@@ -1,0 +1,107 @@
+{
+  "gap": {
+    "first_letter": {
+      "chance": 0.045,
+      "majority": 0.1235,
+      "acc_random": 0.9972,
+      "layer_random": 28,
+      "acc_grouped": 0.9924,
+      "layer_grouped": 28,
+      "drop": 0.0048,
+      "above_majority": 0.8689,
+      "n_words": 738,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 1.0,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "last_letter": {
+      "chance": 0.062,
+      "majority": 0.1455,
+      "acc_random": 0.9703,
+      "layer_random": 28,
+      "acc_grouped": 0.9708,
+      "layer_grouped": 28,
+      "drop": -0.0004,
+      "above_majority": 0.8253,
+      "n_words": 733,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.8167,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "contains_letter": {
+      "chance": 0.5,
+      "majority": 0.4763,
+      "acc_random": 0.7986,
+      "layer_random": 28,
+      "acc_grouped": 0.7776,
+      "layer_grouped": 28,
+      "drop": 0.021,
+      "above_majority": 0.3013,
+      "n_words": 757,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.6,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "extraction": {
+      "chance": 0.045,
+      "majority": 0.1221,
+      "acc_random": 0.357,
+      "layer_random": 28,
+      "acc_grouped": 0.3597,
+      "layer_grouped": 28,
+      "drop": -0.0027,
+      "above_majority": 0.2376,
+      "n_words": 747,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.3167,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "counting": {
+      "chance": 0.333,
+      "majority": 0.3108,
+      "acc_random": 0.6681,
+      "layer_random": 20,
+      "acc_grouped": 0.6004,
+      "layer_grouped": 23,
+      "drop": 0.0677,
+      "above_majority": 0.2896,
+      "n_words": 673,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.75,
+        "n": 60,
+        "max_new": 6
+      }
+    }
+  },
+  "meta": {
+    "model": "meta-llama/Llama-3.2-3B",
+    "shots": 3,
+    "set": "orig",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "folds": 3
+  }
+}

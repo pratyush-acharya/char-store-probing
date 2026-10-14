@@ -1,0 +1,67 @@
+\section{Pre-Registered Criteria and Outcomes}
+\label{app:prereg}
+
+Decision criteria were written into the project's analysis plan before the corresponding data
+existed. All use held-out layer selection.
+
+\subsection{Word-position experiment}
+\label{app:prereg_e1}
+\textbf{Criterion.} For \texttt{last\_letter}, \texttt{most\_frequent\_letter} and
+\texttt{first\_letter} at zero shots: (i) the word-position store in the neutral sentence is above the
+nuisance floor in at least 12 of 16 models; (ii) the slope of (answer position under the question
+$-$ store) against $\log_{10}$ parameters is positive with permutation $p < 0.05$.
+\textbf{Outcome.} (i) holds in 16 of 16 models for all three tasks under both word reads. (ii) holds
+for \texttt{last\_letter} ($p = 0.010$ span mean, $0.017$ last token) and
+\texttt{most\_frequent\_letter} ($p = 0.012$ and $0.011$). It fails for \texttt{first\_letter}
+($p = 0.40$ and $0.49$), whose answer position is at ceiling in every model (above-floor accuracy
+$+0.537$ against a maximum of $+0.543$).
+
+\subsection{Secondary criteria}
+\begin{itemize}
+  \item \textbf{Readout gap.} Keep a narrowing claim for \texttt{last\_letter} only if the logit-scale
+    correlation has $|r| \geq 0.4$ and $p < 0.05$. Outcome: $r = -0.43$, $p = 0.09$; claim dropped
+    (\S\ref{sec:readout}).
+  \item \textbf{Estimator.} Restate preliminary results if mean selection optimism exceeds 0.03 and
+    correlates with depth at $r > 0.5$. Outcome: 0.001--0.019, correlations mostly negative; no
+    restatement needed (Appendix~\ref{app:estimator}).
+  \item \textbf{Count tasks.} Reinstate a count-task comparison if \texttt{counting\_lm} clears its
+    floor in at least 8 of 16 models. Outcome: 14 of 16 at three shots, 16 of 16 at zero shots
+    (\S\ref{sec:nuisance}).
+  \item \textbf{Interaction.} Report the question$\times$scale slope for all four prompt-sensitive
+    tasks whatever the result, and claim only those with $p < 0.05$. Outcome: all four, at both
+    shot counts (Table~\ref{tab:interaction}).
+\end{itemize}
+
+\subsection{Stem-order follow-up (null result)}
+\label{app:prereg_f3}
+In the main runs, a question placed before the word (\texttt{The last letter of the word "cat" is})
+raised the word tokens' \texttt{last\_letter} decodability relative to the neutral sentence in 16 of
+16 models ($+0.062$). Prefixes differed between the two prompts, so we tested word order directly at
+zero shots with three prompts per example:
+\texttt{qfirst} (\texttt{The last letter of the word "cat" is}), \texttt{wfirst}
+(\texttt{In the word "cat", the last letter is}) and the neutral sentence, with matching templates
+for \texttt{first\_letter}, \texttt{most\_frequent\_letter} (``most frequent letter'') and
+\texttt{word\_length} (``number of letters'').
+
+\textbf{Criteria.} Primary: for \texttt{last\_letter} and \texttt{most\_frequent\_letter},
+word@\texttt{qfirst} $-$ word@\texttt{wfirst} $> 0$ in at least 12 of 16 models with sign-test
+$p < 0.05$ (last-token read). Prefix control: word@\texttt{wfirst} $-$ word@neutral has mean
+$|\Delta| < 0.02$, since in \texttt{wfirst} the word precedes any question.
+
+\textbf{Outcome: fail.} The primary prediction fails for \texttt{last\_letter} (11 of 16, $p = 0.21$)
+and passes for \texttt{most\_frequent\_letter} (15 of 16, $p = 0.0005$), but the prefix control fails
+for both ($+0.041$ and $+0.020$). The word is tokenized identically in all three prompts (checked with
+the Qwen3 tokenizer), so under causal attention the word's tokens differ only in the preceding text:
+\texttt{The last letter of the word "}, \texttt{In the word "}, or \texttt{The word "}. A change from
+\texttt{The} to \texttt{In the} moves the word's encoding as much as the question does. No
+\texttt{qfirst} advantage grows with scale.
+
+\begin{table}[h]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{5pt}
+  \input{tables/tab_f3}
+  \caption{Stem-order follow-up, zero shots, 16 models, held-out layer selection. Columns give
+    the mean difference, models with a positive difference, a two-sided exact sign test, the prefix
+    control (\texttt{wfirst} $-$ neutral), and the correlation of the difference with scale.}
+  \label{tab:f3}
+\end{table}

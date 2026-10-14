@@ -1,0 +1,90 @@
+{
+  "gap": {
+    "most_frequent_letter": {
+      "chance": 0.059,
+      "majority": 0.2564,
+      "acc_random": 0.7997,
+      "layer_random": 15,
+      "acc_grouped": 0.6843,
+      "layer_grouped": 15,
+      "drop": 0.1154,
+      "above_majority": 0.4279,
+      "n_words": 664,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.4667,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "letter_before": {
+      "chance": 0.048,
+      "majority": 0.1278,
+      "acc_random": 0.3615,
+      "layer_random": 15,
+      "acc_grouped": 0.3594,
+      "layer_grouped": 15,
+      "drop": 0.0021,
+      "above_majority": 0.2316,
+      "n_words": 743,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.25,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "word_length": {
+      "chance": 0.143,
+      "majority": 0.185,
+      "acc_random": 0.4389,
+      "layer_random": 3,
+      "acc_grouped": 0.4362,
+      "layer_grouped": 3,
+      "drop": 0.0027,
+      "above_majority": 0.2511,
+      "n_words": 756,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.1167,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "count_distinct": {
+      "chance": 0.143,
+      "majority": 0.2895,
+      "acc_random": 0.3806,
+      "layer_random": 13,
+      "acc_grouped": 0.3748,
+      "layer_grouped": 3,
+      "drop": 0.0058,
+      "above_majority": 0.0853,
+      "n_words": 742,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.2333,
+        "n": 60,
+        "max_new": 6
+      }
+    }
+  },
+  "meta": {
+    "model": "allenai/OLMo-2-0425-1B",
+    "shots": 3,
+    "set": "cvs",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "folds": 3
+  }
+}

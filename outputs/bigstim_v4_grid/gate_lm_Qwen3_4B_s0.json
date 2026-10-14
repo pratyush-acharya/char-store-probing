@@ -1,0 +1,239 @@
+{
+  "gap": {
+    "counting_lm": {
+      "chance": 0.1,
+      "majority": 0.28,
+      "grouped": true,
+      "prediction_acc": 0.3106,
+      "lens_peak": 0.3561,
+      "lens_peak_layer": 29,
+      "knowledge_answer_peak": 0.645,
+      "knowledge_answer_layer": 26,
+      "knowledge_above_majority": 0.365,
+      "knowledge_word_peak": null,
+      "knowledge_word_layer": null,
+      "probe_classes": {
+        "n_classes": 3,
+        "chance": 0.333,
+        "majority": 0.28
+      },
+      "gap_answer_vs_pred": 0.3344,
+      "gap_word_vs_answer": null,
+      "knowledge_answer_heldout_layer_sel": 0.645,
+      "above_majority_heldout_layer_sel": 0.3648,
+      "heldout_layer_choice": {
+        "0": 26,
+        "1": 26,
+        "2": 26
+      },
+      "ci95": {
+        "prediction_acc": {
+          "mean": 0.3106,
+          "lo": 0.2674,
+          "hi": 0.3559,
+          "n_words": 422,
+          "n_boot": 1000
+        },
+        "knowledge_answer_peak": {
+          "mean": 0.6465,
+          "lo": 0.5985,
+          "hi": 0.6999,
+          "n_words": 422,
+          "n_boot": 1000
+        },
+        "knowledge_above_majority": {
+          "mean": 0.3662,
+          "lo": 0.2959,
+          "hi": 0.4394,
+          "n_words": 422,
+          "n_boot": 1000,
+          "layer": 26
+        }
+      }
+    },
+    "count_distinct_lm": {
+      "chance": 0.1,
+      "majority": 0.216,
+      "grouped": true,
+      "prediction_acc": 0.2087,
+      "lens_peak": 0.25,
+      "lens_peak_layer": 7,
+      "knowledge_answer_peak": 0.2979,
+      "knowledge_answer_layer": 7,
+      "knowledge_above_majority": 0.0819,
+      "knowledge_word_peak": null,
+      "knowledge_word_layer": null,
+      "probe_classes": {
+        "n_classes": 4,
+        "chance": 0.25,
+        "majority": 0.216
+      },
+      "gap_answer_vs_pred": 0.0892,
+      "gap_word_vs_answer": null,
+      "knowledge_answer_heldout_layer_sel": 0.2726,
+      "above_majority_heldout_layer_sel": 0.0563,
+      "heldout_layer_choice": {
+        "0": 7,
+        "1": 7,
+        "2": 33
+      },
+      "ci95": {
+        "prediction_acc": {
+          "mean": 0.2087,
+          "lo": 0.1789,
+          "hi": 0.2381,
+          "n_words": 670,
+          "n_boot": 1000
+        },
+        "knowledge_answer_peak": {
+          "mean": 0.2975,
+          "lo": 0.2596,
+          "hi": 0.3406,
+          "n_words": 670,
+          "n_boot": 1000
+        },
+        "knowledge_above_majority": {
+          "mean": 0.0813,
+          "lo": 0.0322,
+          "hi": 0.1325,
+          "n_words": 670,
+          "n_boot": 1000,
+          "layer": 7
+        }
+      }
+    }
+  },
+  "prediction_acc": {
+    "counting_lm": 0.3106060606060606,
+    "count_distinct_lm": 0.20875
+  },
+  "probe_layers": [
+    0,
+    3,
+    7,
+    10,
+    13,
+    16,
+    20,
+    23,
+    26,
+    29,
+    33,
+    36
+  ],
+  "knowledge_answer_by_layer": {
+    "counting_lm": {
+      "0": 0.2801366597414017,
+      "3": 0.3326762815316518,
+      "7": 0.477222482363383,
+      "10": 0.4425129294395447,
+      "13": 0.5529606342315674,
+      "16": 0.5310509204864502,
+      "20": 0.5862441460291544,
+      "23": 0.6064951618512472,
+      "26": 0.64497443040212,
+      "29": 0.6138677994410197,
+      "33": 0.6050277153650919,
+      "36": 0.6013563871383667
+    },
+    "count_distinct_lm": {
+      "0": 0.21629374225934347,
+      "3": 0.25017331043879193,
+      "7": 0.29794013500213623,
+      "10": 0.28425297637780506,
+      "13": 0.2770102173089981,
+      "16": 0.28180136779944104,
+      "20": 0.24887385467688242,
+      "23": 0.2553262660900752,
+      "26": 0.2761841615041097,
+      "29": 0.2721417297919591,
+      "33": 0.2847599685192108,
+      "36": 0.2784516513347626
+    }
+  },
+  "knowledge_word_by_layer": {
+    "counting_lm": {},
+    "count_distinct_lm": {}
+  },
+  "logit_lens_acc_by_layer": {
+    "counting_lm": {
+      "0": 0.3333333333333333,
+      "3": 0.0,
+      "7": 0.0,
+      "10": 0.0,
+      "13": 0.32575757575757575,
+      "16": 0.3333333333333333,
+      "20": 0.2588383838383838,
+      "23": 0.1148989898989899,
+      "26": 0.32323232323232326,
+      "29": 0.3560606060606061,
+      "33": 0.3409090909090909,
+      "36": 0.3106060606060606
+    },
+    "count_distinct_lm": {
+      "0": 0.0,
+      "3": 0.23125,
+      "7": 0.25,
+      "10": 0.135,
+      "13": 0.01,
+      "16": 0.0,
+      "20": 0.0,
+      "23": 0.0,
+      "26": 0.0925,
+      "29": 0.24,
+      "33": 0.24875,
+      "36": 0.20875
+    }
+  },
+  "logit_lens_correct_prob_by_layer": {
+    "counting_lm": {
+      "0": 6.670865054043217e-33,
+      "3": 3.083250632585077e-08,
+      "7": 5.965973173260863e-07,
+      "10": 7.73093447037354e-08,
+      "13": 2.3475138277717633e-06,
+      "16": 6.0938014030398335e-06,
+      "20": 0.0020694315899163485,
+      "23": 0.0006280915695242584,
+      "26": 0.0055853258818387985,
+      "29": 0.12630732357501984,
+      "33": 0.2427906095981598,
+      "36": 5.028383043281792e-09
+    },
+    "count_distinct_lm": {
+      "0": 2.3517992126763405e-41,
+      "3": 8.9243098955194e-07,
+      "7": 4.2987485926460067e-07,
+      "10": 1.827230455830886e-08,
+      "13": 6.665040359621344e-07,
+      "16": 1.691007855697535e-05,
+      "20": 0.00038996661896817386,
+      "23": 0.00041610910557210445,
+      "26": 0.014443200081586838,
+      "29": 0.05790034309029579,
+      "33": 0.21323099732398987,
+      "36": 5.666909430601663e-08
+    }
+  },
+  "injection_sanity": {},
+  "meta": {
+    "model": "Qwen/Qwen3-4B",
+    "shots": 0,
+    "set": "lm",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "n_layers": 37,
+    "read_layer": 22,
+    "smoke": false
+  }
+}

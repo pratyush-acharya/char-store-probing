@@ -1,0 +1,13 @@
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+task & gap, 3 smallest & gap, 3 largest & $r$ (raw) & $r$ (logit) & $r$ (base only, raw) \\
+\midrule
+\texttt{last\_letter} & +0.455 & +0.009 & $-$0.83 (0.0002) & $-$0.43 (0.091) & $-$0.93 (0.0003) \\
+\texttt{most\_frequent\_letter} & +0.157 & +0.079 & $-$0.51 (0.047) & $-$0.41 (0.116) & $-$0.26 (0.454) \\
+\texttt{word\_length} & +0.217 & +0.075 & $-$0.56 (0.019) & $-$0.52 (0.034) & $-$0.26 (0.468) \\
+\texttt{extraction} & +0.021 & $-$0.002 & $-$0.36 (0.174) & $-$0.36 (0.174) & $-$0.39 (0.269) \\
+\texttt{letter\_before} & +0.082 & +0.148 & +0.54 (0.033) & +0.47 (0.064) & +0.82 (0.003) \\
+\texttt{counting\_lm} & +0.102 & +0.102 & +0.13 (0.624) & +0.12 (0.659) & +0.24 (0.497) \\
+\texttt{count\_distinct\_lm} & +0.137 & +0.148 & $-$0.11 (0.699) & $-$0.33 (0.227) & +0.33 (0.353) \\
+\bottomrule
+\end{tabular}

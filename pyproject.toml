@@ -1,0 +1,17 @@
+[project]
+name = "char-store-probing"
+version = "1.0.0"
+description = "Code and data for 'Character Information in Language Models: A Prompt-Independent Word Store and a Late, Question-Driven Signal That Grows With Scale'"
+readme = "README.md"
+requires-python = ">=3.11"
+# Pinned to the versions that produced the reported results.
+dependencies = [
+    "torch==2.11.0",
+    "transformers==5.12.0",
+    "numpy==2.3.5",
+    "scikit-learn==1.9.0",
+    "matplotlib==3.11.0",
+]
+
+[tool.uv]
+package = false

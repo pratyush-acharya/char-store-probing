@@ -1,0 +1,11 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+Character properties of a word are linearly decodable from its own tokens in every model we tested,
+largely from the token embedding and with little change across scale. Asking for a property adds a
+second, late signal at the answer position, and only this second signal grows with model size; in
+larger models it carries more decodable information than the word's tokens themselves. Word-only
+floors, designed-out shortcuts, held-out layer selection and pre-registered tests each removed a
+claim that a simpler analysis would have made. Character-probing studies should report the
+word-position baseline, word-only floors and layer-restricted analyses before interpreting a probe at
+the answer position as knowledge the model has but does not express.

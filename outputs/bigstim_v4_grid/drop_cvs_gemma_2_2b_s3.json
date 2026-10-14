@@ -1,0 +1,90 @@
+{
+  "gap": {
+    "most_frequent_letter": {
+      "chance": 0.059,
+      "majority": 0.2564,
+      "acc_random": 0.8165,
+      "layer_random": 19,
+      "acc_grouped": 0.7373,
+      "layer_grouped": 19,
+      "drop": 0.0792,
+      "above_majority": 0.4809,
+      "n_words": 664,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.65,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "letter_before": {
+      "chance": 0.048,
+      "majority": 0.1278,
+      "acc_random": 0.4008,
+      "layer_random": 26,
+      "acc_grouped": 0.3507,
+      "layer_grouped": 26,
+      "drop": 0.0502,
+      "above_majority": 0.2229,
+      "n_words": 743,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.3833,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "word_length": {
+      "chance": 0.143,
+      "majority": 0.185,
+      "acc_random": 0.4708,
+      "layer_random": 26,
+      "acc_grouped": 0.4774,
+      "layer_grouped": 26,
+      "drop": -0.0066,
+      "above_majority": 0.2924,
+      "n_words": 756,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.4,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "count_distinct": {
+      "chance": 0.143,
+      "majority": 0.2895,
+      "acc_random": 0.4167,
+      "layer_random": 7,
+      "acc_grouped": 0.3846,
+      "layer_grouped": 26,
+      "drop": 0.0321,
+      "above_majority": 0.0951,
+      "n_words": 742,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.4333,
+        "n": 60,
+        "max_new": 6
+      }
+    }
+  },
+  "meta": {
+    "model": "google/gemma-2-2b",
+    "shots": 3,
+    "set": "cvs",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "folds": 3
+  }
+}

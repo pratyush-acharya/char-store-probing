@@ -1,0 +1,107 @@
+{
+  "gap": {
+    "first_letter": {
+      "chance": 0.045,
+      "majority": 0.1235,
+      "acc_random": 0.9986,
+      "layer_random": 23,
+      "acc_grouped": 0.9987,
+      "layer_grouped": 23,
+      "drop": -0.0001,
+      "above_majority": 0.8752,
+      "n_words": 738,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 1.0,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "last_letter": {
+      "chance": 0.062,
+      "majority": 0.1455,
+      "acc_random": 0.8686,
+      "layer_random": 23,
+      "acc_grouped": 0.8535,
+      "layer_grouped": 25,
+      "drop": 0.0151,
+      "above_majority": 0.708,
+      "n_words": 733,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.5,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "contains_letter": {
+      "chance": 0.5,
+      "majority": 0.4763,
+      "acc_random": 0.8208,
+      "layer_random": 18,
+      "acc_grouped": 0.8149,
+      "layer_grouped": 18,
+      "drop": 0.0059,
+      "above_majority": 0.3387,
+      "n_words": 757,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.7167,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "extraction": {
+      "chance": 0.045,
+      "majority": 0.1221,
+      "acc_random": 0.4017,
+      "layer_random": 25,
+      "acc_grouped": 0.3999,
+      "layer_grouped": 25,
+      "drop": 0.0017,
+      "above_majority": 0.2779,
+      "n_words": 747,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.35,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "counting": {
+      "chance": 0.333,
+      "majority": 0.3108,
+      "acc_random": 0.5986,
+      "layer_random": 18,
+      "acc_grouped": 0.5578,
+      "layer_grouped": 25,
+      "drop": 0.0408,
+      "above_majority": 0.2471,
+      "n_words": 673,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.8667,
+        "n": 60,
+        "max_new": 6
+      }
+    }
+  },
+  "meta": {
+    "model": "Qwen/Qwen3-0.6B",
+    "shots": 3,
+    "set": "orig",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "folds": 3
+  }
+}

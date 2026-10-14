@@ -1,0 +1,107 @@
+{
+  "gap": {
+    "first_letter": {
+      "chance": 0.045,
+      "majority": 0.1235,
+      "acc_random": 0.993,
+      "layer_random": 29,
+      "acc_grouped": 0.9975,
+      "layer_grouped": 26,
+      "drop": -0.0045,
+      "above_majority": 0.874,
+      "n_words": 738,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 1.0,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "last_letter": {
+      "chance": 0.062,
+      "majority": 0.1455,
+      "acc_random": 0.976,
+      "layer_random": 32,
+      "acc_grouped": 0.9708,
+      "layer_grouped": 32,
+      "drop": 0.0052,
+      "above_majority": 0.8253,
+      "n_words": 733,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.7333,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "contains_letter": {
+      "chance": 0.5,
+      "majority": 0.4763,
+      "acc_random": 0.8625,
+      "layer_random": 32,
+      "acc_grouped": 0.8763,
+      "layer_grouped": 32,
+      "drop": -0.0138,
+      "above_majority": 0.4,
+      "n_words": 757,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.85,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "extraction": {
+      "chance": 0.045,
+      "majority": 0.1221,
+      "acc_random": 0.3891,
+      "layer_random": 32,
+      "acc_grouped": 0.3849,
+      "layer_grouped": 32,
+      "drop": 0.0043,
+      "above_majority": 0.2628,
+      "n_words": 747,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.4167,
+        "n": 60,
+        "max_new": 6
+      }
+    },
+    "counting": {
+      "chance": 0.333,
+      "majority": 0.3108,
+      "acc_random": 0.5556,
+      "layer_random": 32,
+      "acc_grouped": 0.5442,
+      "layer_grouped": 32,
+      "drop": 0.0114,
+      "above_majority": 0.2334,
+      "n_words": 673,
+      "grouped_folds": 3,
+      "free_gen": {
+        "free_gen_acc": 0.9167,
+        "n": 60,
+        "max_new": 6
+      }
+    }
+  },
+  "meta": {
+    "model": "allenai/OLMo-2-1124-7B",
+    "shots": 3,
+    "set": "orig",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "folds": 3
+  }
+}

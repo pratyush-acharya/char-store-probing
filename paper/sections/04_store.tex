@@ -1,0 +1,58 @@
+\section{A Prompt-Independent Word-Level Store}
+\label{sec:store}
+
+Table~\ref{tab:store} reports, for the pure-word tasks, accuracy above the nuisance floor at the
+word position of the neutral sentence and at the answer position of the neutral and question arms.
+
+\begin{table}[t]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \resizebox{\textwidth}{!}{\input{tables/tab_store}}
+  \caption{Accuracy above the word-only nuisance floor (held-out layer selection), mean over the 16
+    models, with the number of models above the floor in parentheses. ``Word'' columns probe the
+    query word's tokens in the neutral sentence (last token, or mean over the word's tokens);
+    ``answer'' columns probe the final prompt token. For \texttt{count\_distinct\_lm} the floor
+    equals the majority baseline because the letter set, which determines the answer, is excluded
+    as an oracle.}
+  \label{tab:store}
+\end{table}
+
+\paragraph{The store is present in every model.}
+The word tokens encode \texttt{first\_letter}, \texttt{last\_letter} and
+\texttt{most\_frequent\_letter} above the floor in all 16 models, at both shot counts and under
+both reads. The size depends on where the property lives in the word: the last-token read is
+stronger for \texttt{last\_letter} ($+0.314$ against $+0.177$ for the span mean at zero shots),
+and the span mean is stronger for \texttt{first\_letter} and \texttt{most\_frequent\_letter}.
+We take the better read per task as the store in what follows; every conclusion below also holds
+under the other read.
+
+\paragraph{It is mostly in the embedding.}
+At layer 0 the word tokens already carry 73\% of \texttt{last\_letter}'s above-floor store
+(last-token read, zero shots; 69\% at three shots) and 82\% of \texttt{most\_frequent\_letter}'s
+(span mean; 75\% at three shots). For \texttt{first\_letter} the share is 53--56\%, with the rest
+added by intermediate layers. This agrees with direct evidence that token embeddings encode
+spelling \citep{kaushal2022tokens,itzhak2022spelling}. In the present setting it means that the
+prompt-independent store is largely lexical: it is a property of the tokens, read off with
+little contextual processing.
+
+\paragraph{It does not grow reliably with scale.}
+Across the 16 models the store's correlation with $\log_{10}$ parameters is $r = 0.47$
+($p = 0.064$) for \texttt{last\_letter}, $r = -0.05$ for \texttt{most\_frequent\_letter} and
+$r = -0.16$ for \texttt{first\_letter} (zero shots, last-token read; span-mean values are similar).
+By contrast, the question arm's answer position correlates with scale at $r = 0.73$
+($p = 0.002$) and $r = 0.72$ ($p = 0.002$) for the first two tasks.
+
+\paragraph{Where there is no store.}
+\texttt{word\_length} is not linearly decodable at the word position above its floor, which here
+is the letter-set predictor ($+0.003$ last token, $-0.048$ span mean at zero shots). Its answer
+position under the question reaches $+0.383$ at three shots, so length, unlike the letter
+properties, is assembled at the answer position rather than read off the word.
+\texttt{count\_distinct\_lm} has a small store ($+0.08$ to $+0.10$ above majority in all 16 models)
+that the question barely changes.
+
+\paragraph{Sensitivity to the preceding context.}
+The store is measured after the prefix \texttt{The word "}. In a pre-registered follow-up
+(Appendix~\ref{app:prereg}) the prefix \texttt{In the word "} shifted the same word tokens' accuracy
+by $+0.02$ to $+0.05$, with the word tokenized identically. Prefix sensitivity of this size is small
+next to the store itself ($+0.13$ to $+0.51$ above the floor), but it sets the resolution at which
+word-level differences between prompts can be interpreted.

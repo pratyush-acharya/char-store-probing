@@ -1,0 +1,45 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Character information in subword models.}
+Token embeddings of pretrained models encode much of their tokens' spelling, and this improves
+with model size \citep{kaushal2022tokens}; the embedding layers of RoBERTa and GPT-2 suffice to
+spell up to a third of the vocabulary \citep{itzhak2022spelling}. Controlled training comparisons
+attribute the acquisition of such knowledge to tokenization-related factors (merge rules,
+orthographic constraints) and to semantic and syntactic factors independent of tokenization
+\citep{sato2026acquire}. Character tasks nonetheless remain hard at the output: the Strawberry
+Problem traces the emergence of character-level performance during training \citep{strawberry},
+CharBench identifies word length and character count as predictors of errors \citep{charbench},
+and stochastic segmentation improves fine-grained subword processing \citep{stochastok}. Our
+word-position baseline connects these lines: it measures the stored information at the word in
+context and asks what the question adds at the answer position.
+
+\paragraph{Representation--output discrepancies.}
+Linear or diagnostic readouts can recover information a model does not express, for
+multiple-choice questions \citep{kappa}, hidden factual knowledge \citep{inside_out} and character
+tasks compared layer by layer \citep{hiraoka_inui}. Mechanistic studies of counting report early
+encoding followed by late suppression \citep{early_encode} and a format-sensitive late MLP block
+that overwrites a probe-correct repeated-token count \citep{repeated_token}. Across cultural
+knowledge, probe--output discrepancies decrease with scale but persist within families
+\citep{chelombitko2026cultural}. We find that character-level discrepancies do not share a single
+scaling trend once saturation is accounted for.
+
+\paragraph{Probe interpretation.}
+Probe accuracy depends on the representation, probe class, data and split; control tasks and
+selectivity are therefore central \citep{hewitt2019control,belinkov2022probing}. Vocabulary overlap
+permits word-level memorization \citep{rosa2020memorization,dhar2020vocab}, and the amount of
+probe data changes conclusions \citep{voita2020mdl,zhu2022data}. \citet{early_encode} omit control
+tasks on the grounds that their dataset construction prevents memorization; we record that
+position without adopting it, and use grouped splits by query word and word-only nuisance floors
+instead. We do not run a random-label selectivity control.
+
+\paragraph{Prompts, demonstrations and readout geometry.}
+Demonstrations convey label space and format even with degraded input--label mappings
+\citep{min2022rethinking}; task recognition and task learning can be separated
+\citep{pan2023what}, and scale changes in-context behaviour \citep{wei2023larger}. Our zero-shot
+contrasts remove demonstrations from every arm. Embedding-space analyses and tuned lenses relate
+hidden states to the output vocabulary \citep{dar2023embedding,belrose2023tunedlens}, and amnesic
+probing removes a learned subspace \citep{elazar2021amnesic}. A counting study finds a count
+direction nearly orthogonal to each digit-token row \citep{garcia2026direction}; we test the joint
+span of answer-token rows, a different object. Inference-time interventions can improve selected
+outputs \citep{iti}; we make no causal claim.

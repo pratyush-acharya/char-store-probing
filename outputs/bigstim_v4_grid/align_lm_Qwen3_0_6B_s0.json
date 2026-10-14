@@ -1,0 +1,78 @@
+{
+  "gap": {
+    "counting_lm": {
+      "n_classes": 3,
+      "chance": 0.333,
+      "majority": 0.2801,
+      "acc_full": 0.4264,
+      "acc_proj": 0.3947,
+      "readable_fraction": 0.659,
+      "subspace_overlap": 0.0003,
+      "grouped": true,
+      "dims": {
+        "r_rep": 3,
+        "r_out": 2
+      },
+      "rank_matched": {
+        "r_out": 2,
+        "n_random": 3,
+        "acc_rand_mean": 0.3375,
+        "acc_rand_sd": 0.038,
+        "acc_rand_all": [
+          0.286,
+          0.3765,
+          0.35
+        ],
+        "acc_pca": 0.3585,
+        "proj_minus_rand": 0.0572,
+        "proj_minus_pca": 0.0362
+      }
+    },
+    "count_distinct_lm": {
+      "n_classes": 4,
+      "chance": 0.25,
+      "majority": 0.2163,
+      "acc_full": 0.2834,
+      "acc_proj": 0.2258,
+      "readable_fraction": 0.0,
+      "subspace_overlap": 0.0025,
+      "grouped": true,
+      "dims": {
+        "r_rep": 4,
+        "r_out": 3
+      },
+      "rank_matched": {
+        "r_out": 3,
+        "n_random": 3,
+        "acc_rand_mean": 0.2602,
+        "acc_rand_sd": 0.0025,
+        "acc_rand_all": [
+          0.2568,
+          0.2629,
+          0.261
+        ],
+        "acc_pca": 0.2051,
+        "proj_minus_rand": -0.0344,
+        "proj_minus_pca": 0.0207
+      }
+    }
+  },
+  "meta": {
+    "model": "Qwen/Qwen3-0.6B",
+    "shots": 0,
+    "set": "lm",
+    "seed": 42,
+    "grouped": true,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "n_per_task": 800,
+    "controls": {
+      "probe_layers": 12,
+      "layer_select": "heldout",
+      "bootstrap": 1000,
+      "rank_control": 3,
+      "cold_start": true
+    },
+    "n_layers": 28
+  }
+}

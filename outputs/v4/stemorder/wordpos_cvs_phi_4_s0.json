@@ -1,0 +1,781 @@
+{
+  "arms": {
+    "qfirst": {
+      "answer": {
+        "most_frequent_letter": {
+          "acc_peak": 0.868,
+          "peak_layer": 40,
+          "majority": 0.2898,
+          "above_majority": 0.5782,
+          "chance": 0.062,
+          "n_classes": 16,
+          "n_words": 665,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.2898,
+            "4": 0.5666,
+            "7": 0.5398,
+            "11": 0.5308,
+            "15": 0.5001,
+            "18": 0.4821,
+            "22": 0.7629,
+            "25": 0.7796,
+            "29": 0.8487,
+            "33": 0.8666,
+            "36": 0.8628,
+            "40": 0.868
+          },
+          "acc_heldout_sel": 0.8628,
+          "majority_heldout_sel": 0.2898,
+          "above_majority_heldout_sel": 0.573,
+          "heldout_layers": {
+            "0": 40,
+            "1": 33,
+            "2": 40
+          },
+          "above_majority_ci95": {
+            "mean": 0.5782,
+            "lo": 0.5361,
+            "hi": 0.6191,
+            "n_words": 665,
+            "n_boot": 1000
+          }
+        },
+        "word_length": {
+          "acc_peak": 0.9888,
+          "peak_layer": 33,
+          "majority": 0.1938,
+          "above_majority": 0.795,
+          "chance": 0.143,
+          "n_classes": 7,
+          "n_words": 751,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.1938,
+            "4": 0.4001,
+            "7": 0.5476,
+            "11": 0.8088,
+            "15": 0.9638,
+            "18": 0.9525,
+            "22": 0.9688,
+            "25": 0.9775,
+            "29": 0.9875,
+            "33": 0.9888,
+            "36": 0.9875,
+            "40": 0.9875
+          },
+          "acc_heldout_sel": 0.9863,
+          "majority_heldout_sel": 0.1938,
+          "above_majority_heldout_sel": 0.7925,
+          "heldout_layers": {
+            "0": 36,
+            "1": 33,
+            "2": 33
+          },
+          "above_majority_ci95": {
+            "mean": 0.795,
+            "lo": 0.7624,
+            "hi": 0.8259,
+            "n_words": 751,
+            "n_boot": 1000
+          }
+        }
+      },
+      "readout": {
+        "most_frequent_letter": 0.6512,
+        "word_length": 0.9775
+      },
+      "word_last": {
+        "most_frequent_letter": {
+          "acc_peak": 0.6722,
+          "peak_layer": 11,
+          "majority": 0.2898,
+          "above_majority": 0.3824,
+          "chance": 0.062,
+          "n_classes": 16,
+          "n_words": 665,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.4577,
+            "4": 0.6207,
+            "7": 0.6322,
+            "11": 0.6722,
+            "15": 0.6478,
+            "18": 0.6618,
+            "22": 0.662,
+            "25": 0.6606,
+            "29": 0.6413,
+            "33": 0.626,
+            "36": 0.6195,
+            "40": 0.5901
+          },
+          "acc_heldout_sel": 0.6722,
+          "majority_heldout_sel": 0.2898,
+          "above_majority_heldout_sel": 0.3823,
+          "heldout_layers": {
+            "0": 11,
+            "1": 11,
+            "2": 11
+          },
+          "above_majority_ci95": {
+            "mean": 0.3821,
+            "lo": 0.3423,
+            "hi": 0.4227,
+            "n_words": 665,
+            "n_boot": 1000
+          }
+        },
+        "word_length": {
+          "acc_peak": 0.5876,
+          "peak_layer": 18,
+          "majority": 0.1938,
+          "above_majority": 0.3938,
+          "chance": 0.143,
+          "n_classes": 7,
+          "n_words": 751,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.3963,
+            "4": 0.4125,
+            "7": 0.4476,
+            "11": 0.4938,
+            "15": 0.5689,
+            "18": 0.5876,
+            "22": 0.5238,
+            "25": 0.4738,
+            "29": 0.4375,
+            "33": 0.435,
+            "36": 0.4075,
+            "40": 0.3988
+          },
+          "acc_heldout_sel": 0.5876,
+          "majority_heldout_sel": 0.1938,
+          "above_majority_heldout_sel": 0.3938,
+          "heldout_layers": {
+            "0": 18,
+            "1": 18,
+            "2": 18
+          },
+          "above_majority_ci95": {
+            "mean": 0.3937,
+            "lo": 0.3492,
+            "hi": 0.4384,
+            "n_words": 751,
+            "n_boot": 1000
+          }
+        }
+      },
+      "word_mean": {
+        "most_frequent_letter": {
+          "acc_peak": 0.7156,
+          "peak_layer": 11,
+          "majority": 0.2898,
+          "above_majority": 0.4258,
+          "chance": 0.062,
+          "n_classes": 16,
+          "n_words": 665,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.563,
+            "4": 0.6247,
+            "7": 0.6439,
+            "11": 0.7156,
+            "15": 0.69,
+            "18": 0.6925,
+            "22": 0.6822,
+            "25": 0.6669,
+            "29": 0.6285,
+            "33": 0.6143,
+            "36": 0.6003,
+            "40": 0.5797
+          },
+          "acc_heldout_sel": 0.7156,
+          "majority_heldout_sel": 0.2898,
+          "above_majority_heldout_sel": 0.4258,
+          "heldout_layers": {
+            "0": 11,
+            "1": 11,
+            "2": 11
+          },
+          "above_majority_ci95": {
+            "mean": 0.4256,
+            "lo": 0.3832,
+            "hi": 0.4649,
+            "n_words": 665,
+            "n_boot": 1000
+          }
+        },
+        "word_length": {
+          "acc_peak": 0.4914,
+          "peak_layer": 15,
+          "majority": 0.1938,
+          "above_majority": 0.2976,
+          "chance": 0.143,
+          "n_classes": 7,
+          "n_words": 751,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.3277,
+            "4": 0.3576,
+            "7": 0.3863,
+            "11": 0.4151,
+            "15": 0.4914,
+            "18": 0.4838,
+            "22": 0.4401,
+            "25": 0.41,
+            "29": 0.3826,
+            "33": 0.3613,
+            "36": 0.3526,
+            "40": 0.3339
+          },
+          "acc_heldout_sel": 0.4814,
+          "majority_heldout_sel": 0.1938,
+          "above_majority_heldout_sel": 0.2876,
+          "heldout_layers": {
+            "0": 18,
+            "1": 15,
+            "2": 15
+          },
+          "above_majority_ci95": {
+            "mean": 0.2975,
+            "lo": 0.2543,
+            "hi": 0.3438,
+            "n_words": 751,
+            "n_boot": 1000
+          }
+        }
+      }
+    },
+    "wfirst": {
+      "answer": {
+        "most_frequent_letter": {
+          "acc_peak": 0.877,
+          "peak_layer": 40,
+          "majority": 0.2898,
+          "above_majority": 0.5872,
+          "chance": 0.062,
+          "n_classes": 16,
+          "n_words": 665,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.2898,
+            "4": 0.4756,
+            "7": 0.4514,
+            "11": 0.4694,
+            "15": 0.4413,
+            "18": 0.4363,
+            "22": 0.7425,
+            "25": 0.7836,
+            "29": 0.8436,
+            "33": 0.8705,
+            "36": 0.8756,
+            "40": 0.877
+          },
+          "acc_heldout_sel": 0.8731,
+          "majority_heldout_sel": 0.2898,
+          "above_majority_heldout_sel": 0.5833,
+          "heldout_layers": {
+            "0": 36,
+            "1": 40,
+            "2": 40
+          },
+          "above_majority_ci95": {
+            "mean": 0.5872,
+            "lo": 0.5439,
+            "hi": 0.6288,
+            "n_words": 665,
+            "n_boot": 1000
+          }
+        },
+        "word_length": {
+          "acc_peak": 0.9626,
+          "peak_layer": 40,
+          "majority": 0.1938,
+          "above_majority": 0.7688,
+          "chance": 0.143,
+          "n_classes": 7,
+          "n_words": 751,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.1938,
+            "4": 0.3864,
+            "7": 0.4201,
+            "11": 0.5339,
+            "15": 0.8089,
+            "18": 0.8089,
+            "22": 0.8613,
+            "25": 0.9213,
+            "29": 0.9463,
+            "33": 0.9613,
+            "36": 0.9601,
+            "40": 0.9626
+          },
+          "acc_heldout_sel": 0.9601,
+          "majority_heldout_sel": 0.1938,
+          "above_majority_heldout_sel": 0.7663,
+          "heldout_layers": {
+            "0": 40,
+            "1": 33,
+            "2": 40
+          },
+          "above_majority_ci95": {
+            "mean": 0.7688,
+            "lo": 0.7318,
+            "hi": 0.8027,
+            "n_words": 751,
+            "n_boot": 1000
+          }
+        }
+      },
+      "readout": {
+        "most_frequent_letter": 0.68,
+        "word_length": 0.9313
+      },
+      "word_last": {
+        "most_frequent_letter": {
+          "acc_peak": 0.6694,
+          "peak_layer": 18,
+          "majority": 0.2898,
+          "above_majority": 0.3796,
+          "chance": 0.062,
+          "n_classes": 16,
+          "n_words": 665,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.4577,
+            "4": 0.5989,
+            "7": 0.6195,
+            "11": 0.6619,
+            "15": 0.6515,
+            "18": 0.6694,
+            "22": 0.6427,
+            "25": 0.6336,
+            "29": 0.6247,
+            "33": 0.626,
+            "36": 0.6184,
+            "40": 0.5942
+          },
+          "acc_heldout_sel": 0.6605,
+          "majority_heldout_sel": 0.2898,
+          "above_majority_heldout_sel": 0.3706,
+          "heldout_layers": {
+            "0": 11,
+            "1": 18,
+            "2": 18
+          },
+          "above_majority_ci95": {
+            "mean": 0.3795,
+            "lo": 0.3397,
+            "hi": 0.4215,
+            "n_words": 665,
+            "n_boot": 1000
+          }
+        },
+        "word_length": {
+          "acc_peak": 0.5101,
+          "peak_layer": 18,
+          "majority": 0.1938,
+          "above_majority": 0.3163,
+          "chance": 0.143,
+          "n_classes": 7,
+          "n_words": 751,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.3963,
+            "4": 0.3813,
+            "7": 0.4063,
+            "11": 0.4363,
+            "15": 0.4876,
+            "18": 0.5101,
+            "22": 0.4563,
+            "25": 0.4325,
+            "29": 0.3938,
+            "33": 0.3839,
+            "36": 0.37,
+            "40": 0.3925
+          },
+          "acc_heldout_sel": 0.5101,
+          "majority_heldout_sel": 0.1938,
+          "above_majority_heldout_sel": 0.3163,
+          "heldout_layers": {
+            "0": 18,
+            "1": 18,
+            "2": 18
+          },
+          "above_majority_ci95": {
+            "mean": 0.3162,
+            "lo": 0.2675,
+            "hi": 0.3606,
+            "n_words": 751,
+            "n_boot": 1000
+          }
+        }
+      },
+      "word_mean": {
+        "most_frequent_letter": {
+          "acc_peak": 0.6977,
+          "peak_layer": 11,
+          "majority": 0.2898,
+          "above_majority": 0.4079,
+          "chance": 0.062,
+          "n_classes": 16,
+          "n_words": 665,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.563,
+            "4": 0.6221,
+            "7": 0.6463,
+            "11": 0.6977,
+            "15": 0.6809,
+            "18": 0.6629,
+            "22": 0.6656,
+            "25": 0.6489,
+            "29": 0.6284,
+            "33": 0.6093,
+            "36": 0.5874,
+            "40": 0.5836
+          },
+          "acc_heldout_sel": 0.6977,
+          "majority_heldout_sel": 0.2898,
+          "above_majority_heldout_sel": 0.4078,
+          "heldout_layers": {
+            "0": 11,
+            "1": 11,
+            "2": 11
+          },
+          "above_majority_ci95": {
+            "mean": 0.4077,
+            "lo": 0.3694,
+            "hi": 0.4475,
+            "n_words": 665,
+            "n_boot": 1000
+          }
+        },
+        "word_length": {
+          "acc_peak": 0.4339,
+          "peak_layer": 15,
+          "majority": 0.1938,
+          "above_majority": 0.2401,
+          "chance": 0.143,
+          "n_classes": 7,
+          "n_words": 751,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.3277,
+            "4": 0.3301,
+            "7": 0.35,
+            "11": 0.3701,
+            "15": 0.4339,
+            "18": 0.4264,
+            "22": 0.4089,
+            "25": 0.38,
+            "29": 0.345,
+            "33": 0.3313,
+            "36": 0.315,
+            "40": 0.3276
+          },
+          "acc_heldout_sel": 0.4339,
+          "majority_heldout_sel": 0.1938,
+          "above_majority_heldout_sel": 0.2401,
+          "heldout_layers": {
+            "0": 15,
+            "1": 15,
+            "2": 15
+          },
+          "above_majority_ci95": {
+            "mean": 0.24,
+            "lo": 0.1949,
+            "hi": 0.2839,
+            "n_words": 751,
+            "n_boot": 1000
+          }
+        }
+      }
+    },
+    "neutral": {
+      "answer": {
+        "most_frequent_letter": {
+          "acc_peak": 0.6055,
+          "peak_layer": 22,
+          "majority": 0.2898,
+          "above_majority": 0.3157,
+          "chance": 0.062,
+          "n_classes": 16,
+          "n_words": 665,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.2898,
+            "4": 0.5605,
+            "7": 0.5565,
+            "11": 0.5784,
+            "15": 0.5719,
+            "18": 0.5732,
+            "22": 0.6055,
+            "25": 0.5874,
+            "29": 0.59,
+            "33": 0.5092,
+            "36": 0.4913,
+            "40": 0.5795
+          },
+          "acc_heldout_sel": 0.6055,
+          "majority_heldout_sel": 0.2898,
+          "above_majority_heldout_sel": 0.3156,
+          "heldout_layers": {
+            "0": 22,
+            "1": 22,
+            "2": 22
+          },
+          "above_majority_ci95": {
+            "mean": 0.3154,
+            "lo": 0.2756,
+            "hi": 0.3582,
+            "n_words": 665,
+            "n_boot": 1000
+          }
+        },
+        "word_length": {
+          "acc_peak": 0.4326,
+          "peak_layer": 18,
+          "majority": 0.1938,
+          "above_majority": 0.2388,
+          "chance": 0.143,
+          "n_classes": 7,
+          "n_words": 751,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.1938,
+            "4": 0.3526,
+            "7": 0.3863,
+            "11": 0.4239,
+            "15": 0.42,
+            "18": 0.4326,
+            "22": 0.4264,
+            "25": 0.4176,
+            "29": 0.3976,
+            "33": 0.3375,
+            "36": 0.3486,
+            "40": 0.315
+          },
+          "acc_heldout_sel": 0.4201,
+          "majority_heldout_sel": 0.1938,
+          "above_majority_heldout_sel": 0.2263,
+          "heldout_layers": {
+            "0": 11,
+            "1": 18,
+            "2": 18
+          },
+          "above_majority_ci95": {
+            "mean": 0.2387,
+            "lo": 0.1902,
+            "hi": 0.285,
+            "n_words": 751,
+            "n_boot": 1000
+          }
+        }
+      },
+      "word_last": {
+        "most_frequent_letter": {
+          "acc_peak": 0.599,
+          "peak_layer": 4,
+          "majority": 0.2898,
+          "above_majority": 0.3092,
+          "chance": 0.062,
+          "n_classes": 16,
+          "n_words": 665,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.4577,
+            "4": 0.599,
+            "7": 0.59,
+            "11": 0.5786,
+            "15": 0.5772,
+            "18": 0.5862,
+            "22": 0.5977,
+            "25": 0.5861,
+            "29": 0.5939,
+            "33": 0.5823,
+            "36": 0.5631,
+            "40": 0.5516
+          },
+          "acc_heldout_sel": 0.5862,
+          "majority_heldout_sel": 0.2898,
+          "above_majority_heldout_sel": 0.2964,
+          "heldout_layers": {
+            "0": 4,
+            "1": 22,
+            "2": 22
+          },
+          "above_majority_ci95": {
+            "mean": 0.309,
+            "lo": 0.2714,
+            "hi": 0.3494,
+            "n_words": 665,
+            "n_boot": 1000
+          }
+        },
+        "word_length": {
+          "acc_peak": 0.3963,
+          "peak_layer": 0,
+          "majority": 0.1938,
+          "above_majority": 0.2025,
+          "chance": 0.143,
+          "n_classes": 7,
+          "n_words": 751,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.3963,
+            "4": 0.3663,
+            "7": 0.36,
+            "11": 0.3651,
+            "15": 0.3725,
+            "18": 0.3651,
+            "22": 0.3638,
+            "25": 0.3525,
+            "29": 0.3574,
+            "33": 0.3562,
+            "36": 0.35,
+            "40": 0.3711
+          },
+          "acc_heldout_sel": 0.3963,
+          "majority_heldout_sel": 0.1938,
+          "above_majority_heldout_sel": 0.2025,
+          "heldout_layers": {
+            "0": 0,
+            "1": 0,
+            "2": 0
+          },
+          "above_majority_ci95": {
+            "mean": 0.2025,
+            "lo": 0.1578,
+            "hi": 0.2472,
+            "n_words": 751,
+            "n_boot": 1000
+          }
+        }
+      },
+      "word_mean": {
+        "most_frequent_letter": {
+          "acc_peak": 0.6346,
+          "peak_layer": 18,
+          "majority": 0.2898,
+          "above_majority": 0.3448,
+          "chance": 0.062,
+          "n_classes": 16,
+          "n_words": 665,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.563,
+            "4": 0.5951,
+            "7": 0.613,
+            "11": 0.6258,
+            "15": 0.609,
+            "18": 0.6346,
+            "22": 0.618,
+            "25": 0.6193,
+            "29": 0.5812,
+            "33": 0.5568,
+            "36": 0.5401,
+            "40": 0.5464
+          },
+          "acc_heldout_sel": 0.6232,
+          "majority_heldout_sel": 0.2898,
+          "above_majority_heldout_sel": 0.3334,
+          "heldout_layers": {
+            "0": 18,
+            "1": 18,
+            "2": 11
+          },
+          "above_majority_ci95": {
+            "mean": 0.3449,
+            "lo": 0.3036,
+            "hi": 0.3904,
+            "n_words": 665,
+            "n_boot": 1000
+          }
+        },
+        "word_length": {
+          "acc_peak": 0.3277,
+          "peak_layer": 0,
+          "majority": 0.1938,
+          "above_majority": 0.1339,
+          "chance": 0.143,
+          "n_classes": 7,
+          "n_words": 751,
+          "folds": 3,
+          "by_layer": {
+            "0": 0.3277,
+            "4": 0.3225,
+            "7": 0.3126,
+            "11": 0.3051,
+            "15": 0.3175,
+            "18": 0.3138,
+            "22": 0.2988,
+            "25": 0.3138,
+            "29": 0.3137,
+            "33": 0.3001,
+            "36": 0.2913,
+            "40": 0.3213
+          },
+          "acc_heldout_sel": 0.3001,
+          "majority_heldout_sel": 0.1938,
+          "above_majority_heldout_sel": 0.1063,
+          "heldout_layers": {
+            "0": 40,
+            "1": 4,
+            "2": 0
+          },
+          "above_majority_ci95": {
+            "mean": 0.1338,
+            "lo": 0.0959,
+            "hi": 0.1736,
+            "n_words": 751,
+            "n_boot": 1000
+          }
+        }
+      }
+    }
+  },
+  "summary": {},
+  "meta": {
+    "model": "microsoft/phi-4",
+    "shots": 0,
+    "set": "cvs",
+    "seed": 42,
+    "n_per_task": 800,
+    "words_file": "src/stimulus_words.txt",
+    "n_words": 6000,
+    "probe_layers": [
+      0,
+      4,
+      7,
+      11,
+      15,
+      18,
+      22,
+      25,
+      29,
+      33,
+      36,
+      40
+    ],
+    "n_hidden": 41,
+    "group_folds": 3,
+    "estimator": {
+      "cold_start": true,
+      "layer_select": "heldout",
+      "bootstrap": 1000
+    },
+    "pure_word_tasks": [
+      "most_frequent_letter",
+      "word_length"
+    ],
+    "lm_design": {},
+    "legacy_set_order": false,
+    "stem_order": true,
+    "examples": {
+      "qfirst": "The most frequent letter of the word \"expanding\" is",
+      "wfirst": "In the word \"expanding\", the most frequent letter is",
+      "neutral": "The word \"expanding\" appears in this sentence."
+    }
+  }
+}
