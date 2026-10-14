@@ -104,3 +104,7 @@ Stages: `smoke`, `wordpos` (word vs answer position), `grid` (question arm, read
   year    = {2026}
 }
 ```
+
+## License
+
+Code is released under the [MIT License](LICENSE).
