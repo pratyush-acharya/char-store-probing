@@ -8,7 +8,7 @@ Outputs: paper/figures/*.pdf (+ .png previews), paper/tables/*.tex,
 
 Run:  uv run python scripts/make_paper_v4.py
 """
-import glob, json, os, re, sys
+import glob, json, math, os, re, sys
 from pathlib import Path
 
 import numpy as np
@@ -399,7 +399,7 @@ def fig_overview():
             va="center", fontsize=12, style="italic", color=INK)
     ax.text(0.08, 2.19, f"{100 * emb:.0f}% of the last_letter store already at layer 0",
             ha="left", va="center", fontsize=7.6, color=INK2)
-    ax.text(0.08, 2.04, f"{n_models} models  ·  question × scale: Holm $p$ ≤ {holm:.3f}",
+    ax.text(0.08, 2.04, f"{n_models} models  ·  question × scale: Holm $p$ ≤ {math.ceil(holm * 1000) / 1000:.3f}",
             ha="left", va="center", fontsize=7.6, color=INK2)
     fs = 7.2
     cw = fs * 0.602 / 72

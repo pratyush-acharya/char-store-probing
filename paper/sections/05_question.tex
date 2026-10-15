@@ -20,7 +20,7 @@ answer position retains little of the question arm's signal (below). Only the qu
 with scale; the neutral arm is flat or falling, and so is the word-level store. The interaction is
 the slope of the per-model difference between the question and neutral arms
 (Figure~\ref{fig:twophase}b; Table~\ref{tab:interaction} in Appendix~\ref{app:tables}). It is positive for all four tasks at both shot counts, survives Holm
-correction across the four ($p_{\text{Holm}} \leq 0.015$), has a within-family slope of the same
+correction across the four ($p_{\text{Holm}} \leq 0.016$), has a within-family slope of the same
 size, and has a family-resampling interval that excludes zero.
 
 \paragraph{The growth is late.}
@@ -30,7 +30,7 @@ for \texttt{last\_letter} the early-band accuracy averages 0.75 and does not var
 (slope $-0.002$ per decade, $p = 0.96$). One plausible source is the word's spelling being carried
 to the adjacent answer token. Past half depth, larger models rise again and smaller models do not.
 Restricting both arms to the late band leaves the interaction intact for every task
-($p_{\text{Holm}} \leq 0.015$ at zero shots, $\leq 0.014$ at three); restricting them to the early
+($p_{\text{Holm}} \leq 0.016$ at zero shots, $\leq 0.014$ at three); restricting them to the early
 band removes it (all $|$slope$| \leq 0.014$, $p \geq 0.43$; Figure~\ref{fig:twophase}b). This also
 answers a confound: the question prompt's answer token sits next to the word, while the neutral
 sentence ends several tokens later. Distance could inflate the question arm early, but it is the
