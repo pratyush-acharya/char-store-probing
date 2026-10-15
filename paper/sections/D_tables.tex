@@ -1,0 +1,98 @@
+\section{Result Tables}
+\label{app:tables}
+
+Exact values behind the figures in the main text, generated from the analysis outputs by
+\texttt{scripts/make\_paper\_v4.py}.
+
+\begin{table}[!ht]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}lll@{}}
+    \toprule
+    family & sizes & notes \\
+    \midrule
+    Qwen3 & 0.6B, 1.7B, 4B, 8B & post-trained releases \\
+    Llama-3.x & 3.2-1B, 3.2-3B, 3.1-8B & base \\
+    Gemma-2 & 2B, 9B & base; right padding enforced (Appendix~\ref{app:hygiene}) \\
+    OLMo-2 & 1B, 7B, 13B & base \\
+    Phi-4 & 3.8B-mini-instruct, 14B & post-trained \\
+    OLMo-Hybrid & 7B & DeltaNet/attention hybrid \\
+    OLMoE & 1B-7B & sparse MoE, plotted at 7B total parameters \\
+    \bottomrule
+  \end{tabular}
+  \caption{The 16 models. Every experiment covers all 16.}
+  \label{tab:models}
+\end{table}
+
+\begin{table}[!ht]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \resizebox{\textwidth}{!}{\input{tables/tab_store}}
+  \caption{Accuracy above the word-only nuisance floor (held-out layer selection), mean over the 16
+    models, with the number of models above the floor in parentheses (Figure~\ref{fig:store}).
+    ``Word'' columns probe the query word's tokens in the neutral sentence (last token, or mean over
+    the word's tokens); ``answer'' columns probe the final prompt token. For
+    \texttt{count\_distinct\_lm} the floor equals the majority baseline because the letter set,
+    which determines the answer, is excluded as an oracle.}
+  \label{tab:store}
+\end{table}
+
+\begin{table}[!ht]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{3.2pt}
+  \resizebox{\textwidth}{!}{\input{tables/tab_interaction}}
+  \caption{Question$\times$scale interaction (Figure~\ref{fig:twophase}b): slope per decade of
+    parameters of (question arm $-$ neutral arm) at the answer position. ``All layers'' uses
+    held-out layer selection; the permutation $p$ is followed by its Holm-adjusted value across the
+    four tasks. ``Late'' and ``early'' restrict each arm to layers at relative depth $\geq 0.5$ or
+    $\leq 0.25$ (maximum over the restricted layers); the late $p$ is Holm-adjusted across the four
+    tasks. Family CI: 95\% interval from resampling model families.}
+  \label{tab:interaction}
+\end{table}
+
+\begin{table}[!ht]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{5pt}
+  \input{tables/tab_retained}
+  \caption{Retained fraction of the question arm's signal when the question is deleted
+    (Figure~\ref{fig:retained}): mean(no-question $-$ base) / mean(question $-$ base).
+    ``Majority'' uses the majority baseline and the neutral carrier; the other columns use the
+    word-only floor. Missing values: the question arm's mean is not above the floor
+    (\texttt{letter\_before}).}
+  \label{tab:retained}
+\end{table}
+
+\begin{table}[!ht]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{6pt}
+  \input{tables/tab_crosstask}
+  \caption{Decomposition of the question effect at zero shots (Figure~\ref{fig:crosstask}),
+    zero-leak cells, all 16 models, held-out layer selection. Shares are of the total $\Delta$
+    (self $-$ neutral, above-majority scale). Below the rule: the secondary term-label arm. The
+    continuation floor is joined per (model, set, task) from the word-position runs, whose example
+    draws differ from the cross-task runs'.}
+  \label{tab:crosstask}
+\end{table}
+
+\begin{table}[!ht]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{5pt}
+  \input{tables/tab_nuisance}
+  \caption{Word-only nuisance floors at three shots and the number of models whose question-arm
+    probe (answer position, held-out layer selection) exceeds the floor (Figure~\ref{fig:nuisance}).
+    ``Best above floor'' is the maximum over the 16 models. Below the rule: the original count tasks
+    and their designed replacements.}
+  \label{tab:nuisance}
+\end{table}
+
+\begin{table}[!ht]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{5pt}
+  \input{tables/tab_gap}
+  \caption{Representation--readout gap at three shots (Figure~\ref{fig:gap}): mean over the three
+    smallest (Qwen3-0.6B, Llama-3.2-1B, OLMo-2-1B) and the three largest (phi-4, OLMo-2-13B,
+    Gemma-2-9B) models, and its correlation with $\log_{10}$ parameters (permutation $p$). The
+    logit column uses $\mathrm{logit}(\text{probe}) - \mathrm{logit}(\text{readout})$, which removes
+    the compression near 1.0. No correction for the $7 \times 3$ tests is applied.}
+  \label{tab:gap}
+\end{table}

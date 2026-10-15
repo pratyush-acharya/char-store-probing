@@ -8,7 +8,7 @@ Outputs: paper/figures/*.pdf (+ .png previews), paper/tables/*.tex,
 
 Run:  uv run python scripts/make_paper_v4.py
 """
-import glob, json, os, re, sys
+import glob, json, math, os, re, sys
 from pathlib import Path
 
 import numpy as np
@@ -51,9 +51,9 @@ s3 = lambda v: "--" if v is None else f"{v:+.3f}"
 pv = lambda p: "--" if p is None else ("$<$0.0001" if p < 1e-4 else f"{p:.4f}" if p < 0.001 else f"{p:.3f}")
 
 
-def save(fig, name):
-    fig.savefig(FIG / f"{name}.pdf")
-    fig.savefig(FIG / f"{name}.png")
+def save(fig, name, **kw):
+    fig.savefig(FIG / f"{name}.pdf", **kw)
+    fig.savefig(FIG / f"{name}.png", **kw)
     plt.close(fig)
 
 
@@ -100,14 +100,21 @@ def fig_scaling():
 
 # ============================================================================ figure 2
 def fig_two_phase():
-    """Layer profiles, shots=0: answer@question, answer@neutral, word@neutral, small vs large."""
+    """Figure 'twophase'. (a) Layer profiles, shots=0: answer@question, answer@neutral,
+    word@neutral, smallest vs largest model; values from the wordpos runs (fu.curve).
+    (b) growth of the question effect with scale by depth band (draw_slopes)."""
     tasks = [("last_letter", "orig", "word_last"), ("most_frequent_letter", "cvs", "word_mean")]
     models = [("Qwen3_0_6B", "Qwen3-0.6B"), ("phi_4", "phi-4 (14B)")]
-    fig, axes = plt.subplots(2, 2, figsize=(7.2, 4.3), sharex=True)
+    FH = 3.1
+    fig = plt.figure(figsize=(7.2, FH))
+    top_b, top_h = 0.585, 0.24                  # profile row
+    L, R, g = 0.075, 0.995, 0.012
+    w = (R - L - 3 * g) / 4
+    axes = [fig.add_axes([L + j * (w + g), top_b, w, top_h]) for j in range(4)]
     for i, (t, ts, read) in enumerate(tasks):
         floor = FL[0][t]["floor"]
         for j, (m, name) in enumerate(models):
-            ax = axes[i, j]
+            ax = axes[2 * i + j]
             ax.axvspan(0, 0.25, color=BAND, zorder=0, lw=0)
             ax.axvspan(0.5, 1.0, color=BAND, zorder=0, lw=0)
             d = WP[(ts, m, 0)]
@@ -115,33 +122,632 @@ def fig_two_phase():
                                   ("word", "neutral", read)):
                 c = fu.curve(d, arm, pos, t)
                 ax.plot([p for p, _ in c], [v for _, v in c], color=C[key], marker=MK[key],
-                        ms=4, mec="white", mew=0.5, label=LBL[key], zorder=3)
+                        ms=3.4, mec="white", mew=0.4, lw=1.2, label=LBL[key], zorder=3)
             ax.axhline(floor, color=MUTED, lw=0.8, ls=(0, (3, 2)), zorder=1)
-            ax.text(1.0, floor - 0.035, "word-only floor", color=MUTED, fontsize=7, ha="right",
-                    va="top")
+            ax.text(1.0, floor - 0.035, "floor", color=MUTED, fontsize=7, ha="right", va="top")
             ax.set_ylim(0.0, 1.03)
-            ax.set_title(f"{t}  ·  {name}", family="monospace", fontsize=8.5)
-            if i == 1:
-                ax.set_xlabel("relative layer depth")
-            if j == 0:
-                ax.set_ylabel("held-out-word probe accuracy")
-            if i == 0:
-                ax.text(0.125, 0.03, "early", ha="center", color=MUTED, fontsize=7.5, va="bottom")
-                ax.text(0.75, 0.03, "late", ha="center", color=MUTED, fontsize=7.5, va="bottom")
-    h, l = axes[0, 0].get_legend_handles_labels()
-    fig.legend(h, l, loc="upper center", ncol=3, bbox_to_anchor=(0.5, 1.04))
-    fig.tight_layout()
+            ax.set_yticks([0, 0.5, 1.0])
+            ax.set_yticklabels(["0", "0.5", "1"])
+            ax.set_xticks([0, 0.25, 0.5, 0.75, 1.0])
+            ax.set_xticklabels(["0", "", "0.5", "", "1"])
+            ax.set_title(f"{t}\n{name}", family="monospace", fontsize=7.5, linespacing=1.15, pad=3)
+            ax.set_xlabel("relative depth", fontsize=8, labelpad=1)
+            ax.text(0.125, 0.03, "early", ha="center", color=MUTED, fontsize=7, va="bottom")
+            ax.text(0.75, 0.03, "late", ha="center", color=MUTED, fontsize=7, va="bottom")
+            if j + i > 0:
+                ax.tick_params(labelleft=False)
+    axes[0].set_ylabel("probe accuracy")
+    h, l = axes[0].get_legend_handles_labels()
+    fig.legend(h, l, loc="center left", ncol=3, bbox_to_anchor=(0.27, 0.965),
+               handletextpad=0.4, columnspacing=1.0, fontsize=8)
+    fig.text(0.0, 0.965, "(a)  layer profiles, zero shots", fontsize=8.5, fontweight="bold",
+             color=INK, va="center")
+    # (b) slopes by depth band, all 16 models
+    fig.text(0.0, 0.43, "(b)  growth of the question effect with scale, by depth (16 models)",
+             fontsize=8.5, fontweight="bold", color=INK, va="center")
+    draw_slopes(fig, 0.205, 0.995, 0.14, 0.345, FH)
     save(fig, "fig2_two_phase_profiles")
 
 
+# ============================================================================ shared helpers
+# Every figure below reads its values from S (summary.json), F (followups.json), FL (floors) or WP
+# (wordpos runs); nothing is typed in by hand. All figures are 7.2 in wide and included at \linewidth,
+# so font sizes match the two original figures.
+MUTED2, INK2 = "#898781", "#3d3c39"                       # de-emphasis gray, secondary ink
+BLUE_RAMP = ["#86b6ef", "#3987e5", "#184f95"]            # ordinal blue ramp (validator: --ordinal)
+GREEN_DARK, GREEN_LIGHT = "#13875e", "#5dc196"            # word store: layer 0 / later (validated --ordinal)
+MONO = {"family": "monospace", "fontsize": 7.5}
+ORDER_MODELS = sorted(SPEC, key=lambda m: (SPEC[m][1], m))
+RING = dict(edgecolor="white", linewidth=0.6, zorder=3)
+
+
+def logp(models):
+    return np.log10([SPEC[m][1] for m in models])
+
+
+def size_axis(ax, label=True):
+    ax.set_xticks(np.log10([1, 3, 10]))
+    ax.set_xticklabels(["1B", "3B", "10B"])
+    if label:
+        ax.set_xlabel("parameters", fontsize=8)
+
+
+def task_rows(ax, tasks, ys, labels=True):
+    ax.set_yticks(ys)
+    ax.set_yticklabels(tasks if labels else [], **MONO)
+    ax.tick_params(axis="y", length=0)
+    ax.grid(axis="y", visible=False)
+
+
+def ols(ax, x, y, color, lw=1.2):
+    b, a = np.polyfit(x, y, 1)
+    xx = np.array([x.min(), x.max()])
+    ax.plot(xx, a + b * xx, color=color, lw=lw, zorder=2)
+
+
+def minus(s):
+    return s.replace("-", "−")
+
+
+# ============================================================================ figure: overview
+# Figure 1 is a designed illustration with one real-data inset. Everything outside the inset is a
+# schematic (no axes, no values); every number printed on it is computed in fig_overview from the
+# analysis outputs. Drawn at 7.2 in and printed at 6.5 in, so 9 pt here prints at about 8 pt.
+from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
+from matplotlib.colors import to_rgb
+from matplotlib.transforms import Bbox
+import matplotlib.patheffects as pe
+
+FS = 9.0                                            # smallest text size in Figure 1
+
+
+def _glow(ax, cx, cy, rx, ry, color, alpha, z=2.5):
+    """Soft elliptical halo with a Gaussian alpha falloff (decorative)."""
+    n = 160
+    xx, yy = np.meshgrid(np.linspace(-1, 1, n), np.linspace(-1, 1, n))
+    img = np.zeros((n, n, 4))
+    img[..., :3] = to_rgb(color)
+    img[..., 3] = alpha * np.exp(-3.0 * (xx ** 2 + yy ** 2))
+    ax.imshow(img, extent=(cx - rx, cx + rx, cy - ry, cy + ry), origin="lower",
+              interpolation="bicubic", zorder=z, aspect="auto")
+
+
+def _hgrad(ax, box, stops, clip, z=0.5):
+    """Horizontal colour wash through (position, colour, alpha) stops, clipped to a patch."""
+    x0, y0, x1, y1 = box
+    t = np.linspace(0, 1, 400)
+    img = np.zeros((2, 400, 4))
+    for ch in range(4):
+        img[:, :, ch] = np.interp(t, [p for p, _, _ in stops],
+                                  [(to_rgb(c) + (a,))[ch] for _, c, a in stops])
+    im = ax.imshow(img, extent=(x0, x1, y0, y1), origin="lower", interpolation="bicubic",
+                   zorder=z, aspect="auto")
+    im.set_clip_path(clip)
+
+
+def _cloud(seed, n, cx, cy, sx, sy):
+    """Decorative glyph positions: a jittered cloud without overlaps (not data)."""
+    rng, pts = np.random.default_rng(seed), []
+    while len(pts) < n:
+        p = (cx + rng.normal(0, sx), cy + rng.normal(0, sy))
+        if all((p[0] - q[0]) ** 2 / sx ** 2 + (p[1] - q[1]) ** 2 / sy ** 2 > 0.6 for q in pts):
+            pts.append(p)
+    return np.array(pts)
+
+
+def _chip(ax, x, y, tok, fc=BAND, ec="none", fs=FS, z=6, pad=0.25):
+    ax.text(x, y, tok, ha="center", va="center", family="monospace", fontsize=fs, color=INK,
+            zorder=z, bbox=dict(boxstyle=f"round,pad={pad},rounding_size=0.15", fc=fc, ec=ec, lw=0.9))
+
+
+def _model_card(ax, x0, y0, w, h, larger):
+    """Schematic cross-section of one model: the word's token and the answer position at the base,
+    relative depth upward, glyph clouds where a linear probe decodes the property.
+    Decorative and qualitative only: the store (layer 0) and the early bump (~10% depth) are drawn
+    identically in both cards; the late cloud (past half depth) is sparser than the store in the
+    smaller model and denser in the larger."""
+    ax.add_patch(FancyBboxPatch((x0, y0), w, h, boxstyle="round,pad=0,rounding_size=0.09",
+                                fc="white", ec="#dcdad3", lw=0.8, zorder=2))
+    base, top = y0 + 0.40, y0 + h - 0.14
+    D = lambda f: base + f * (top - base)          # relative depth -> y
+    xw, xa = x0 + 0.28 * w, x0 + 0.72 * w          # word column, answer column
+    ax.plot([x0 + 0.08, x0 + w - 0.08], [D(0.5)] * 2, color="#dedcd5", lw=0.7, ls=(0, (1, 2.5)),
+            zorder=2.2)
+    # glyph clouds over soft halos
+    _glow(ax, xw, D(0.03), 0.42, 0.30, C["word"], 0.30)
+    gw = _cloud(7, 9, xw, D(0.03), 0.095, 0.04)
+    ax.scatter(gw[:, 0], gw[:, 1], marker="^", s=30, color=C["word"], ec="white", lw=0.6, zorder=4)
+    _glow(ax, xa, D(0.10), 0.24, 0.14, BLUE_RAMP[0], 0.32)
+    ge = _cloud(3, 4, xa, D(0.10), 0.06, 0.025)
+    ax.scatter(ge[:, 0], ge[:, 1], marker="o", s=20, color=BLUE_RAMP[0], ec="white", lw=0.6, zorder=4)
+    n, a, r = (15, 0.34, 0.42) if larger else (5, 0.14, 0.30)
+    _glow(ax, xa, D(0.80), r, r * 0.8, C["q"], a)
+    gl = _cloud(5 if larger else 11, n, xa, D(0.80), 0.10 if larger else 0.07,
+                0.075 if larger else 0.05)
+    ax.scatter(gl[:, 0], gl[:, 1], marker="o", s=26, color=C["q"], ec="white", lw=0.6, zorder=4)
+    # the two probed tokens
+    _chip(ax, xw, y0 + 0.17, "cat", fc="#d6efe3")
+    ax.text((xw + xa) / 2, y0 + 0.17, "· · ·", ha="center", va="center", fontsize=FS,
+            color=MUTED2, zorder=6)
+    _chip(ax, xa, y0 + 0.17, "is", fc="white", ec=C["q"])
+    # direct labels
+    lab = dict(fontsize=FS, va="center", zorder=7)
+    ax.text(xw, D(0.27), "store", ha="center", color=GREEN_DARK, fontweight="bold", **lab)
+    ax.text(xa, D(0.30), "early bump", ha="center", color=INK2, **lab)
+    ax.text(xa - r * 0.62, D(0.80), "late signal" if not larger else "late signal,\ngrown",
+            ha="right", color=BLUE_RAMP[2], fontweight="bold", linespacing=1.1, **lab)
+    return dict(D=D, xw=xw, xa=xa, top=top, base=base, x0=x0, w=w, y0=y0, h=h)
+
+
+def fig_overview():
+    """Figure 1: a designed overview with one real-data inset.
+    Schematic, no data: the two model cards, glyph clouds and halos, arc, colour wash.
+    Data inset: last_letter, 0 shots, one point per model, accuracy above the word-only floor (FL[0]).
+      store: S.E1 'last_letter|s0' word_nq_last per_model (held-out layer selection);
+      answer position under the question, best probed layer within the late (>= 0.5) band:
+      fu.restricted on the wordpos runs (the per-model values behind F.F1 's0'
+      'last_letter|late|q_minus_nq', checked below). OLS line per series; grey segment per model.
+    Printed numbers: share of the store at layer 0 (embedding_share, = numbers.json
+      'embedding_share|last_letter|word_last|s0'); model count, family count and size range (SPEC);
+      bound on the largest Holm-adjusted p of the question x scale interaction over the four
+      prompt-sensitive tasks at 0 and 3 shots (S.E5 p_perm, Holm across tasks, as in Table
+      tab_interaction), rounded up to three decimals."""
+    t, ts = "last_letter", "orig"
+    fl = FL[0][t]["floor"]
+    ms = ORDER_MODELS
+    x = logp(ms)
+    store = np.array([S["E1"][f"{t}|s0"]["word_nq_last"]["per_model"][m] for m in ms])
+    q_late = np.array([fu.restricted(WP[(ts, m, 0)], "question", "answer", t, 0.5, 1.0) - fl
+                       for m in ms])
+    nq_late = np.array([fu.restricted(WP[(ts, m, 0)], "neutral", "answer", t, 0.5, 1.0) - fl
+                        for m in ms])
+    assert abs(np.mean(q_late - nq_late) - F["F1"]["s0"][f"{t}|late|q_minus_nq"]["mean"]) < 1e-3
+    emb = embedding_share(t, ts, 0, "word_last")
+    assert abs(emb - NUM.get(f"embedding_share|{t}|word_last|s0", emb)) < 1e-3
+    holm = max(max(fu.holm([S["E5"][f"{tt}|s{sh}"]["question_minus_neutral"]["p_perm"]
+                            for tt, _ in fu.PROMPT_SENSITIVE])) for sh in (0, 3))
+    holm_bound = math.ceil(holm * 1000) / 1000
+    n_models, n_fam = len(SPEC), len({f for f, _ in SPEC.values()})
+    sizes = sorted(p for _, p in SPEC.values())
+    gb = lambda p: f"{p:g}B"
+    spelled = {7: "seven"}
+
+    W, H = 7.2, 3.3
+    fig = plt.figure(figsize=(W, H))
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax.set_xlim(0, W)
+    ax.set_ylim(0, H)
+    ax.axis("off")
+
+    # ---- one rounded field: store green toward the smaller models, question blue toward the larger
+    px0, py0, px1, py1 = 0.06, 0.56, 7.14, 2.40
+    panel = FancyBboxPatch((px0, py0), px1 - px0, py1 - py0,
+                           boxstyle="round,pad=0,rounding_size=0.18", fc="none", ec="#dcdad3",
+                           lw=0.8, zorder=1)
+    ax.add_patch(panel)
+    _hgrad(ax, (px0, py0, px1, py1), [(0.0, C["word"], 0.16), (0.38, C["word"], 0.0),
+                                      (0.62, C["q"], 0.0), (1.0, C["q"], 0.20)], panel)
+    ax.annotate("", xy=(px1 - 0.16, py0 + 0.10), xytext=(px0 + 0.2, py0 + 0.10),
+                arrowprops=dict(arrowstyle="-|>,head_length=0.55,head_width=0.22", color=MUTED2,
+                                lw=0.8), zorder=1.5)
+
+    cw_, ch_ = 1.62, 1.56
+    Lc = _model_card(ax, 0.58, 0.76, cw_, ch_, larger=False)
+    Rc = _model_card(ax, 5.40, 0.76, cw_, ch_, larger=True)
+    # depth key, left of the first card
+    D = Lc["D"]
+    ax.annotate("", xy=(0.24, D(1.0)), xytext=(0.24, D(0.0)),
+                arrowprops=dict(arrowstyle="-|>,head_length=0.45,head_width=0.18", color=MUTED2,
+                                lw=0.8))
+    ax.text(0.17, D(0.62), "depth", rotation=90, ha="center", va="center", fontsize=FS,
+            color=MUTED, style="italic")
+    for f, s_ in ((0.0, "0"), (0.5, "½"), (1.0, "1")):
+        ax.text(0.50, D(f), s_, ha="right", va="center", fontsize=FS, color=MUTED)
+
+    # ---- the arc joins the same late signal across scale (not the word to the answer)
+    p0, p1 = (Lc["xa"] + 0.02, Lc["y0"] + Lc["h"] + 0.06), (Rc["xa"] - 0.04, Rc["y0"] + Rc["h"] + 0.08)
+    ax.add_patch(FancyArrowPatch((p0[0], p0[1] + 0.05), (p1[0] - 0.06, p1[1] + 0.07),
+                                 connectionstyle="arc3,rad=-0.12", arrowstyle="-", lw=6,
+                                 color="#efeeea", zorder=5.5, shrinkA=0, shrinkB=0))
+    ax.add_patch(FancyArrowPatch(p0, p1, connectionstyle="arc3,rad=-0.12",
+                                 arrowstyle="-|>,head_length=8,head_width=4", lw=3.2,
+                                 color=C["q"], zorder=6, shrinkA=0, shrinkB=0))
+
+    # ---- real-data inset on its own card
+    ix0, iy0, ix1, iy1 = 2.48, 0.80, 5.12, 2.28
+    ax.add_patch(FancyBboxPatch((ix0, iy0), ix1 - ix0, iy1 - iy0,
+                                boxstyle="round,pad=0,rounding_size=0.09", fc="white",
+                                ec="#dcdad3", lw=0.8, zorder=2))
+    ia = fig.add_axes([(ix0 + 0.66) / W, (iy0 + 0.30) / H, (ix1 - ix0 - 0.84) / W,
+                       (iy1 - iy0 - 0.62) / H])
+    ia.set_facecolor("none")
+    ia.grid(False)
+    ia.spines["left"].set_color(MUTED2)
+    ia.spines["bottom"].set_visible(False)
+    ia.vlines(x, np.minimum(store, q_late), np.maximum(store, q_late), color="#d3d8df", lw=1.3,
+              zorder=1)
+    halo = [pe.withStroke(linewidth=3, foreground="white")]
+    for y, col, mk, s, lab, side in ((q_late, C["q"], "o", 26, "asked · late", "end"),
+                                     (store, C["word"], "^", 30, "store", "start")):
+        b, a = np.polyfit(x, y, 1)
+        xx = np.array([x.min(), x.max()])
+        ia.plot(xx, a + b * xx, color=col, lw=1.8, zorder=2, solid_capstyle="round")
+        ia.scatter(x, y, marker=mk, s=s, color=col, edgecolor="white", linewidth=0.6, zorder=3)
+    ia.set_xlim(x.min() - 0.06, x.max() + 0.06)
+    ia.set_ylim(0.16, 0.50)
+    ia.set_xticks([np.log10(sizes[0]), np.log10(sizes[-1])])
+    ia.set_xticklabels([gb(sizes[0]), gb(sizes[-1])], fontsize=FS)
+    ia.set_yticks([0.2, 0.3, 0.4])
+    ia.set_yticklabels(["+0.2", "+0.3", "+0.4"], fontsize=FS)
+    ia.set_ylabel("above floor", fontsize=FS, color=MUTED, labelpad=3)
+    ia.tick_params(axis="y", length=2.5, pad=2, colors=MUTED)
+    ia.tick_params(axis="x", length=0, pad=3, colors=MUTED)
+    # direct labels: the late answer position ends high on the right, the store starts high on the left
+    bq, aq = np.polyfit(x, q_late, 1)
+    bs, as_ = np.polyfit(x, store, 1)
+    ia.text(x.max(), aq + bq * x.max() + 0.035, "asked · late", ha="right", va="bottom",
+            fontsize=FS, color=BLUE_RAMP[2], fontweight="bold", path_effects=halo, zorder=5)
+    ia.text(x.min(), as_ + bs * x.min() + 0.035, "store", ha="left", va="bottom", fontsize=FS,
+            color=GREEN_DARK, fontweight="bold", path_effects=halo, zorder=5)
+    ax.text(ix0 + 0.16, iy1 - 0.13, "data:", ha="left", va="top", fontsize=FS, color=INK2,
+            fontweight="bold")
+    ax.text(ix0 + 0.58, iy1 - 0.13, "last_letter", ha="left", va="top", fontsize=FS,
+            color=INK2, family="monospace")
+    ax.text(ix0 + 0.58 + 11 * FS * 0.602 / 72 + 0.06, iy1 - 0.13, "· zero shots", ha="left",
+            va="top", fontsize=FS, color=INK2)
+
+    # ---- top band: tagline, headline numbers
+    ax.text(W / 2, 3.11, "asking adds a late signal that grows with scale", ha="center",
+            va="center", fontsize=15, style="italic", color=INK)
+    ax.text(W / 2, 2.82, f"{100 * emb:.0f}% of the last_letter store already at layer 0   ·   "
+            f"{n_models} models   ·   question × scale: Holm $p$ ≤ {holm_bound:.3f}",
+            ha="center", va="center", fontsize=FS, color=INK2)
+
+    # ---- region names under the field
+    for c, name, col, gloss in ((Lc, "SMALLER MODELS", GREEN_DARK, "answer position below the store"),
+                                (Rc, "LARGER MODELS", BLUE_RAMP[2], "answer position above the store")):
+        xc = c["x0"] + c["w"] / 2
+        ax.text(xc, 0.36, name, ha="center", va="center", fontsize=10, fontweight="bold", color=col)
+        ax.text(xc, 0.15, gloss, ha="center", va="center", fontsize=FS, style="italic", color=INK2)
+    ax.text((ix0 + ix1) / 2, 0.26, f"model size: {gb(sizes[0])} to {gb(sizes[-1])}, "
+            f"{spelled.get(n_fam, n_fam)} families", ha="center", va="center", fontsize=FS,
+            style="italic", color=MUTED)
+    save(fig, "fig_overview", bbox_inches=Bbox([[0, 0], [W, H]]))   # exact designed canvas
+
+
+def draw_slopes(fig, L, R, B, T, FH):
+    """Growth of the question effect with scale, by depth band (former Figure 1c): slope per decade
+    of the per-model (question - no question) difference at the answer position, with 95% family-
+    resampling CI. All layers: S.E5 '<task>|s<sh>' question_minus_neutral (as Table tab_interaction);
+    late and early bands: F.F1 's<sh>' '<task>|late|q_minus_nq', '<task>|early|q_minus_nq'."""
+    from matplotlib.lines import Line2D
+    tasks = [t for t, _ in fu.PROMPT_SENSITIVE]
+    bands = [("all layers", "all", INK2), ("late layers (≥ 0.5 depth)", "late", C["q"]),
+             ("early layers (≤ 0.25 depth)", "early", MUTED2)]
+    g = 0.02
+    w = (R - L - 2 * g) / 3
+    ys = np.arange(len(tasks))[::-1].astype(float)
+    for j, (title, band, col) in enumerate(bands):
+        ax = fig.add_axes([L + j * (w + g), B, w, T - B])
+        ax.axvline(0, color=MUTED, lw=0.8, zorder=1)
+        for t, y in zip(tasks, ys):
+            for sh, dy in ((0, 0.16), (3, -0.16)):
+                d = (S["E5"][f"{t}|s{sh}"]["question_minus_neutral"] if band == "all"
+                     else F["F1"][f"s{sh}"][f"{t}|{band}|q_minus_nq"])
+                lo, hi = d["family_boot_ci95"]
+                ax.plot([lo, hi], [y + dy] * 2, color=col, lw=1.2, zorder=2, solid_capstyle="round")
+                hollow = sh == 0
+                ax.plot(d["slope_per_decade"], y + dy, marker="o", ms=4.8, ls="none", zorder=3,
+                        mfc="white" if hollow else col, mec=col if hollow else "white",
+                        mew=1.0 if hollow else 0.5)
+        ax.set_xlim(-0.12, 0.32)
+        ax.set_xticks([0, 0.1, 0.2, 0.3])
+        ax.set_xticklabels(["0", "0.1", "0.2", "0.3"])
+        ax.tick_params(axis="x", pad=2)
+        ax.set_ylim(-0.55, len(tasks) - 0.45)
+        ax.set_title(title, fontsize=8, color=INK, pad=3)
+        task_rows(ax, tasks, ys, labels=j == 0)
+    fig.text((L + R) / 2, B - 0.24 / FH, "slope per decade of parameters, question − no question "
+             "(95% family interval)", ha="center", fontsize=8, color=INK, va="top")
+    h = [Line2D([], [], marker="o", ls="none", ms=4.8, mfc="white", mec=INK2, mew=1.0),
+         Line2D([], [], marker="o", ls="none", ms=4.8, mfc=INK2, mec="white", mew=0.5)]
+    fig.legend(h, ["0 shots", "3 shots"], loc="center left", ncol=2,
+               bbox_to_anchor=(0.7, 0.43), fontsize=7.4, handletextpad=0.2,
+               columnspacing=1.0)
+
+
+# ============================================================================ figure: store
+STORE_TASKS = ["first_letter", "last_letter", "most_frequent_letter", "word_length",
+               "count_distinct_lm"]
+EMB = [("last_letter", "orig", "word_last", "last token"),
+       ("most_frequent_letter", "cvs", "word_mean", "span mean"),
+       ("first_letter", "orig", "word_mean", "span mean")]
+
+
+def shot_pair(ax, v0, v3, y, mk, col, ms, hollow_both=False):
+    """One 0-shot -> 3-shot pair: hollow marker at 0 shots, filled at 3, joined by a thin line."""
+    ax.plot([v0, v3], [y, y], color=col, lw=1.0, alpha=0.45, zorder=2, solid_capstyle="butt")
+    ax.plot(v0, y, marker=mk, ms=ms, mfc="white", mec=col, mew=1.0, ls="none", zorder=3)
+    ax.plot(v3, y, marker=mk, ms=ms, mfc=col, mec="white", mew=0.5, ls="none", zorder=4)
+
+
+def fig_store():
+    """(a) S.E1 '<task>|s0' and '|s3' mean_above_floor for word (last token, span mean) and answer
+    (no question, question) positions, as Table tab_store, one 0 -> 3 shot pair per cell; (b) layer-0
+    part of the word-level store (embedding_parts; the printed share equals numbers.json
+    embedding_share), on the same task rows."""
+    from matplotlib.lines import Line2D
+    from matplotlib.patches import Patch
+    fig = plt.figure(figsize=(7.2, 2.2))
+    cells = [("word_nq_last", "word tokens, last token", "^", C["word"], 5.6),
+             ("word_nq", "word tokens, span mean", "v", C["word"], 5.6),
+             ("ans_nq", "answer position, no question", "s", C["nq"], 4.8),
+             ("ans_q", "answer position, question", "o", C["q"], 5.0)]
+    offs = [0.3, 0.1, -0.1, -0.3]
+    ys = np.arange(len(STORE_TASKS))[::-1].astype(float) * 1.05
+    bot, hgt = 0.16, 0.585
+    ax = fig.add_axes([0.205, bot, 0.40, hgt])
+    ax.axvline(0, color=MUTED, lw=0.8, zorder=1)
+    for t, y in zip(STORE_TASKS, ys):
+        for (k, lab, mk, col, ms), dy in zip(cells, offs):
+            v0, v3 = (S["E1"][f"{t}|s{sh}"][k]["mean_above_floor"] for sh in (0, 3))
+            shot_pair(ax, v0, v3, y + dy, mk, col, ms)
+    ax.set_xlim(-0.1, 0.6)
+    ax.set_xticks([0, 0.2, 0.4, 0.6])
+    ax.set_xticklabels(["0", "0.2", "0.4", "0.6"])
+    ax.set_ylim(ys.min() - 0.55, ys.max() + 0.55)
+    ax.set_xlabel("accuracy above floor, mean over 16 models", fontsize=8)
+    task_rows(ax, STORE_TASKS, ys)
+    for y in (ys[:-1] + ys[1:]) / 2:
+        ax.axhline(y, color=GRID, lw=0.6, zorder=0)
+    h = [Line2D([], [], marker=mk, ls="none", ms=ms, mfc=col, mec="white", mew=0.5)
+         for _, _, mk, col, ms in cells]
+    h += [Line2D([], [], marker="o", ls="none", ms=5.0, mfc="white", mec=INK2, mew=1.0),
+          Line2D([], [], marker="o", ls="none", ms=5.0, mfc=INK2, mec="white", mew=0.5)]
+    lab = [c[1] for c in cells] + ["0 shots (hollow)", "3 shots (filled)"]
+    fig.legend(h, lab, loc="lower left", ncol=3, bbox_to_anchor=(0.0, 0.765),
+               fontsize=7.4, handletextpad=0.2, columnspacing=1.0, labelspacing=0.3)
+    fig.text(0.0, 0.97, "(a)  mean over the 16 models, by position and prompt", fontsize=8.5,
+             fontweight="bold", color=INK, va="center")
+    # (b) layer-0 part of the word-level store, on the same task rows
+    axb = fig.add_axes([0.66, bot, 0.27, hgt], sharey=ax)
+    emb = {t: (ts, read, rname) for t, ts, read, rname in EMB}
+    for t, y in zip(STORE_TASKS, ys):
+        if t not in emb:
+            continue
+        ts, read, rname = emb[t]
+        for sh, dy in ((0, 0.19), (3, -0.19)):
+            l0, full = embedding_parts(t, ts, sh, read)
+            axb.barh(y + dy, l0, height=0.34, color=GREEN_DARK, edgecolor="white", linewidth=1.0)
+            axb.barh(y + dy, full - l0, left=l0, height=0.34, color=GREEN_LIGHT,
+                     edgecolor="white", linewidth=1.0)
+            axb.text(full + 0.012, y + dy, f"{100 * l0 / full:.0f}%", va="center", fontsize=7.2,
+                     color=INK)
+            axb.text(-0.012, y + dy, f"{sh}", va="center", ha="right", fontsize=7.2, color=MUTED)
+    axb.tick_params(axis="y", left=False, labelleft=False)
+    axb.grid(axis="y", visible=False)
+    axb.set_xlim(0, 0.56)
+    axb.set_xticks([0, 0.2, 0.4])
+    axb.set_xticklabels(["0", "0.2", "0.4"])
+    axb.set_xlabel("word-level store above floor", fontsize=8)
+    for y in (ys[:-1] + ys[1:]) / 2:
+        axb.axhline(y, color=GRID, lw=0.6, zorder=0)
+    axb.legend([Patch(color=GREEN_DARK), Patch(color=GREEN_LIGHT)],
+               ["layer 0 (embedding)", "later layers"], loc="center left",
+               bbox_to_anchor=(0.0, (np.mean(ys[3:]) - ax.get_ylim()[0]) / np.ptp(ax.get_ylim())),
+               fontsize=7.4, handlelength=1.0, handletextpad=0.4, labelspacing=0.5,
+               title="bars: 0 and 3 shots; store read is\nlast token for last_letter, else span mean",
+               title_fontsize=7.2,
+               alignment="left")
+    fig.text(0.635, 0.97, "(b)  part of the store at layer 0", fontsize=8.5, fontweight="bold",
+             color=INK, va="center")
+    save(fig, "fig_store")
+
+
+# ============================================================================ figure: retained
+RET_TASKS = ["extraction", "last_letter", "most_frequent_letter", "letter_before", "word_length",
+             "counting_lm", "count_distinct_lm", "first_letter", "contains_letter"]
+
+
+def fig_retained():
+    """Retained fraction, as Table tab_retained (S.E2 '<task>|s0' and '<task>|s3'): neutral carrier
+    against the majority baseline and against the floor, continuation carrier against the floor;
+    each value is one 0 -> 3 shot pair (hollow -> filled), as in fig_store."""
+    from matplotlib.lines import Line2D
+    fig = plt.figure(figsize=(7.2, 2.25))
+    vals = [("neutral_retained_above_majority", "neutral carrier, against majority", "s", MUTED, 4.6),
+            ("neutral_retained_above_floor", "neutral carrier, against floor", "s", C["nq"], 4.8),
+            ("continuation_retained_above_floor", "continuation carrier, against floor", "D", C["nq"],
+             4.2)]
+    offs = [0.26, 0.0, -0.26]
+    ys = np.arange(len(RET_TASKS))[::-1].astype(float) * 1.05
+    ys[5:] -= 0.45                                        # gap after the question-driven group
+    ax = fig.add_axes([0.205, 0.135, 0.785, 0.715])
+    for xv in (0, 1):
+        ax.axvline(xv, color=MUTED, lw=0.8, zorder=1)
+    for t, y in zip(RET_TASKS, ys):
+        for (k, lab, mk, col, ms), dy in zip(vals, offs):
+            v0, v3 = (S["E2"][f"{t}|s{sh}"].get(k) for sh in (0, 3))
+            if v0 is None or v3 is None:                  # letter_before: no floor-based value
+                assert v0 is None and v3 is None
+                continue
+            shot_pair(ax, v0, v3, y + dy, mk, col, ms)
+    for y in (ys[:-1] + ys[1:]) / 2:
+        ax.axhline(y, color=GRID, lw=0.6, zorder=0)
+    ax.set_xlim(-0.1, 1.27)
+    ax.set_xticks([0, 0.25, 0.5, 0.75, 1.0])
+    ax.set_xticklabels(["0", "0.25", "0.5", "0.75", "1"])
+    ax.set_ylim(ys.min() - 0.5, ys.max() + 0.5)
+    ax.set_xlabel("retained fraction of the question arm's signal at the answer position", fontsize=8)
+    task_rows(ax, RET_TASKS, ys)
+    h = [Line2D([], [], marker=mk, ls="none", ms=ms, mfc=col, mec="white", mew=0.5)
+         for _, _, mk, col, ms in vals]
+    h.insert(1, Line2D([], [], marker="o", ls="none", ms=5.0, mfc="white", mec=INK2, mew=1.0))
+    h.insert(3, Line2D([], [], marker="o", ls="none", ms=5.0, mfc=INK2, mec="white", mew=0.5))
+    lab = [vals[0][1], "0 shots (hollow)", vals[1][1], "3 shots (filled)", vals[2][1]]
+    fig.legend(h, lab, loc="lower left", ncol=3, bbox_to_anchor=(0.2, 0.855), fontsize=7.4,
+               handletextpad=0.2, columnspacing=1.4, labelspacing=0.35)
+    save(fig, "fig_retained")
+
+
+# ============================================================================ figure: cross-task
+def fig_crosstask():
+    """Decomposition of the question effect, as Table tab_crosstask (S.X, S.X_term): generic frame,
+    wrong-property question and specific question as shares of the total Delta."""
+    fig = plt.figure(figsize=(7.2, 1.95))
+    bot, hgt = 0.21, 0.6
+    ax = fig.add_axes([0.205, bot, 0.62, hgt])
+    rows = [("X", a) for a in ("last_letter", "most_frequent_letter", "word_length", "first_letter")] \
+        + [("X_term", a) for a in ("extraction", "letter_before")]
+    ys = np.arange(len(rows))[::-1].astype(float)
+    ys[4:] -= 0.6
+    parts = [("frame", "generic frame"), ("wrong_q", "wrong-property question"),
+             ("specific", "specific question")]
+    for (tag, a), y in zip(rows, ys):
+        e = S[tag][a]
+        pos = 0.0
+        for (k, lab), col in zip(parts, BLUE_RAMP):
+            v = 100 * e[k]
+            if v < 0:                                    # a negative share sits left of zero
+                ax.barh(y, v, left=0, height=0.6, color=col, edgecolor="white", linewidth=1.2)
+                ax.text(v - 1.2, y, minus(f"{v:.0f}%"), ha="right", va="center", fontsize=6.8,
+                        color=INK)
+                continue
+            ax.barh(y, v, left=pos, height=0.6, color=col, edgecolor="white", linewidth=1.2,
+                    label=lab if a == "last_letter" else None)
+            if v >= 7:
+                ax.text(pos + v / 2, y, f"{v:.0f}%", ha="center", va="center", fontsize=6.8,
+                        color=INK if col == BLUE_RAMP[0] else "white",
+                        fontweight="bold" if k == "specific" else "normal")
+            pos += v
+        ax.text(112, y, f"{e['total']:.3f}", va="center", ha="left", fontsize=7, color=INK)
+        ax.text(125, y, f"{e['n_models']}", va="center", ha="left", fontsize=7, color=INK)
+    ax.text(112, ys[0] + 0.5, "total Δ", fontsize=7, color=MUTED, va="bottom")
+    ax.text(125, ys[0] + 0.5, "models", fontsize=7, color=MUTED, va="bottom")
+    ax.axvline(0, color=MUTED, lw=0.8)
+    ax.set_xlim(-12, 107)
+    ax.set_xticks([0, 25, 50, 75, 100])
+    ax.set_xticklabels(["0%", "25%", "50%", "75%", "100%"])
+    ax.set_ylim(ys.min() - 0.5, ys.max() + 0.5)
+    ax.set_xlabel("share of the total question effect (self − neutral), zero shots", fontsize=8)
+    task_rows(ax, [a for _, a in rows], ys)
+    ax.spines["left"].set_visible(False)
+    ax.text(-1.5, (ys[3] + ys[4]) / 2, "secondary arm", fontsize=6.6, ha="right",
+            color=MUTED, style="italic", va="center")
+    h, l = ax.get_legend_handles_labels()
+    fig.legend(h, l, loc="lower left", ncol=3, bbox_to_anchor=(0.2, 0.85), fontsize=7.2,
+               handlelength=1.2, handletextpad=0.35, columnspacing=1.2)
+    save(fig, "fig_crosstask")
+
+
+# ============================================================================ figure: nuisance
+NUIS_TASKS = ["first_letter", "last_letter", "extraction", "most_frequent_letter", "contains_letter",
+              "word_length", "letter_before", "counting", "count_distinct", "counting_lm",
+              "count_distinct_lm"]
+
+
+def fig_nuisance():
+    """Three shots. Per model: question-arm answer-position accuracy above the floor (S.E1
+    '<task>|s3' ans_q per_model). Per task: majority baseline relative to the floor (S.E6 majority
+    minus S.E6 floor, a difference of two Table tab_nuisance columns) and models above the floor."""
+    fig = plt.figure(figsize=(7.2, 2.25))
+    bot, hgt = 0.155, 0.73
+    ax = fig.add_axes([0.205, bot, 0.70, hgt])
+    ys = np.arange(len(NUIS_TASKS))[::-1].astype(float)
+    ys[7:] -= 0.6
+    for t, y in zip(NUIS_TASKS, ys):
+        e6 = S["E6"][f"{t}|s3"]
+        pm = S["E1"][f"{t}|s3"]["ans_q"]["per_model"]
+        v = np.array([pm[m] for m in ORDER_MODELS])
+        first = t == NUIS_TASKS[0]
+        ax.scatter(v, np.full(len(v), y), s=16, marker="o", color=C["q"],
+                   label="one model: answer position under the question" if first else None, **RING)
+        mj = e6["majority"] - e6["floor"]
+        if mj < -1e-9:
+            ax.plot(mj, y, marker="|", ms=8, mew=1.5, color=INK2, ls="none", zorder=4,
+                    label="majority baseline" if first else None)
+        ax.text(0.785, y, f"{e6['models_above_floor']}/{e6['n_models']}", va="center",
+                fontsize=7.2, color=INK)
+    ax.text(0.785, ys[0] + 0.7, "above floor", fontsize=7, color=MUTED, va="bottom")
+    ax.axvline(0, color=INK2, lw=1.0, zorder=1)
+    ax.text(0.01, ys.min() - 1.0, "word-only floor", fontsize=7, color=INK2, va="center")
+    ax.text(-0.49, (ys[6] + ys[7]) / 2, "count tasks",
+            fontsize=6.6, color=MUTED, style="italic", va="center")
+    ax.set_xlim(-0.5, 0.76)
+    ax.set_xticks([-0.4, -0.2, 0, 0.2, 0.4, 0.6])
+    ax.set_xticklabels(["−0.4", "−0.2", "0", "0.2", "0.4", "0.6"])
+    ax.set_ylim(ys.min() - 1.35, ys.max() + 0.6)
+    ax.set_xlabel("accuracy relative to the word-only floor, three shots", fontsize=8)
+    task_rows(ax, NUIS_TASKS, ys)
+    h, l = ax.get_legend_handles_labels()
+    fig.legend(h, l, loc="lower left", ncol=2, bbox_to_anchor=(0.2, 0.9), fontsize=7.2,
+               handletextpad=0.3, columnspacing=1.5)
+    save(fig, "fig_nuisance")
+
+
+# ============================================================================ figure: readout gap
+GAP_TASKS = ["last_letter", "most_frequent_letter", "word_length", "extraction", "letter_before",
+             "counting_lm", "count_distinct_lm"]
+
+
+def fig_gap():
+    """Three shots, per model (S.E3 '<task>|s3' per_model rep / readout / gap). Panel 1: last_letter
+    probe and readout accuracy (no fit line). Other panels: raw gap with an OLS line; r on the raw and logit
+    scales from S.E3 gap.r and logit_gap.r (uncorrected; p-values in Table tab_gap)."""
+    fig = plt.figure(figsize=(7.2, 2.35))
+    ms = ORDER_MODELS
+    x = logp(ms)
+    L, R, B, T, gx, gy = 0.075, 0.995, 0.13, 0.93, 0.035, 0.13
+    w, h = (R - L - 3 * gx) / 4, (T - B - gy) / 2
+    axes = [[fig.add_axes([L + j * (w + gx), B + (1 - i) * (h + gy), w, h]) for j in range(4)]
+            for i in range(2)]
+    flat = [a for row in axes for a in row]
+    ax = flat[0]
+    pm = S["E3"]["last_letter|s3"]["per_model"]
+    for key, lab, mk, col in (("rep", "probe", "o", C["q"]), ("readout", "readout", "D", INK2)):
+        y = np.array([pm[m][key] for m in ms])
+        ax.scatter(x, y, s=15, marker=mk, color=col, label=lab, **RING)
+    ax.set_ylim(0, 1.05)
+    ax.set_title("last_letter: accuracy", family="monospace", fontsize=7.5, pad=3)
+    ax.legend(loc="lower right", fontsize=7, handletextpad=0.1, borderaxespad=0.2)
+    ax.set_ylabel("accuracy", fontsize=8)
+    for ax, t in zip(flat[1:], GAP_TASKS):
+        e = S["E3"][f"{t}|s3"]
+        y = np.array([e["per_model"][m]["gap"] for m in ms])
+        ax.axhline(0, color=MUTED, lw=0.8, zorder=1)
+        ols(ax, x, y, C["q"], lw=1.1)
+        ax.scatter(x, y, s=15, marker="o", color=C["q"], **RING)
+        ax.set_title(f"{t}: gap", family="monospace", fontsize=7.5, pad=3)
+        ax.set_ylim(-0.12, 0.66)
+        ax.set_yticks([0, 0.2, 0.4, 0.6])
+        r_raw, r_log = (minus(f"{e[k]['r']:+.2f}") for k in ("gap", "logit_gap"))
+        ax.text(0.97, 0.96, f"r: {r_raw} raw, {r_log} logit", transform=ax.transAxes,
+                ha="right", va="top", fontsize=6.6, color=MUTED)
+        if ax not in (flat[1], flat[4]):
+            ax.tick_params(labelleft=False)
+    flat[4].set_ylabel("probe − readout", fontsize=8)
+    for ax in flat:
+        ax.set_xlim(x.min() - 0.1, x.max() + 0.1)
+        size_axis(ax, label=ax in axes[1])
+        if ax in axes[0]:
+            ax.tick_params(labelbottom=False)
+    save(fig, "fig_gap")
+
 # ============================================================================ tables
-def embedding_share(t, ts, sh, read):
-    """Share of the word-level above-floor signal already present at layer 0 (mean over models)."""
+def embedding_parts(t, ts, sh, read):
+    """(layer-0 part, full store): means over models of the word-level above-floor accuracy at
+    layer 0 (clipped at 0) and at the held-out-selected layer."""
     floor = FL[sh][t]["floor"]
     ms = [m for (s_, m, h) in WP if s_ == ts and h == sh]
     full = np.mean([WP[(ts, m, sh)]["arms"]["neutral"][read][t]["acc_heldout_sel"] - floor for m in ms])
     l0 = np.mean([max(0.0, WP[(ts, m, sh)]["arms"]["neutral"][read][t]["by_layer"]["0"] - floor)
                   for m in ms])
+    return l0, full
+
+
+def embedding_share(t, ts, sh, read):
+    """Share of the word-level above-floor signal already present at layer 0 (mean over models)."""
+    l0, full = embedding_parts(t, ts, sh, read)
     return l0 / full if full > 0 else None
 
 
@@ -306,6 +912,7 @@ def main():
     TAB.mkdir(parents=True, exist_ok=True)
     fig_scaling()
     fig_two_phase()
+    fig_overview(); fig_store(); fig_retained(); fig_crosstask(); fig_nuisance(); fig_gap()
     tab_store(); tab_interaction(); tab_retained(); tab_nuisance(); tab_crosstask(); tab_gap(); tab_f3()
     numbers()
     print("wrote", sorted(os.listdir(FIG)), sorted(os.listdir(TAB)))

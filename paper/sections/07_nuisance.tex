@@ -2,19 +2,21 @@
 \label{sec:nuisance}
 
 A majority baseline controls for label skew, not for word properties that predict the label and
-that the model encodes. Table~\ref{tab:nuisance} gives, for every task at three shots, the majority
-baseline, the word-only floor, and how many models' question-arm probes clear it.
+that the model encodes. Figure~\ref{fig:nuisance} shows, for every task at three shots, how each
+model's question-arm probe compares with the word-only floor and the majority baseline
+(Table~\ref{tab:nuisance} gives the values).
 
-\begin{table}[h]
-  \centering\footnotesize
-  \setlength{\tabcolsep}{5pt}
-  \input{tables/tab_nuisance}
-  \caption{Word-only nuisance floors at three shots and the number of models whose question-arm
-    probe (answer position, held-out layer selection) exceeds the floor. ``Best above floor'' is the
-    maximum over the 16 models. Below the rule: the original count tasks and their designed
-    replacements.}
-  \label{tab:nuisance}
-\end{table}
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=\linewidth]{fig_nuisance.pdf}
+  \caption{Word-only nuisance floors at three shots. Each dot is one model's question-arm probe
+    (answer position, held-out layer selection), relative to the task's word-only floor (vertical
+    line); the bar marks the majority baseline relative to the same floor (for
+    \texttt{count\_distinct\_lm} the two coincide). Right: models above the floor. Below the gap:
+    the original count tasks and their designed replacements. Floors, floor predictors and the best
+    model per task are in Table~\ref{tab:nuisance}.}
+  \label{fig:nuisance}
+\end{figure}
 
 \paragraph{The original count tasks fail.}
 \texttt{counting} clears its floor in 2 of 16 models and \texttt{count\_distinct} in 3. The cause is

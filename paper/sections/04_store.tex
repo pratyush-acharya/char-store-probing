@@ -1,33 +1,31 @@
 \section{A Prompt-Independent Word-Level Store}
 \label{sec:store}
 
-Table~\ref{tab:store} reports, for the pure-word tasks, accuracy above the nuisance floor at the
-word position of the neutral sentence and at the answer position of the neutral and question arms.
-
-\begin{table}[t]
-  \centering\footnotesize
-  \setlength{\tabcolsep}{4pt}
-  \resizebox{\textwidth}{!}{\input{tables/tab_store}}
-  \caption{Accuracy above the word-only nuisance floor (held-out layer selection), mean over the 16
-    models, with the number of models above the floor in parentheses. ``Word'' columns probe the
-    query word's tokens in the neutral sentence (last token, or mean over the word's tokens);
-    ``answer'' columns probe the final prompt token. For \texttt{count\_distinct\_lm} the floor
-    equals the majority baseline because the letter set, which determines the answer, is excluded
-    as an oracle.}
-  \label{tab:store}
-\end{table}
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=\linewidth]{fig_store.pdf}
+  \caption{The word-level store. (a)~Accuracy above the word-only floor (held-out layer selection),
+    mean over the 16 models: the query word's tokens in the neutral sentence (last token, or mean
+    over the word's tokens) and the final prompt token without and with the question, at zero shots
+    (hollow) and three shots (filled). For
+    \texttt{count\_distinct\_lm} the floor equals the majority baseline. (b)~Part of the
+    word-level store (better read per task) already present at layer 0, the token embedding, at zero
+    and three shots; the percentage is that part's share of the store.}
+  \label{fig:store}
+\end{figure}
 
 \paragraph{The store is present in every model.}
 The word tokens encode \texttt{first\_letter}, \texttt{last\_letter} and
 \texttt{most\_frequent\_letter} above the floor in all 16 models, at both shot counts and under
-both reads. The size depends on where the property lives in the word: the last-token read is
+both reads (Figure~\ref{fig:store}a; exact values and model counts in Table~\ref{tab:store},
+Appendix~\ref{app:tables}). The size depends on where the property lives in the word: the last-token read is
 stronger for \texttt{last\_letter} ($+0.314$ against $+0.177$ for the span mean at zero shots),
 and the span mean is stronger for \texttt{first\_letter} and \texttt{most\_frequent\_letter}.
 We take the better read per task as the store in what follows; every conclusion below also holds
 under the other read.
 
 \paragraph{It is mostly in the embedding.}
-At layer 0 the word tokens already carry 73\% of \texttt{last\_letter}'s above-floor store
+At layer 0 (Figure~\ref{fig:store}b) the word tokens already carry 73\% of \texttt{last\_letter}'s above-floor store
 (last-token read, zero shots; 69\% at three shots) and 82\% of \texttt{most\_frequent\_letter}'s
 (span mean; 75\% at three shots). For \texttt{first\_letter} the share is 53--56\%, with the rest
 added by intermediate layers. This agrees with direct evidence that token embeddings encode
@@ -36,7 +34,7 @@ prompt-independent store is largely lexical: it is a property of the tokens, rea
 little contextual processing.
 
 \paragraph{It does not grow reliably with scale.}
-Across the 16 models the store's correlation with $\log_{10}$ parameters is $r = 0.47$
+Across the 16 models (Figures~\ref{fig:overview} and~\ref{fig:scaling}) the store's correlation with $\log_{10}$ parameters is $r = 0.47$
 ($p = 0.064$) for \texttt{last\_letter}, $r = -0.05$ for \texttt{most\_frequent\_letter} and
 $r = -0.16$ for \texttt{first\_letter} (zero shots, last-token read; span-mean values are similar).
 By contrast, the question arm's answer position correlates with scale at $r = 0.73$

@@ -4,7 +4,7 @@
 % Character Information in Language Models: A Prompt-Independent Word Store and
 % a Late, Question-Driven Signal That Grows With Scale   (paper-v4)
 %
-% Every table under tables/ and both figures are generated from the analysis
+% Every table under tables/ and every figure are generated from the analysis
 % outputs by scripts/make_paper_v4.py; do not edit them by hand.
 %
 % Build:  pdflatex main; bibtex main; pdflatex main; pdflatex main
@@ -17,6 +17,7 @@
 \usepackage{microtype}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage[font=small,labelfont=bf,skip=5pt]{caption}
 \usepackage{amsmath, amssymb}
 \usepackage{xcolor}
 \usepackage{natbib}
@@ -28,6 +29,11 @@
 
 \graphicspath{{figures/}}
 \emergencystretch=3em
+\setlength{\textfloatsep}{14pt plus 2pt minus 4pt}
+% float-only pages (the appendix result tables) start at the top instead of being centred
+\makeatletter
+\setlength{\@fptop}{0pt}\setlength{\@fpsep}{18pt plus 1fil}\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
 
 % ---------------------------------------------------------------------------
 % DOUBLE-BLIND SWITCH: \anonymoustrue removes the author block, email and code URL.
@@ -70,7 +76,7 @@ held-out-word probe applied to the query word's own tokens in a sentence that as
 encode \texttt{first\_letter}, \texttt{last\_letter} and \texttt{most\_frequent\_letter} above a
 word-only nuisance floor in all 16 models, and about 70\% of that signal is already present in the
 token embedding. Asking the question adds a second signal at the answer position. Its size grows
-with model scale for all four prompt-sensitive tasks (Holm-corrected permutation $p \leq 0.015$,
+with model scale for all four prompt-sensitive tasks (Holm-corrected permutation $p \leq 0.016$,
 also within model families), and the growth is confined to the late layers: restricted to the
 first quarter of the network, the slope is indistinguishable from zero. Small models' answer
 positions hold less than their word-level store; large models' hold more. Three controls bound
@@ -102,5 +108,6 @@ scaling once probe saturation is accounted for. Pre-registered criteria, a fixed
 \input{sections/A_methods}
 \input{sections/B_prereg}
 \input{sections/C_hygiene}
+\input{sections/D_tables}
 
 \end{document}

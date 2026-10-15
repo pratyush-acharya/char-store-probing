@@ -10,6 +10,23 @@ embeddings are known to encode spelling \citep{kaushal2022tokens,itzhak2022spell
 answer position may therefore read a property that was stored with the word, one that the
 question caused the model to assemble, or both.
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{fig_overview.pdf}
+  \caption{Overview. A word's character properties are linearly decodable from its own tokens in a
+    sentence that asks nothing (green: the word-level store), mostly already at layer 0 and similar
+    across model sizes. Asking adds a signal at the answer position, the final token (blue): an early
+    bump near 10\% depth, similar at every size, and a late signal (past half depth) that grows with
+    size, below the store in the smallest models and above it (more linearly decodable) in the
+    largest. Without the question the answer position stays low (\S\ref{sec:question}). The model
+    cards, glyph clouds, arc and shading are schematic and carry no values. Data: the inset
+    (\texttt{last\_letter}, zero shots, one point per model, probe accuracy above the word-only
+    floor, OLS lines), showing the store (held-out layer selection) and the answer position under
+    the question at its best layer past half depth, with grey segments joining each model's two
+    values; and the printed numbers (\S\ref{sec:store}, \S\ref{sec:question}). Early-layer and no-question values are in Figures~\ref{fig:scaling} and~\ref{fig:twophase}.}
+  \label{fig:overview}
+\end{figure}
+
 We separate these with a \emph{word-position baseline}: the same held-out-word probe, applied to
 the query word's own tokens inside a sentence that asks nothing
 (\texttt{The word "cat" appears in this sentence.}). Under causal attention those tokens have seen
@@ -31,10 +48,11 @@ confirmation, not discovery, but it supplies the baseline that the rest of the a
 \paragraph{Asking adds a late signal, and only that signal grows with scale.}
 At the answer position, the difference between the question prompt and the question-free carrier
 grows with log parameter count for all four prompt-sensitive tasks, after Holm correction and
-within model families (\S\ref{sec:question}). Restricting the probe to layers past half depth
+within model families (\S\ref{sec:question}; Figure~\ref{fig:twophase}b). Restricting the probe to layers past half depth
 leaves the effect intact; restricting it to the first quarter removes it. The answer position of
-small models holds less than their word-level store, while that of large models holds more. Layer
-profiles show the two phases directly (Figure~\ref{fig:twophase}): an early bump that is the same
+small models holds less than their word-level store, while that of large models holds more
+(Figure~\ref{fig:overview}). Layer
+profiles show the two phases directly (Figure~\ref{fig:twophase}a): an early bump that is the same
 at every scale, then a late rise that appears only in larger models.
 
 \paragraph{Controls change what can be claimed.}
