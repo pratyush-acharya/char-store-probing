@@ -9,7 +9,7 @@
 3. WORDING flags: phrases the claims ledger (paper/CLAIMS.md) rules out, in the current source.
 4. Section inventory: section and paragraph headings added or removed.
 
-Usage:  uv run python scripts/check_paper_drift.py [--baseline paper-baseline-v1]
+Usage:  uv run python scripts/check_paper_drift.py --baseline <git ref of the earlier paper>
 Exit code 1 if any UNTRACED number or WORDING flag is found.
 """
 import argparse, glob, json, re, subprocess, sys
@@ -89,7 +89,7 @@ def headings(texts):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--baseline", default="paper-baseline-v1")
+    ap.add_argument("--baseline", required=True, help="git ref (commit or tag) of the earlier paper")
     a = ap.parse_args()
     cur, base = tex_files(), tex_files(a.baseline)
     cur_nums = set().union(*(numbers(t) for t in cur.values()))

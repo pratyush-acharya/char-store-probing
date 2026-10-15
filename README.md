@@ -12,7 +12,24 @@ open-weight models (0.6B–14B, seven families):
 - a **late, question-driven signal** at the answer position, present only when the property is
   asked for, confined to the second half of the network, and the only part that grows with scale.
 
+![Overview: the word-level store and the late, question-driven signal across model size](paper/figures/fig_overview.png)
+
 The paper is in [`paper/`](paper/) ([PDF](paper/main.pdf)).
+
+## Main results
+
+- The query word's own tokens encode `first_letter`, `last_letter` and `most_frequent_letter` above
+  a word-only nuisance floor in all 16 models; about 70% of that signal is already in the token
+  embedding, consistent with prior work.
+- The question − no-question difference at the answer position grows with model size for all four
+  prompt-sensitive tasks (Holm-corrected permutation p ≤ 0.016, also within model families). The
+  growth is confined to layers past half depth; in the first quarter of the network the slope is
+  indistinguishable from zero.
+- Small models' answer positions hold less linearly decodable information than their word-level
+  store; large models' hold more. What produces the excess is not identified.
+- Several controls change what can be claimed: word-only floors, count tasks rebuilt to remove
+  length, repetition and query-letter shortcuts, a logit-scale readout check, and a pre-registered
+  stem-order test whose prediction failed. All are reported in the paper.
 
 ## Repository layout
 
@@ -27,11 +44,13 @@ scripts/                 experiment runners, analysis and figure/table generatio
   analyze_v4.py          main analysis (floors, store, interaction, readout, cross-task)
   analyze_v4_followups.py  layer-band, crossing-depth and stem-order analyses
   analyze_v4_review.py   analysis for run_review.py
-  make_paper_v4.py       generates every table and figure in paper/
+  make_paper_v4.py       generates every table and figure in paper/ from outputs/
+  check_paper_drift.py   compares a paper revision with an earlier one (numbers, wording)
   models.txt             the 16 Hugging Face model identifiers
 src/                     model loading, hooks, and the 6000-word stimulus list
 outputs/                 all result files behind the paper (about 8 MB, JSON)
-paper/                   LaTeX source, generated tables and figures, citation audit
+paper/                   LaTeX source, generated figures and tables (exact values in Appendix D),
+                         claims ledger (CLAIMS.md) and citation audit
 ```
 
 ## Setup
@@ -53,7 +72,14 @@ uv run python scripts/make_paper_v4.py           # paper/tables/*.tex and paper/
 cd paper && pdflatex main && bibtex main && pdflatex main && pdflatex main
 ```
 
-The analysis is deterministic: outputs are identical across runs and Python hash seeds.
+The analysis is deterministic: outputs are identical across runs and Python hash seeds. Every
+number in the paper's figures and tables is computed by `make_paper_v4.py` from `outputs/`.
+
+`paper/main.tex` has a double-blind switch: set `\anonymoustrue` to remove the author block, email
+and code link. To check a revision of the paper against an earlier version, run
+`uv run python scripts/check_paper_drift.py --baseline <git ref>`; it lists every number that does
+not trace to the earlier paper or to `outputs/`, every dropped number, and wording that
+`paper/CLAIMS.md` rules out.
 
 ## Re-run the experiments (GPU)
 

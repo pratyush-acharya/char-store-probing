@@ -1,11 +1,11 @@
 # Citation audit
 
-## v4 update (2026-10-09)
+## Update (2026-10-09)
 
 The LaTeX source cites 37 keys; every key resolves to one bibliography entry and every entry is
 cited (checked by comparing `\cite` keys in `main.tex` and `sections/*.tex` with `references.bib`).
 
-Added in v4, each checked against its primary record:
+Added, each checked against its primary record:
 
 - Kaushal and Mahowald, *What do tokens know about their characters and how do they know it?*,
   NAACL 2022, pp. 2487–2507, doi:10.18653/v1/2022.naacl-main.179:
@@ -22,16 +22,16 @@ Added in v4, each checked against its primary record:
 - Holm, *A Simple Sequentially Rejective Multiple Test Procedure*, Scandinavian Journal of
   Statistics 6(2):65–70, 1979. Cited for the correction procedure.
 
-Removed in v4: `manifold_counting` (no longer discussed).
+Removed: `manifold_counting` (no longer discussed).
 
 Newly cited from the existing bibliography: `wei2022cot`, `kojima2022zeroshot` (Limitations).
 
-## v3 record (2026-08-17)
+## Earlier record (2026-08-17)
 
 Checked on 2026-08-17 against primary venue, author, or arXiv records. The LaTeX source contains
 34 citation keys; every key resolves to one bibliography entry and every bibliography entry is cited.
 
-## Corrections made in v3
+## Earlier corrections
 
 - KAPPA is listed as an ICML 2026 paper rather than a 2025 proceedings paper:
   [arXiv:2509.23782](https://arxiv.org/abs/2509.23782).
@@ -49,7 +49,7 @@ Checked on 2026-08-17 against primary venue, author, or arXiv records. The LaTeX
 
 ## Claim-scope checks
 
-- The early-encoding paper explicitly discusses its decision not to use control tasks; v3 describes
+- The early-encoding paper explicitly discusses its decision not to use control tasks; the paper describes
   that methodological position without endorsing it:
   [arXiv:2604.00778](https://arxiv.org/abs/2604.00778).
 - *When Models Manipulate Manifolds* studies a fixed-width line-breaking/counting setting. V3 no
@@ -59,7 +59,7 @@ Checked on 2026-08-17 against primary venue, author, or arXiv records. The LaTeX
   repeated-token setting:
   [arXiv:2605.09239](https://arxiv.org/abs/2605.09239).
 - Garcia's result concerns individual digit-token directions, whereas this paper tests their joint
-  span; v3 states these as different geometric measurements:
+  span; the paper states these as different geometric measurements:
   [arXiv:2605.03258](https://arxiv.org/abs/2605.03258).
 
 ## Model-report records

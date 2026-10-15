@@ -2,7 +2,7 @@
 
 The reference for what the paper may claim and how strongly. Any revision must keep every claim
 below at its stated strength: **not stronger** (over-claiming) and **not weaker** (under-selling).
-Baseline: git tag `paper-baseline-v1`. Numbers come from `outputs/v4/analysis/*.json` and
+A revision is compared with an earlier version of the paper (any git ref). Numbers come from `outputs/v4/analysis/*.json` and
 `paper/tables/numbers.json`; `scripts/check_paper_drift.py` flags any number that does not trace
 to the baseline or to those files.
 
