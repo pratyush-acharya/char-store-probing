@@ -18,12 +18,13 @@ question caused the model to assemble, or both.
     across model sizes. Asking adds a signal at the answer position, the final token (blue): an early
     bump near 10\% depth, similar at every size, and a late signal (past half depth) that grows with
     size, below the store in the smallest models and above it (more linearly decodable) in the
-    largest. Without the question the answer position stays low (orange). Cards, glyphs, arc and
-    shading are schematic and carry no values. Data: the inset (\texttt{last\_letter}, zero shots,
-    one point per model, accuracy above the word-only floor, OLS lines; store at held-out layer
-    selection, answer position at the best layer of the late, $\geq 0.5$, or early, $\leq 0.25$,
-    depth band; grey segments join each model's late answer position to its store) and the printed
-    numbers (\S\ref{sec:store}, \S\ref{sec:question}).}
+    largest. Without the question the answer position stays low (\S\ref{sec:question}). The model
+    cards, glyph clouds, arc and shading are schematic and carry no values. Data: the inset
+    (\texttt{last\_letter}, zero shots, one point per model, probe accuracy above the word-only
+    floor, OLS lines), showing the store (held-out layer selection) and the answer position under
+    the question at its best layer past half depth, with grey segments joining each model's two
+    values; and the printed numbers (\S\ref{sec:store}, \S\ref{sec:question}). Early-layer and
+    no-question values are in Figure~\ref{fig:twophase}.}
   \label{fig:overview}
 \end{figure}
 

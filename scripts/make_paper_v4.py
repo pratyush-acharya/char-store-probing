@@ -192,10 +192,13 @@ def minus(s):
 # ============================================================================ figure: overview
 # Figure 1 is a designed illustration with one real-data inset. Everything outside the inset is a
 # schematic (no axes, no values); every number printed on it is computed in fig_overview from the
-# analysis outputs.
+# analysis outputs. Drawn at 7.2 in and printed at 6.5 in, so 9 pt here prints at about 8 pt.
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 from matplotlib.colors import to_rgb
 from matplotlib.transforms import Bbox
+import matplotlib.patheffects as pe
+
+FS = 9.0                                            # smallest text size in Figure 1
 
 
 def _glow(ax, cx, cy, rx, ry, color, alpha, z=2.5):
@@ -232,86 +235,84 @@ def _cloud(seed, n, cx, cy, sx, sy):
     return np.array(pts)
 
 
-def _chip(ax, x, y, tok, fc=BAND, ec="none", fs=7.4, z=6, pad=0.22):
+def _chip(ax, x, y, tok, fc=BAND, ec="none", fs=FS, z=6, pad=0.25):
     ax.text(x, y, tok, ha="center", va="center", family="monospace", fontsize=fs, color=INK,
-            zorder=z, bbox=dict(boxstyle=f"round,pad={pad},rounding_size=0.12", fc=fc, ec=ec, lw=0.8))
+            zorder=z, bbox=dict(boxstyle=f"round,pad={pad},rounding_size=0.15", fc=fc, ec=ec, lw=0.9))
 
 
 def _model_card(ax, x0, y0, w, h, larger):
-    """Schematic cross-section of one model: the word's tokens and the answer position at the
-    base, relative depth upward, glyph clouds where a linear probe decodes the property.
-    Decorative and qualitative only: the store and the early bump are drawn identically in both
-    cards; the late cloud is sparser than the store in the smaller model and denser in the larger."""
-    card = FancyBboxPatch((x0, y0), w, h, boxstyle="round,pad=0,rounding_size=0.08",
-                          fc="white", ec="#dcdad3", lw=0.7, zorder=2)
-    ax.add_patch(card)
-    base, top = y0 + 0.30, y0 + h - 0.10
+    """Schematic cross-section of one model: the word's token and the answer position at the base,
+    relative depth upward, glyph clouds where a linear probe decodes the property.
+    Decorative and qualitative only: the store (layer 0) and the early bump (~10% depth) are drawn
+    identically in both cards; the late cloud (past half depth) is sparser than the store in the
+    smaller model and denser in the larger."""
+    ax.add_patch(FancyBboxPatch((x0, y0), w, h, boxstyle="round,pad=0,rounding_size=0.09",
+                                fc="white", ec="#dcdad3", lw=0.8, zorder=2))
+    base, top = y0 + 0.40, y0 + h - 0.14
     D = lambda f: base + f * (top - base)          # relative depth -> y
-    xw, xa = x0 + 0.27 * w, x0 + 0.74 * w          # word column, answer column
-    for f in (0.25, 0.5):                          # band edges of the early / late analyses
-        ax.plot([x0 + 0.06, x0 + w - 0.06], [D(f)] * 2, color="#e4e2dc", lw=0.6, ls=(0, (1, 2)),
-                zorder=2.2)
+    xw, xa = x0 + 0.28 * w, x0 + 0.72 * w          # word column, answer column
+    ax.plot([x0 + 0.08, x0 + w - 0.08], [D(0.5)] * 2, color="#dedcd5", lw=0.7, ls=(0, (1, 2.5)),
+            zorder=2.2)
     # glyph clouds over soft halos
-    _glow(ax, xw, D(0.06), 0.36, 0.26, C["word"], 0.30)
-    gw = _cloud(7, 9, xw, D(0.06), 0.08, 0.035)
-    ax.scatter(gw[:, 0], gw[:, 1], marker="^", s=19, color=C["word"], ec="white", lw=0.5, zorder=4)
-    _glow(ax, xa, D(0.11), 0.2, 0.12, BLUE_RAMP[0], 0.30)
-    ge = _cloud(3, 4, xa, D(0.11), 0.05, 0.022)
-    ax.scatter(ge[:, 0], ge[:, 1], marker="o", s=13, color=BLUE_RAMP[0], ec="white", lw=0.5, zorder=4)
-    n, a, r = (15, 0.34, 0.36) if larger else (5, 0.14, 0.26)
-    _glow(ax, xa, D(0.78), r, r * 0.85, C["q"], a)
-    gl = _cloud(5 if larger else 11, n, xa, D(0.78), 0.085 if larger else 0.06,
-                0.07 if larger else 0.05)
-    ax.scatter(gl[:, 0], gl[:, 1], marker="o", s=17, color=C["q"], ec="white", lw=0.5, zorder=4)
+    _glow(ax, xw, D(0.03), 0.42, 0.30, C["word"], 0.30)
+    gw = _cloud(7, 9, xw, D(0.03), 0.095, 0.04)
+    ax.scatter(gw[:, 0], gw[:, 1], marker="^", s=30, color=C["word"], ec="white", lw=0.6, zorder=4)
+    _glow(ax, xa, D(0.10), 0.24, 0.14, BLUE_RAMP[0], 0.32)
+    ge = _cloud(3, 4, xa, D(0.10), 0.06, 0.025)
+    ax.scatter(ge[:, 0], ge[:, 1], marker="o", s=20, color=BLUE_RAMP[0], ec="white", lw=0.6, zorder=4)
+    n, a, r = (15, 0.34, 0.42) if larger else (5, 0.14, 0.30)
+    _glow(ax, xa, D(0.80), r, r * 0.8, C["q"], a)
+    gl = _cloud(5 if larger else 11, n, xa, D(0.80), 0.10 if larger else 0.07,
+                0.075 if larger else 0.05)
+    ax.scatter(gl[:, 0], gl[:, 1], marker="o", s=26, color=C["q"], ec="white", lw=0.6, zorder=4)
     # the two probed tokens
-    _chip(ax, xw, y0 + 0.13, "cat", fc="#d6efe3")
-    ax.text((xw + xa) / 2, y0 + 0.13, "· · ·", ha="center", va="center", fontsize=7.4,
+    _chip(ax, xw, y0 + 0.17, "cat", fc="#d6efe3")
+    ax.text((xw + xa) / 2, y0 + 0.17, "· · ·", ha="center", va="center", fontsize=FS,
             color=MUTED2, zorder=6)
-    _chip(ax, xa, y0 + 0.13, "is", fc="white", ec=C["q"])
+    _chip(ax, xa, y0 + 0.17, "is", fc="white", ec=C["q"])
     # direct labels
-    lab = dict(fontsize=7.4, va="center", zorder=7)
-    ax.text(xw, D(0.27), "similar store" if larger else "store", ha="center", color=GREEN_DARK,
-            fontweight="bold", **lab)
-    ax.text(xa, D(0.29), "similar bump" if larger else "early bump", ha="center", color=INK2, **lab)
-    ax.text(xa - (0.2 if larger else 0.15), D(0.78), "late signal,\ngrown" if larger
-            else "late signal", ha="right", color=BLUE_RAMP[2], fontweight="bold",
-            linespacing=1.1, **lab)
-    return dict(D=D, xw=xw, xa=xa, top=top, base=base, x0=x0, w=w)
+    lab = dict(fontsize=FS, va="center", zorder=7)
+    ax.text(xw, D(0.27), "store", ha="center", color=GREEN_DARK, fontweight="bold", **lab)
+    ax.text(xa, D(0.30), "early bump", ha="center", color=INK2, **lab)
+    ax.text(xa - r * 0.62, D(0.80), "late signal" if not larger else "late signal,\ngrown",
+            ha="right", color=BLUE_RAMP[2], fontweight="bold", linespacing=1.1, **lab)
+    return dict(D=D, xw=xw, xa=xa, top=top, base=base, x0=x0, w=w, y0=y0, h=h)
 
 
 def fig_overview():
     """Figure 1: a designed overview with one real-data inset.
-    Schematic, no data: the two model cards, glyph clouds and halos, arc, colour wash, prompt key.
-    Data inset: last_letter, 0 shots, one point per model, accuracy above the word-only floor.
+    Schematic, no data: the two model cards, glyph clouds and halos, arc, colour wash.
+    Data inset: last_letter, 0 shots, one point per model, accuracy above the word-only floor (FL[0]).
       store: S.E1 'last_letter|s0' word_nq_last per_model (held-out layer selection);
-      answer position, question / no question, best probed layer within the late (>= 0.5) or
-      early (<= 0.25) band: fu.restricted on the wordpos runs (the per-model values behind
-      F.F1 's0' 'last_letter|late|q_minus_nq' and '|early|q_level'). All minus FL[0] floor.
+      answer position under the question, best probed layer within the late (>= 0.5) band:
+      fu.restricted on the wordpos runs (the per-model values behind F.F1 's0'
+      'last_letter|late|q_minus_nq', checked below). OLS line per series; grey segment per model.
     Printed numbers: share of the store at layer 0 (embedding_share, = numbers.json
       'embedding_share|last_letter|word_last|s0'); model count, family count and size range (SPEC);
-      largest Holm-adjusted p of the question x scale interaction over the four prompt-sensitive
-      tasks at 0 and 3 shots (S.E5 p_perm, Holm across tasks, as in Table tab_interaction)."""
+      bound on the largest Holm-adjusted p of the question x scale interaction over the four
+      prompt-sensitive tasks at 0 and 3 shots (S.E5 p_perm, Holm across tasks, as in Table
+      tab_interaction), rounded up to three decimals."""
     t, ts = "last_letter", "orig"
     fl = FL[0][t]["floor"]
     ms = ORDER_MODELS
     x = logp(ms)
     store = np.array([S["E1"][f"{t}|s0"]["word_nq_last"]["per_model"][m] for m in ms])
-    band = lambda arm, lo, hi: np.array([fu.restricted(WP[(ts, m, 0)], arm, "answer", t, lo, hi) - fl
-                                         for m in ms])
-    q_late, q_early = band("question", 0.5, 1.0), band("question", 0.0, 0.25)
-    nq_late = band("neutral", 0.5, 1.0)
-    assert abs(np.mean(q_early + fl) - F["F1"]["s0"][f"{t}|early|q_level"]["mean"]) < 1e-3
+    q_late = np.array([fu.restricted(WP[(ts, m, 0)], "question", "answer", t, 0.5, 1.0) - fl
+                       for m in ms])
+    nq_late = np.array([fu.restricted(WP[(ts, m, 0)], "neutral", "answer", t, 0.5, 1.0) - fl
+                        for m in ms])
     assert abs(np.mean(q_late - nq_late) - F["F1"]["s0"][f"{t}|late|q_minus_nq"]["mean"]) < 1e-3
     emb = embedding_share(t, ts, 0, "word_last")
     assert abs(emb - NUM.get(f"embedding_share|{t}|word_last|s0", emb)) < 1e-3
     holm = max(max(fu.holm([S["E5"][f"{tt}|s{sh}"]["question_minus_neutral"]["p_perm"]
                             for tt, _ in fu.PROMPT_SENSITIVE])) for sh in (0, 3))
+    holm_bound = math.ceil(holm * 1000) / 1000
     n_models, n_fam = len(SPEC), len({f for f, _ in SPEC.values()})
     sizes = sorted(p for _, p in SPEC.values())
     gb = lambda p: f"{p:g}B"
     spelled = {7: "seven"}
 
-    W, H = 7.2, 2.6
+    W, H = 7.2, 3.3
     fig = plt.figure(figsize=(W, H))
     ax = fig.add_axes([0, 0, 1, 1])
     ax.set_xlim(0, W)
@@ -319,119 +320,97 @@ def fig_overview():
     ax.axis("off")
 
     # ---- one rounded field: store green toward the smaller models, question blue toward the larger
-    px0, py0, px1, py1 = 0.05, 0.37, 7.15, 1.84
+    px0, py0, px1, py1 = 0.06, 0.56, 7.14, 2.40
     panel = FancyBboxPatch((px0, py0), px1 - px0, py1 - py0,
-                           boxstyle="round,pad=0,rounding_size=0.16", fc="none", ec="#dcdad3",
+                           boxstyle="round,pad=0,rounding_size=0.18", fc="none", ec="#dcdad3",
                            lw=0.8, zorder=1)
     ax.add_patch(panel)
-    _hgrad(ax, (px0, py0, px1, py1), [(0.0, C["word"], 0.17), (0.40, C["word"], 0.0),
-                                      (0.60, C["q"], 0.0), (1.0, C["q"], 0.22)], panel)
-    ax.annotate("", xy=(px1 - 0.16, py0 + 0.09), xytext=(px0 + 0.18, py0 + 0.09),
-                arrowprops=dict(arrowstyle="-|>,head_length=0.5,head_width=0.2", color=MUTED2,
+    _hgrad(ax, (px0, py0, px1, py1), [(0.0, C["word"], 0.16), (0.38, C["word"], 0.0),
+                                      (0.62, C["q"], 0.0), (1.0, C["q"], 0.20)], panel)
+    ax.annotate("", xy=(px1 - 0.16, py0 + 0.10), xytext=(px0 + 0.2, py0 + 0.10),
+                arrowprops=dict(arrowstyle="-|>,head_length=0.55,head_width=0.22", color=MUTED2,
                                 lw=0.8), zorder=1.5)
 
-    cw_, ch_ = 1.66, 1.24
-    Lc = _model_card(ax, 0.58, 0.51, cw_, ch_, larger=False)
-    Rc = _model_card(ax, 5.30, 0.51, cw_, ch_, larger=True)
+    cw_, ch_ = 1.62, 1.56
+    Lc = _model_card(ax, 0.58, 0.76, cw_, ch_, larger=False)
+    Rc = _model_card(ax, 5.40, 0.76, cw_, ch_, larger=True)
     # depth key, left of the first card
     D = Lc["D"]
-    ax.annotate("", xy=(0.34, D(0.98)), xytext=(0.34, D(0.0)),
-                arrowprops=dict(arrowstyle="-|>,head_length=0.4,head_width=0.16", color=MUTED2,
-                                lw=0.7))
-    ax.text(0.27, D(0.5), "depth", rotation=90, ha="center", va="center", fontsize=7,
+    ax.annotate("", xy=(0.24, D(1.0)), xytext=(0.24, D(0.0)),
+                arrowprops=dict(arrowstyle="-|>,head_length=0.45,head_width=0.18", color=MUTED2,
+                                lw=0.8))
+    ax.text(0.17, D(0.62), "depth", rotation=90, ha="center", va="center", fontsize=FS,
             color=MUTED, style="italic")
-    for f, lab in ((0.0, "0"), (0.25, "¼"), (0.5, "½")):
-        ax.text(0.53, D(f), lab, ha="right", va="center", fontsize=7, color=MUTED)
+    for f, s_ in ((0.0, "0"), (0.5, "½"), (1.0, "1")):
+        ax.text(0.50, D(f), s_, ha="right", va="center", fontsize=FS, color=MUTED)
 
-    # ---- the arc joins the same late signal across scale
-    arc = FancyArrowPatch((Lc["xa"] + 0.02, Lc["top"] + 0.12), (Rc["xa"] - 0.04, Rc["top"] + 0.14),
-                          connectionstyle="arc3,rad=-0.13",
-                          arrowstyle="-|>,head_length=7,head_width=3.6", lw=3.0, color=C["q"],
-                          alpha=0.92, zorder=6, shrinkA=0, shrinkB=0, capstyle="round")
-    ax.add_patch(arc)
-    ax.add_patch(FancyArrowPatch((Lc["xa"] + 0.02, Lc["top"] + 0.17), (Rc["xa"] - 0.1, Rc["top"] + 0.21),
-                                 connectionstyle="arc3,rad=-0.13", arrowstyle="-", lw=5,
-                                 color="#eeede9", zorder=5.5, shrinkA=0, shrinkB=0))
+    # ---- the arc joins the same late signal across scale (not the word to the answer)
+    p0, p1 = (Lc["xa"] + 0.02, Lc["y0"] + Lc["h"] + 0.06), (Rc["xa"] - 0.04, Rc["y0"] + Rc["h"] + 0.08)
+    ax.add_patch(FancyArrowPatch((p0[0], p0[1] + 0.05), (p1[0] - 0.06, p1[1] + 0.07),
+                                 connectionstyle="arc3,rad=-0.12", arrowstyle="-", lw=6,
+                                 color="#efeeea", zorder=5.5, shrinkA=0, shrinkB=0))
+    ax.add_patch(FancyArrowPatch(p0, p1, connectionstyle="arc3,rad=-0.12",
+                                 arrowstyle="-|>,head_length=8,head_width=4", lw=3.2,
+                                 color=C["q"], zorder=6, shrinkA=0, shrinkB=0))
 
     # ---- real-data inset on its own card
-    ix0, iy0, ix1, iy1 = 2.42, 0.55, 5.10, 1.75
+    ix0, iy0, ix1, iy1 = 2.48, 0.80, 5.12, 2.28
     ax.add_patch(FancyBboxPatch((ix0, iy0), ix1 - ix0, iy1 - iy0,
-                                boxstyle="round,pad=0,rounding_size=0.08", fc="white",
-                                ec="#dcdad3", lw=0.7, zorder=2))
-    ia = fig.add_axes([(ix0 + 0.40) / W, (iy0 + 0.22) / H, 1.42 / W, (iy1 - iy0 - 0.46) / H])
+                                boxstyle="round,pad=0,rounding_size=0.09", fc="white",
+                                ec="#dcdad3", lw=0.8, zorder=2))
+    ia = fig.add_axes([(ix0 + 0.66) / W, (iy0 + 0.30) / H, (ix1 - ix0 - 0.84) / W,
+                       (iy1 - iy0 - 0.62) / H])
     ia.set_facecolor("none")
     ia.grid(False)
     ia.spines["left"].set_color(MUTED2)
     ia.spines["bottom"].set_visible(False)
-    ia.vlines(x, np.minimum(store, q_late), np.maximum(store, q_late), color="#d3dbe6", lw=1.1,
+    ia.vlines(x, np.minimum(store, q_late), np.maximum(store, q_late), color="#d3d8df", lw=1.3,
               zorder=1)
-    series = [(q_late, C["q"], "o", 15, "asked · late"), (store, C["word"], "^", 17, "store"),
-              (q_early, BLUE_RAMP[0], "o", 10, "asked · early"),
-              (nq_late, C["nq"], "s", 10, "not asked · late")]
-    ends = []
-    for y, col, mk, s, lab in series:
+    halo = [pe.withStroke(linewidth=3, foreground="white")]
+    for y, col, mk, s, lab, side in ((q_late, C["q"], "o", 26, "asked · late", "end"),
+                                     (store, C["word"], "^", 30, "store", "start")):
         b, a = np.polyfit(x, y, 1)
         xx = np.array([x.min(), x.max()])
-        ia.plot(xx, a + b * xx, color=col, lw=1.4, zorder=2, solid_capstyle="round")
-        ia.scatter(x, y, marker=mk, s=s, color=col, edgecolor="white", linewidth=0.4, zorder=3)
-        ends.append((a + b * x.max(), lab, col, mk))
-    ia.axhline(0, color=MUTED, lw=0.7, zorder=1)
-    ia.set_xlim(x.min() - 0.05, x.max() + 0.05)
-    ia.set_ylim(-0.04, 0.47)
+        ia.plot(xx, a + b * xx, color=col, lw=1.8, zorder=2, solid_capstyle="round")
+        ia.scatter(x, y, marker=mk, s=s, color=col, edgecolor="white", linewidth=0.6, zorder=3)
+    ia.set_xlim(x.min() - 0.06, x.max() + 0.06)
+    ia.set_ylim(0.16, 0.50)
     ia.set_xticks([np.log10(sizes[0]), np.log10(sizes[-1])])
-    ia.set_xticklabels([gb(sizes[0]), gb(sizes[-1])], fontsize=7)
-    ia.set_yticks([0, 0.2, 0.4])
-    ia.set_yticklabels(["floor", "+0.2", "+0.4"], fontsize=7)
-    ia.tick_params(axis="y", length=2, pad=1.5, colors=MUTED)
-    ia.tick_params(axis="x", length=0, pad=2, colors=MUTED)
-    for yv, lab, col, mk in ends:
-        ia.text(x.max() + 0.09, yv, lab, fontsize=7, color=INK, va="center", ha="left",
-                clip_on=False)
-    ax.text(ix0 + 0.12, iy1 - 0.1, "data:", ha="left", va="top", fontsize=7.2, color=INK2,
+    ia.set_xticklabels([gb(sizes[0]), gb(sizes[-1])], fontsize=FS)
+    ia.set_yticks([0.2, 0.3, 0.4])
+    ia.set_yticklabels(["+0.2", "+0.3", "+0.4"], fontsize=FS)
+    ia.set_ylabel("above floor", fontsize=FS, color=MUTED, labelpad=3)
+    ia.tick_params(axis="y", length=2.5, pad=2, colors=MUTED)
+    ia.tick_params(axis="x", length=0, pad=3, colors=MUTED)
+    # direct labels: the late answer position ends high on the right, the store starts high on the left
+    bq, aq = np.polyfit(x, q_late, 1)
+    bs, as_ = np.polyfit(x, store, 1)
+    ia.text(x.max(), aq + bq * x.max() + 0.035, "asked · late", ha="right", va="bottom",
+            fontsize=FS, color=BLUE_RAMP[2], fontweight="bold", path_effects=halo, zorder=5)
+    ia.text(x.min(), as_ + bs * x.min() + 0.035, "store", ha="left", va="bottom", fontsize=FS,
+            color=GREEN_DARK, fontweight="bold", path_effects=halo, zorder=5)
+    ax.text(ix0 + 0.16, iy1 - 0.13, "data:", ha="left", va="top", fontsize=FS, color=INK2,
             fontweight="bold")
-    ax.text(ix0 + 0.44, iy1 - 0.1, "last_letter", ha="left", va="top", fontsize=7.2,
+    ax.text(ix0 + 0.58, iy1 - 0.13, "last_letter", ha="left", va="top", fontsize=FS,
             color=INK2, family="monospace")
-    ax.text(ix0 + 0.44 + 11 * 7.2 * 0.602 / 72 + 0.05, iy1 - 0.1, "· zero shots",
-            ha="left", va="top", fontsize=7.2, color=INK2)
+    ax.text(ix0 + 0.58 + 11 * FS * 0.602 / 72 + 0.06, iy1 - 0.13, "· zero shots", ha="left",
+            va="top", fontsize=FS, color=INK2)
 
-    # ---- top band: tagline and headline numbers (left), prompt key (right)
-    ax.text(0.08, 2.42, "asking adds a late signal that grows with scale", ha="left",
-            va="center", fontsize=12, style="italic", color=INK)
-    ax.text(0.08, 2.19, f"{100 * emb:.0f}% of the last_letter store already at layer 0",
-            ha="left", va="center", fontsize=7.6, color=INK2)
-    ax.text(0.08, 2.04, f"{n_models} models  ·  question × scale: Holm $p$ ≤ {math.ceil(holm * 1000) / 1000:.3f}",
-            ha="left", va="center", fontsize=7.6, color=INK2)
-    fs = 7.2
-    cw = fs * 0.602 / 72
-    rows = [("asks nothing", 'The word "cat" appears in this sentence.', {"cat": ("^", C["word"]),
-                                                                          ".": ("s", C["nq"])}),
-            ("asks", 'The last letter of the word "cat" is', {"is": ("o", C["q"])})]
-    kx = 7.12 - 40 * cw - 0.12
-    for (name, sent, marks), y in zip(rows, (2.44, 2.21)):
-        ax.text(kx - 0.1, y, name, ha="right", va="center", fontsize=7.2, color=MUTED,
-                style="italic")
-        # one text per token at its character offset, so chips sit exactly on their tokens
-        for m_ in re.finditer(r'\w+|[^\w\s]', sent):
-            tok, xc = m_.group(0), kx + (m_.start() + len(m_.group(0)) / 2) * cw
-            if tok == "cat":
-                _chip(ax, xc, y, tok, fc="#d6efe3", fs=fs, pad=0.06)
-            elif tok == "is" and m_.end() == len(sent):
-                _chip(ax, xc, y, tok, fc="white", ec=C["q"], fs=fs, pad=0.06)
-            else:
-                ax.text(xc, y, tok, ha="center", va="center", family="monospace", fontsize=fs,
-                        color=INK, zorder=6)
-            if tok in marks and m_.end() == len(sent) or (tok == "cat" and tok in marks):
-                mk, col = marks[tok]
-                ax.scatter([xc], [y - 0.115], marker=mk, s=11, color=col, ec="white", lw=0.3,
-                           zorder=7)
+    # ---- top band: tagline, headline numbers
+    ax.text(W / 2, 3.11, "asking adds a late signal that grows with scale", ha="center",
+            va="center", fontsize=15, style="italic", color=INK)
+    ax.text(W / 2, 2.82, f"{100 * emb:.0f}% of the last_letter store already at layer 0   ·   "
+            f"{n_models} models   ·   question × scale: Holm $p$ ≤ {holm_bound:.3f}",
+            ha="center", va="center", fontsize=FS, color=INK2)
+
     # ---- region names under the field
     for c, name, col, gloss in ((Lc, "SMALLER MODELS", GREEN_DARK, "answer position below the store"),
                                 (Rc, "LARGER MODELS", BLUE_RAMP[2], "answer position above the store")):
         xc = c["x0"] + c["w"] / 2
-        ax.text(xc, 0.23, name, ha="center", va="center", fontsize=8.2, fontweight="bold", color=col)
-        ax.text(xc, 0.08, gloss, ha="center", va="center", fontsize=7.4, style="italic", color=INK2)
-    ax.text((ix0 + ix1) / 2, 0.155, f"model size: {gb(sizes[0])} to {gb(sizes[-1])}, "
-            f"{spelled.get(n_fam, n_fam)} families", ha="center", va="center", fontsize=7.4,
+        ax.text(xc, 0.36, name, ha="center", va="center", fontsize=10, fontweight="bold", color=col)
+        ax.text(xc, 0.15, gloss, ha="center", va="center", fontsize=FS, style="italic", color=INK2)
+    ax.text((ix0 + ix1) / 2, 0.26, f"model size: {gb(sizes[0])} to {gb(sizes[-1])}, "
+            f"{spelled.get(n_fam, n_fam)} families", ha="center", va="center", fontsize=FS,
             style="italic", color=MUTED)
     save(fig, "fig_overview", bbox_inches=Bbox([[0, 0], [W, H]]))   # exact designed canvas
 
