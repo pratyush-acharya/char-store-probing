@@ -1,3 +1,4 @@
+\pdfoutput=1
 \documentclass[11pt]{article}
 
 % ---------------------------------------------------------------------------
@@ -51,7 +52,7 @@
     A Prompt-Independent Word Store and a Late, Question-Driven Signal That Grows With Scale}%
     \thanks{Code and data: \url{https://github.com/pratyush-acharya/char-store-probing}}}
   \author{%
-    Pratyush Acharya$^{1}$\thanks{Corresponding author: \texttt{pratyush.acharya@securitypalhq.com}}\quad
+    Pratyush Acharya$^{1}$\thanks{Corresponding author: \texttt{acharya.pratyush12@gmail.com}}\quad
     Nuraj Rimal$^{2}$\quad
     Apar Baral$^{3}$\\
     Habish Dhakal$^{1}$\quad
@@ -79,7 +80,7 @@ token embedding. Asking the question adds a second signal at the answer position
 with model scale for all four prompt-sensitive tasks (Holm-corrected permutation $p \leq 0.016$,
 also within model families), and the growth is confined to the late layers: restricted to the
 first quarter of the network, the slope is indistinguishable from zero. Small models' answer
-positions hold less than their word-level store; large models' hold more. Three controls bound
+positions hold less than their word-level store; large models' hold more. Four controls bound
 these claims. Measured against the nuisance floor, the question-free signal that a majority-baseline
 analysis counts as retained largely disappears (\texttt{last\_letter}: $-0.01$). Count tasks
 become measurable only after length, repetition and query-letter shortcuts are removed by design.
